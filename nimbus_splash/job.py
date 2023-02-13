@@ -2,7 +2,8 @@ import os
 import sys
 
 
-def write_file(input_file, node_type):
+def write_file(input_file: str, node_type: str, time: str,
+               verbose: bool = False):
     """
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -14,6 +15,10 @@ def write_file(input_file, node_type):
         Name of input file, including extension
     node_type : str
         Name of Nimbus node to use
+    time : str
+        Job time limit formatted as HH:MM:SS
+    verbose : bool, default=False
+        If True, prints job file name to screen
     """
 
     # Check for research allocation id environment variable
@@ -39,7 +44,7 @@ def write_file(input_file, node_type):
         j.write('#SBATCH --error={}.%j.e\n\n'.format(job_name))
 
         j.write('# Job time\n')
-        j.write('#SBATCH --time=6:00:00\n\n')
+        j.write('#SBATCH --time={}\n\n'.format(time))
 
         j.write('# name and path of the output file\n')
         j.write('input={}\n'.format(input_file))
@@ -84,6 +89,11 @@ def write_file(input_file, node_type):
         j.write('rsync -aP $localscratch/* $campaigndir\n')
         j.write('rm -r $localscratch\n')
 
+    if verbose:
+        print("\u001b[32m Submission script written to {} \033[0m".format(
+            job_file
+        ))
+
     return
 
 
@@ -103,5 +113,5 @@ def check_envvar(var_str):
         os.environ[var_str]
     except KeyError:
         sys.exit("Please set ${} environment variable".format(var_str))
-    
+
     return

@@ -1,9 +1,9 @@
 import argparse
 from . import job
-
+import sys
 
 def gen_job_func(uargs):
-    """
+    '''
     Wrapper for CLI gen_job call
 
     Parameters
@@ -15,7 +15,7 @@ def gen_job_func(uargs):
     -------
     None
 
-    """
+    '''
 
     # Decide node type based on number of cores
 
@@ -32,16 +32,19 @@ def gen_job_func(uargs):
     if uargs.node_type:
         node = uargs.node_type
     else:
-        node = core_to_node[uargs.n_cores]
+        try:
+            node = core_to_node[uargs.n_cores]
+        except KeyError:
+            sys.exit("Error: Specified number of cores is unsupported")
 
     # Write job file
-    job.write_file(uargs.input_file, node)
+    job.write_file(uargs.input_file, node, uargs.time, verbose=True)
 
     return
 
 
 def read_args(arg_list=None):
-    """
+    '''
     Reader for command line arguments. Uses subReaders for individual programs
 
     Parameters
@@ -53,53 +56,61 @@ def read_args(arg_list=None):
     -------
         None
 
-    """
+    '''
 
-    description = """
+    description = '''
     A package for working with Orca on Bath's Cloud HPC service
-    """
+    '''
 
-    epilog = """
+    epilog = '''
     To display options for a specific program, use splash \
     PROGRAMFILETYPE -h
-    """
+    '''
     parser = argparse.ArgumentParser(
         description=description,
         epilog=epilog,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
-    subparsers = parser.add_subparsers(dest="prog")
+    subparsers = parser.add_subparsers(dest='prog')
 
     gen_job = subparsers.add_parser(
-        "gen_job",
-        description="Generate Nimbus SLURM submission script"
+        'gen_job',
+        description='Generate Nimbus SLURM submission script'
     )
     gen_job.set_defaults(func=gen_job_func)
 
     gen_job.add_argument(
-        "input_file",
+        'input_file',
         type=str,
-        help="Orca input file name"
+        help='Orca input file name'
     )
 
     node_spec = gen_job.add_mutually_exclusive_group()
     node_spec.add_argument(
-        "-n",
-        "--n_cores",
-        type=str,
+        '-n',
+        '--n_cores',
+        type=int,
         default=16,
-        help="Number of cores to use for fsv2 node, default is 16"
+        help='Number of cores to use for fsv2 node, default is 16'
     )
     node_spec.add_argument(
-        "-nt",
-        "--node_type",
+        '-nt',
+        '--node_type',
         type=str,
-        help="Node to run on, default is fsv2 with 16"
+        help='Node to run on, default is fsv2 with 16'
+    )
+
+    gen_job.add_argument(
+        '-t',
+        '--time',
+        type=str,
+        default='06:00:00',
+        help='Time for job, formatted as HH:MM:SS, default 06:00:00'
     )
 
     # If arg_list==None, i.e. normal cli usage, parse_args() reads from
-    # "sys.argv". The arg_list can be used to call the argparser from the
+    # 'sys.argv'. The arg_list can be used to call the argparser from the
     # back end.
 
     # read sub-parser
