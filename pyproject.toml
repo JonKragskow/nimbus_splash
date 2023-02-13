@@ -1,0 +1,8 @@
+[tool.semantic_release]
+version_variable = [
+    'setup.py:__version__',
+    'nimbus_splash/__version__.py:__version__'
+    ]
+upload_to_pypi=true
+branch = "main"
+hvcs="github"
