@@ -98,7 +98,7 @@ def read_args(arg_list=None):
         '-nt',
         '--node_type',
         type=str,
-        help='Node to run on, default is fsv2 with 16'
+        help='Node to run on, default is spot-fsv2-16'
     )
 
     gen_job.add_argument(
