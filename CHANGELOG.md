@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2023-02-13)
+### Fix
+* Add number of cores to ntasks-per-node ([`04b9cd7`](https://github.com/JonKragskow/nimbus_splash/commit/04b9cd73930a0e7443ed996a9e36ab7c3427053b))
+
 ## v0.2.0 (2023-02-13)
 ### Feature
 * Add time argument, add catch for incorrect number of cores ([`2b36717`](https://github.com/JonKragskow/nimbus_splash/commit/2b3671758ddcebe008428435c41d56627cfb5ed3))
