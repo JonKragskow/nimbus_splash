@@ -17,6 +17,8 @@ def write_file(input_file: str, node_type: str, time: str,
         Name of Nimbus node to use
     time : str
         Job time limit formatted as HH:MM:SS
+    verbose : bool, default=False
+        If True, prints job file name to screen
     """
 
     # Check for research allocation id environment variable
