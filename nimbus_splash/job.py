@@ -36,7 +36,9 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('#SBATCH --job-name={}\n'.format(job_name))
         j.write('#SBATCH --nodes=1\n')
-        j.write('#SBATCH --ntasks-per-node=16\n')
+        j.write('#SBATCH --ntasks-per-node={}\n'.format(
+            node_type.split('-')[-1])
+        )
         j.write('#SBATCH --partition={}\n'.format(node_type))
         j.write('#SBATCH --account={}\n'.format(os.environ['CLOUD_ACC']))
         j.write('#SBATCH --qos={}\n'.format(node_type))
