@@ -3,7 +3,7 @@ import sys
 
 
 def write_file(input_file: str, node_type: str, time: str,
-               verbose: bool = False):
+               verbose: bool = False) -> str:
     """
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -19,6 +19,12 @@ def write_file(input_file: str, node_type: str, time: str,
         Job time limit formatted as HH:MM:SS
     verbose : bool, default=False
         If True, prints job file name to screen
+
+
+    Returns
+    -------
+    str
+        Name of jobscript file
     """
 
     # Check for research allocation id environment variable
@@ -96,7 +102,7 @@ def write_file(input_file: str, node_type: str, time: str,
             job_file
         ))
 
-    return
+    return job_file
 
 
 def check_envvar(var_str):

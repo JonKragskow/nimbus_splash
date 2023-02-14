@@ -1,6 +1,8 @@
 import argparse
 from . import job
 import sys
+import subprocess
+
 
 def gen_job_func(uargs):
     '''
@@ -38,7 +40,13 @@ def gen_job_func(uargs):
             sys.exit("Error: Specified number of cores is unsupported")
 
     # Write job file
-    job.write_file(uargs.input_file, node, uargs.time, verbose=True)
+
+    for file in uargs.input_files:
+        job_file = job.write_file(file, node, uargs.time, verbose=True)
+
+        # Submit to queue
+        if not uargs.no_start:
+            subprocess.call("sbatch {}".format(job_file), shell=True)
 
     return
 
@@ -81,9 +89,10 @@ def read_args(arg_list=None):
     gen_job.set_defaults(func=gen_job_func)
 
     gen_job.add_argument(
-        'input_file',
+        'input_files',
+        nargs='+',
         type=str,
-        help='Orca input file name'
+        help='Orca input file name(s)'
     )
 
     node_spec = gen_job.add_mutually_exclusive_group()
@@ -107,6 +116,13 @@ def read_args(arg_list=None):
         type=str,
         default='06:00:00',
         help='Time for job, formatted as HH:MM:SS, default 06:00:00'
+    )
+
+    gen_job.add_argument(
+        '-ns',
+        '--no_start',
+        action='store_true',
+        help='If specified, jobs are not submitted to nimbus queue'
     )
 
     # If arg_list==None, i.e. normal cli usage, parse_args() reads from
