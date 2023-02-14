@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.0 (2023-02-14)
+### Feature
+* Add autosubmission and support for >1 file ([`302f52f`](https://github.com/JonKragskow/nimbus_splash/commit/302f52f0c8f5238831d14ffc09474ef0298ddea3))
+
+### Documentation
+* Change help ([`850d9c8`](https://github.com/JonKragskow/nimbus_splash/commit/850d9c895c992b976c9ae53a8e28f88bd427cf9c))
+
 ## v0.2.1 (2023-02-13)
 ### Fix
 * Add number of cores to ntasks-per-node ([`04b9cd7`](https://github.com/JonKragskow/nimbus_splash/commit/04b9cd73930a0e7443ed996a9e36ab7c3427053b))
