@@ -59,12 +59,28 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('# Job time\n')
         j.write('#SBATCH --time={}\n\n'.format(time))
 
-        j.write('# name and path of the output file\n')
+        j.write('# name and path of the input/output files and locations\n')
         j.write('input={}\n'.format(input_file))
         j.write('output={}.out\n'.format(job_name))
-        j.write('campaigndir=$(pwd -P)\n\n')
+        j.write('campaigndir=$(pwd -P)\n')
+        j.write('results=$campaigndir/{}\n\n'.format(job_name))
 
-        j.write('# Local (Node) scratch, either node itself if supported or burstbuffer\n') # noqa
+        j.write('# If results directory already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $results ]; then\n')
+        j.write(
+            '    mv $results $"results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
+        j.write('fi\n\n')
+
+        j.write('# If output file already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $output ]; then\n')
+        j.write(
+            '    mv $output $"output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
+        j.write('fi\n\n')
+
+        j.write('# Local (Node) scratch, either node itself if supported')
+        j.write('or burstbuffer\n')
         j.write('if [ -d "/mnt/resource/" ]; then\n')
         j.write(
             '    localscratch="/mnt/resource/temp_scratch_$SLURM_JOB_ID"\n'
@@ -102,21 +118,21 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('# If sigterm (eviction) copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write(' $campaigndir; exit 15" 15\n\n')
+        j.write(' $results; exit 15" 15\n\n')
 
         j.write('# If node dies copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write(' $campaigndir; exit 1" 1\n\n')
+        j.write(' $results; exit 1" 1\n\n')
 
         j.write('# If time limit reached, copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write(' $campaigndir; exit 9" 9\n\n')
+        j.write(' $results; exit 9" 9\n\n')
 
         j.write('# run the calculation and clean up\n')
         j.write('$(which orca) $input >> $campaigndir/$output\n\n')
 
         j.write('rm *.tmp\n')
-        j.write('rsync -aP $localscratch/* $campaigndir\n')
+        j.write('rsync -aP $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
     if verbose:
