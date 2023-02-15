@@ -75,6 +75,8 @@ def gen_job_func(uargs):
     if uargs.node_type:
         if uargs.node_type in supported_nodes:
             node = uargs.node_type
+        else:
+            red_exit("Node type unsupported")
     else:
         try:
             node = default_from_core[uargs.n_cores]
