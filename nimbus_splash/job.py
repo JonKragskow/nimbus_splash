@@ -91,14 +91,14 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
-        j.write("rsync -aP '")
+        j.write("rsync -aP ")
 
         j.write('$campaigndir/{}'.format(input_file))
 
         for dep in dependencies:
-            j.write(' {}'.format(dep))
+            j.write(' $campaigndir/{}'.format(dep))
 
-        j.write("' $localscratch\n")
+        j.write(" $localscratch\n")
         j.write('cd $localscratch\n\n')
 
         j.write('# write date and node type to output\n')
