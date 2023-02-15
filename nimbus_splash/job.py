@@ -1,11 +1,12 @@
 import os
 import sys
+import subprocess
 
 from .utils import red_exit
 
 
 def write_file(input_file: str, node_type: str, time: str,
-               verbose: bool = False) -> str:
+               verbose: bool = False, dependencies: list[str] = []) -> str:
     """
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -21,7 +22,9 @@ def write_file(input_file: str, node_type: str, time: str,
         Job time limit formatted as HH:MM:SS
     verbose : bool, default=False
         If True, prints job file name to screen
-
+    dependencies : list[str]
+        Additional files on which this job depends, these will be copied
+        to the compute node at runtime
 
     Returns
     -------
@@ -72,9 +75,14 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
-        j.write('rsync -aP --exclude={} $campaigndir/ $localscratch\n'.format(
-            job_file
-        ))
+        j.write("rsync -aP '")
+
+        j.write('$campaigndir/{}'.format(input_file))
+
+        for dep in dependencies:
+            j.write(' {}'.format(dep))
+
+        j.write("' $localscratch\n")
         j.write('cd $localscratch\n\n')
 
         j.write('# write date and node type to output\n')
@@ -94,15 +102,15 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('# If sigterm (eviction) copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write('$campaigndir; exit 15" 15\n')
+        j.write(' $campaigndir; exit 15" 15\n\n')
 
         j.write('# If node dies copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write('$campaigndir; exit 1" 1\n')
+        j.write(' $campaigndir; exit 1" 1\n\n')
 
         j.write('# If time limit reached, copy files before job is killed\n')
         j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
-        j.write('$campaigndir; exit 9" 9\n')
+        j.write(' $campaigndir; exit 9" 9\n\n')
 
         j.write('# run the calculation and clean up\n')
         j.write('$(which orca) $input >> $campaigndir/$output\n\n')
@@ -142,56 +150,64 @@ def check_envvar(var_str: str) -> None:
     return
 
 
-def check_input_contents(file: str, n_cores: int, max_mem: int) -> str:
+def parse_input_contents(input_file: str, max_mem: int) -> str:
     """
-    Checks contents of input file.
-    Specifically:
+    Checks contents of input file and returns file dependencies
+    Specific checks:
         If specified xyz file exists
+        If specified gbw file exists
         If maxcore (memory) specified is appropriate
-        If specified number of cores matches number on node
 
     Parameters
     ----------
-    var_str : str
-        String name of environment variable
+    input_file : str
+        Name of orca input file
+    max_mem : int
+        Max memory (MB) per core on given node
 
     Returns
     -------
-    None
+    list[str]
+        Name of dependencies (files) which this input needs
     """
-
-    # Found number of cores definition
-    pal_found = False
 
     # Found memory definition
     mem_found = False
 
-    with open(file, 'r') as f:
+    # Dependencies (files) of this input file
+    dependencies = []
+
+    with open(input_file, 'r') as f:
         for line in f:
 
             # xyz file
             if 'xyzfile' in line.lower():
+                if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
+                    red_exit("Incorrect xyzfile definition")
+
+                if len(line.split()) != 4 and line.split()[0] != '*':
+                    red_exit("Incorrect xyzfile definition")
+
                 xyzfile = line.split()[-1]
+
                 if not os.path.exists(xyzfile):
-                    red_exit("Error: specified xyz file does not exist")
+                    red_exit("specified xyz file does not exist")
 
-            # Number of cores
-            if '%pal nprocs' in line.lower():
-                pal_found = True
+                dependencies.append(xyzfile)
 
-                if len(line.split()) != 4:
-                    red_exit("Incorrect %PAL definition")
+            # gbw file
+            if '%moinp' in line.lower():
+                if len(line.split()) != 2:
+                    red_exit("Incorrect gbwfile definition")
 
-                try:
-                    n_try = int(line.split()[-2])
-                except ValueError:
-                    red_exit(
-                        "Cannot parse number of cores in input file"
-                    )
-                if n_try != n_cores:
-                    red_exit(
-                        "Number of cores in input does not match node"
-                    )
+                gbwfile = line.split()[-1].replace('"', '').replace("'", "")
+
+                if os.path.splitext(gbwfile) == os.path.splitext(input_file):
+                    red_exit("GBW file cannot have same base name as input")
+
+                if not os.path.exists(gbwfile):
+                    red_exit("specified gbw file does not exist")
+                dependencies.append(gbwfile)
 
             # Number of cores
             if '%maxcore' in line.lower():
@@ -211,10 +227,41 @@ def check_input_contents(file: str, n_cores: int, max_mem: int) -> str:
                         "Specified per core memory in input exceeds node limit"
                     )
 
-    if not pal_found:
-        red_exit("Cannot locate %PAL definition in input file")
-
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in input file")
+
+    return dependencies
+
+
+def add_core_to_input(input_file: str, n_cores: int) -> None:
+    """
+    Adds number of cores (NPROCS) definition to specified input file
+
+    Parameters
+    ----------
+    input_file : str
+        Name of orca input file
+    n_cores : int
+        Number of cores to specify
+
+    Returns
+    -------
+    None
+    """
+
+    new_file = "{}_tmp".format(input_file)
+
+    with open(input_file, 'r') as fold:
+        with open(new_file, 'w') as fnew:
+
+            # Find line if already exists
+            for oline in fold:
+                # Number of cores
+                if 'pal nprocs' in oline.lower():
+                    fnew.write("%PAL NPROCS {:d} END\n".format(n_cores))
+                else:
+                    fnew.write("{}".format(oline))
+
+    subprocess.call("mv {} {}".format(new_file, input_file), shell=True)
 
     return
