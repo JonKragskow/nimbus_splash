@@ -1,7 +1,9 @@
 import argparse
 from . import job
-import sys
 import subprocess
+import os
+
+from .utils import red_exit
 
 
 def gen_job_func(uargs):
@@ -19,9 +21,8 @@ def gen_job_func(uargs):
 
     '''
 
-    # Decide node type based on number of cores
-
-    core_to_node = {
+    # Default node types - fsv2 spot
+    default_from_core = {
         1: 'spot-fsv2-1',
         2: 'spot-fsv2-2',
         4: 'spot-fsv2-4',
@@ -31,17 +32,70 @@ def gen_job_func(uargs):
         36: 'spot-fsv2-36',
     }
 
+    # Currently available nodes
+    supported_nodes = {
+        'spot-fsv2-1',
+        'spot-fsv2-2',
+        'spot-fsv2-4',
+        'spot-fsv2-16',
+        'spot-fsv2-24',
+        'spot-fsv2-32',
+        'spot-fsv2-36',
+        'paygo-fsv2-1',
+        'paygo-fsv2-2',
+        'paygo-fsv2-4',
+        'paygo-fsv2-16',
+        'paygo-fsv2-24',
+        'paygo-fsv2-32',
+        'paygo-fsv2-36',
+        'paygo-hb-60',
+        'paygo-hbv2-120',
+        'paygo-hbv3-120',
+        'paygo-hc-44',
+        'paygo-ncv3-12',
+        'paygo-ncv3-24',
+        'paygo-ncv3-6',
+        'paygo-ncv3r-24',
+        'paygo-ndv2-40',
+        'spot-hb-60',
+        'spot-hbv2-120',
+        'spot-hbv3-120',
+        'spot-hc-44',
+        'spot-ncv3-12',
+        'spot-ncv3-24',
+        'spot-ncv3-6',
+        'spot-ncv3r-24',
+        'spot-ndv2-40',
+        'vis-ncv3-12',
+        'vis-ncv3-24',
+        'vis-ncv3-6',
+        'vis-ndv2-40'
+    }
+
     if uargs.node_type:
-        node = uargs.node_type
+        if uargs.node_type in supported_nodes:
+            node = uargs.node_type
+        else:
+            red_exit("Node type unsupported")
     else:
         try:
-            node = core_to_node[uargs.n_cores]
+            node = default_from_core[uargs.n_cores]
         except KeyError:
-            sys.exit("Error: Specified number of cores is unsupported")
+            red_exit("Specified number of cores is unsupported")
+
+    n_cores = int(node.split('-')[-1])
 
     # Write job file
 
     for file in uargs.input_files:
+
+        # Check input exists
+        if not os.path.exists(file):
+            red_exit("Cannot locate input file")
+
+        # Check contents of input file
+        job.check_input_contents(file, n_cores, 4000)
+
         job_file = job.write_file(file, node, uargs.time, verbose=True)
 
         # Submit to queue
