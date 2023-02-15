@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2023-02-15)
+### Feature
+* Write results to separate directory and add existence check for old results ([`8bfabbc`](https://github.com/JonKragskow/nimbus_splash/commit/8bfabbc214cc976b55d65227aa06558c148aa3a6))
+* Add gbw check, add mem to input file, modify rsync ([`e3e0a1d`](https://github.com/JonKragskow/nimbus_splash/commit/e3e0a1dd3b2d3334ebb5e8e0ce2b1b3d2caa0127))
+
 ## v0.4.0 (2023-02-15)
 ### Feature
 * Add error message for unsupported node type ([`c43fdae`](https://github.com/JonKragskow/nimbus_splash/commit/c43fdae7584b56ba1090c2bbefc18cdc6e0cef4b))
