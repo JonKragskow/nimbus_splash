@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.1 (2023-02-15)
+### Fix
+* Alter rsync commands ([`abcc991`](https://github.com/JonKragskow/nimbus_splash/commit/abcc991898c9cbf32404939a0d3c3ec299b8bf87))
+
 ## v0.5.0 (2023-02-15)
 ### Feature
 * Write results to separate directory and add existence check for old results ([`8bfabbc`](https://github.com/JonKragskow/nimbus_splash/commit/8bfabbc214cc976b55d65227aa06558c148aa3a6))
