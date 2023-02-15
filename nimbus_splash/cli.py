@@ -93,10 +93,14 @@ def gen_job_func(uargs):
         if not os.path.exists(file):
             red_exit("Cannot locate input file")
 
-        # Check contents of input file
-        job.check_input_contents(file, n_cores, 4000)
+        # Check contents of input file and find any dependencies
+        dependencies = job.parse_input_contents(file, 4000)
 
-        job_file = job.write_file(file, node, uargs.time, verbose=True)
+        job.add_core_to_input(file, n_cores)
+
+        job_file = job.write_file(
+            file, node, uargs.time, verbose=True, dependencies=dependencies
+        )
 
         # Submit to queue
         if not uargs.no_start:
