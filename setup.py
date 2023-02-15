@@ -5,7 +5,7 @@ import setuptools
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 setuptools.setup(
     name="Nimbus Splash",

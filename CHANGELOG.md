@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.4.0 (2023-02-15)
+### Feature
+* Add error message for unsupported node type ([`c43fdae`](https://github.com/JonKragskow/nimbus_splash/commit/c43fdae7584b56ba1090c2bbefc18cdc6e0cef4b))
+* Add xyzfile, ncores, maxcore checking, add trap for eviction, fail, and time limit, add supported nodes ([`2fb4e1d`](https://github.com/JonKragskow/nimbus_splash/commit/2fb4e1d4df4fc24a289502d452dd2301d9f6112b))
+
 ## v0.3.0 (2023-02-14)
 ### Feature
 * Add autosubmission and support for >1 file ([`302f52f`](https://github.com/JonKragskow/nimbus_splash/commit/302f52f0c8f5238831d14ffc09474ef0298ddea3))
