@@ -199,30 +199,48 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
             # xyz file
             if 'xyzfile' in line.lower():
                 if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
-                    red_exit("Incorrect xyzfile definition")
+                    red_exit(
+                        "Incorrect xyzfile definition in {}".format(input_file)
+                    )
 
                 if len(line.split()) != 4 and line.split()[0] != '*':
-                    red_exit("Incorrect xyzfile definition")
+                    red_exit(
+                        "Incorrect xyzfile definition in {}".format(input_file)
+                    )
 
                 xyzfile = line.split()[-1]
 
                 if not os.path.exists(xyzfile):
-                    red_exit("specified xyz file does not exist")
+                    red_exit(
+                        "xyz file specified in {} does not exist".format(
+                            input_file
+                        )
+                    )
 
                 dependencies.append(xyzfile)
 
             # gbw file
             if '%moinp' in line.lower():
                 if len(line.split()) != 2:
-                    red_exit("Incorrect gbwfile definition")
+                    red_exit(
+                        "Incorrect gbwfile definition in {}".format(input_file)
+                    )
 
                 gbwfile = line.split()[-1].replace('"', '').replace("'", "")
 
                 if os.path.splitext(gbwfile) == os.path.splitext(input_file):
-                    red_exit("GBW file cannot have same base name as input")
+                    red_exit(
+                        "GBW file cannot have same base name as {}".format(
+                            input_file
+                        )
+                    )
 
                 if not os.path.exists(gbwfile):
-                    red_exit("specified gbw file does not exist")
+                    red_exit(
+                        "specified gbw file does not exist in {}".format(
+                            input_file
+                        )
+                    )
                 dependencies.append(gbwfile)
 
             # Number of cores
@@ -230,21 +248,25 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                 mem_found = True
 
                 if len(line.split()) != 2:
-                    red_exit("Incorrect %maxcore definition")
+                    red_exit(
+                        "Incorrect %maxcore definition in {}".format(
+                            input_file
+                        )
+                    )
 
                 try:
                     n_try = int(line.split()[-1])
                 except ValueError:
                     red_exit(
-                        "Cannot parse per core memory in input file"
+                        "Cannot parse per core memory in {}".format(input_file)
                     )
                 if n_try > max_mem:
                     red_exit(
-                        "Specified per core memory in input exceeds node limit"
+                        "Specified per core memory in {} exceeds node limit".format(input_file) # noqa
                     )
 
     if not mem_found:
-        red_exit("Cannot locate %maxcore definition in input file")
+        red_exit("Cannot locate %maxcore definition in {}".format(input_file))
 
     return dependencies
 

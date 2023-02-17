@@ -91,7 +91,7 @@ def gen_job_func(uargs):
 
         # Check input exists
         if not os.path.exists(file):
-            red_exit("Cannot locate input file")
+            red_exit("Cannot locate {}".format(file))
 
         # Check contents of input file and find any dependencies
         dependencies = job.parse_input_contents(file, 4000)
