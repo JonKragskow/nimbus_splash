@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2023-02-17)
+### Feature
+* Add more specific error names to job submission ([`e458e87`](https://github.com/JonKragskow/nimbus_splash/commit/e458e875a5f93709e4a44e97a2f3cab8dd5588da))
+
 ## v0.5.1 (2023-02-15)
 ### Fix
 * Alter rsync commands ([`abcc991`](https://github.com/JonKragskow/nimbus_splash/commit/abcc991898c9cbf32404939a0d3c3ec299b8bf87))
