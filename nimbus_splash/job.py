@@ -117,21 +117,21 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('export UCX_THS=self,tcp,sm\n\n')
 
         j.write('# If sigterm (eviction) copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
+        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
         j.write(' $results; exit 15" 15\n\n')
 
         j.write('# If node dies copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
+        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
         j.write(' $results; exit 1" 1\n\n')
 
         j.write('# If time limit reached, copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp $localscratch/*')
+        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
         j.write(' $results; exit 9" 9\n\n')
 
         j.write('# run the calculation and clean up\n')
         j.write('$(which orca) $input >> $campaigndir/$output\n\n')
 
-        j.write('rm *.tmp\n')
+        j.write('rm *.tmp*\n')
         j.write('rsync -aP $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
