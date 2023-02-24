@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.1 (2023-02-24)
+### Fix
+* Exclude all files with .tmp extension, even .tmp.something ([`e007855`](https://github.com/JonKragskow/nimbus_splash/commit/e0078559f5a97bcf9ddce58e50c3cc1917bbdb31))
+
 ## v0.6.0 (2023-02-17)
 ### Feature
 * Add more specific error names to job submission ([`e458e87`](https://github.com/JonKragskow/nimbus_splash/commit/e458e875a5f93709e4a44e97a2f3cab8dd5588da))
