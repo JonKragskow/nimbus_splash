@@ -30,7 +30,7 @@ source ~/.bashrc
 Run
 
 ```
-nimbus_splash -h
+nimbussplash -h
 ```
 or 
 ```
