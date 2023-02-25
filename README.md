@@ -1,5 +1,8 @@
-!\[PyPI\](https://img.shields.io/badge/dynamic/json?label=Pypi%20&query=%24.info.version&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fnimbus_splash%2Fjson)
 
+<a href="https://pypi.org/project/Nimbus-Splash/">
+<img src="https://img.shields.io/badge/dynamic/json?label=Pypi%20&query=%24.info.version&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fnimbus_splash%2Fjson" />
+</a>
+        
 # nimbus_splash
 
 Splash - the sound an orca would make if it had a Bath.
