@@ -24,3 +24,16 @@ and source
 ```
 source ~/.bashrc
 ```
+
+# Usage
+
+Run
+
+```
+nimbus_splash -h
+```
+or 
+```
+splash -h
+```
+for options.
