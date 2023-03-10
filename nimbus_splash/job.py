@@ -69,14 +69,14 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('last access time\n')
         j.write('if [ -d $results ]; then\n')
         j.write(
-            '    mv $results $"results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
+            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
         j.write('fi\n\n')
 
         j.write('# If output file already exists, append OLD and ')
         j.write('last access time\n')
         j.write('if [ -d $output ]; then\n')
         j.write(
-            '    mv $output $"output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
+            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
         j.write('fi\n\n')
 
         j.write('# Local (Node) scratch, either node itself if supported')
@@ -183,15 +183,16 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
 
     Returns
     -------
-    list[str]
-        Name of dependencies (files) which this input needs
+    dict[str: str]
+        Names of dependencies (files) which this input needs
+        key is identifier (xyz, gbw), value is file name
     """
 
     # Found memory definition
     mem_found = False
 
     # Dependencies (files) of this input file
-    dependencies = []
+    dependencies = dict()
 
     with open(input_file, 'r') as f:
         for line in f:
@@ -217,7 +218,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                         )
                     )
 
-                dependencies.append(xyzfile)
+                dependencies["xyz"] = xyzfile
 
             # gbw file
             if '%moinp' in line.lower():
@@ -241,9 +242,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                             input_file
                         )
                     )
-                dependencies.append(gbwfile)
+                dependencies["gbw"] = gbwfile
 
-            # Number of cores
+            # Per core memory
             if '%maxcore' in line.lower():
                 mem_found = True
 
@@ -265,10 +266,57 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                         "Specified per core memory in {} exceeds node limit".format(input_file) # noqa
                     )
 
+
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))
 
     return dependencies
+
+
+def parse_results_contents(input_file):
+    """
+    Checks results directory (if it exists) for gbw file
+
+    Parameters
+    ----------
+    input_file : str
+        Name of orca input file
+
+    Returns
+    -------
+    dict[str: str]
+        Names of dependencies (files) which this calculation could use
+        key is identifier (gbw), value is file name
+        Empty if no results directory found
+    """
+
+    dependencies = dict()
+
+    job_name = os.path.splitext(input_file)[0]
+
+    if os.path.isdir(job_name):
+        if os.path.isfile("{}/{}.gbw".format(job_name, job_name)):
+            dependencies["gbw"] = "{}/{}.gbw".format(job_name, job_name)
+
+    return dependencies
+
+
+def resolve_deps(deps1: dict, deps2: dict):
+    """
+    Creates a single list of dependencies from two (overlapping) dicts
+    """
+
+    deps = dict()
+
+    if len(deps2):
+        for key, val in deps2.items():
+            deps[key] = val
+
+    if len(deps1):
+        for key, val in deps1.items():
+            deps[key] = val
+
+    return deps.values()
 
 
 def add_core_to_input(input_file: str, n_cores: int) -> None:
@@ -287,6 +335,8 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
     None
     """
 
+    found = False
+
     new_file = "{}_tmp".format(input_file)
 
     with open(input_file, 'r') as fold:
@@ -297,8 +347,13 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
                 # Number of cores
                 if 'pal nprocs' in oline.lower():
                     fnew.write("%PAL NPROCS {:d} END\n".format(n_cores))
+                    found = True
                 else:
                     fnew.write("{}".format(oline))
+
+            # Add if missing
+            if not found:
+                fnew.write("%PAL NPROCS {:d} END\n".format(n_cores))
 
     subprocess.call("mv {} {}".format(new_file, input_file), shell=True)
 
