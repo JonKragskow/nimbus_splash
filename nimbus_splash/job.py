@@ -192,7 +192,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
     mem_found = False
 
     # Dependencies (files) of this input file
-    dependencies = dict()
+    # as either full or relative path
+    full_path_deps = dict()
+    rel_path_deps = dict()
 
     with open(input_file, 'r') as f:
         for line in f:
@@ -213,36 +215,49 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
 
                 if not os.path.exists(xyzfile):
                     red_exit(
-                        "xyz file specified in {} does not exist".format(
+                        "xyz file specified in {} cannot be found".format(
                             input_file
                         )
                     )
 
-                dependencies["xyz"] = xyzfile
+                rel_path_deps["xyz"] = xyzfile
 
             # gbw file
             if '%moinp' in line.lower():
                 if len(line.split()) != 2:
                     red_exit(
-                        "Incorrect gbwfile definition in {}".format(input_file)
+                        "Incorrect gbw_file definition in {}".format(input_file)
                     )
 
-                gbwfile = line.split()[-1].replace('"', '').replace("'", "")
+                gbw_file = line.split()[-1].replace('"', '').replace("'", "")
 
-                if os.path.splitext(gbwfile) == os.path.splitext(input_file):
+                # Absolute path
+                if gbw_file == os.path.abspath(gbw_file):
+                    full_path_deps["gbw"] = os.path.abspath(gbw_file)
+                # Relative path (must be cwd)
+                elif os.sep not in gbw_file:
+                    rel_path_deps["gbw"] = gbw_file
+                # Neither, then error!
+                else:
                     red_exit(
-                        "GBW file cannot have same base name as {}".format(
+                        "Path to gbw file specified in {} must be absolute or name of file in current directory".format( # noqa
                             input_file
                         )
                     )
 
-                if not os.path.exists(gbwfile):
+                if os.path.basename(gbw_file) == os.path.basename(input_file):
                     red_exit(
-                        "specified gbw file does not exist in {}".format(
+                        "gbw file cannot have same base name as {}".format(
                             input_file
                         )
                     )
-                dependencies["gbw"] = gbwfile
+
+                if not os.path.exists(gbw_file):
+                    red_exit(
+                        "gbw file specified in {} cannot be found".format(
+                            input_file
+                        )
+                    )
 
             # Per core memory
             if '%maxcore' in line.lower():
@@ -270,7 +285,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))
 
-    return dependencies
+    return full_path_deps, rel_path_deps
 
 
 def parse_results_contents(input_file):
@@ -353,7 +368,7 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
 
             # Add if missing
             if not found:
-                fnew.write("%PAL NPROCS {:d} END\n".format(n_cores))
+                fnew.write("\n%PAL NPROCS {:d} END\n".format(n_cores))
 
     subprocess.call("mv {} {}".format(new_file, input_file), shell=True)
 

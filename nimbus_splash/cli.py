@@ -94,13 +94,14 @@ def gen_job_func(uargs):
             red_exit("Cannot locate {}".format(file))
 
         # Check contents of input file and find any file dependencies
-        if_dependencies = job.parse_input_contents(file, 4000)
+        _, input_deps_rel = job.parse_input_contents(file, 4000)
 
         # Check for old results folder and look at contents
-        rd_dependencies = job.parse_results_contents(file)
+        # to see if any restart capable files exist
+        result_deps = job.parse_results_contents(file)
 
-        # Resolve different dependencies
-        dependencies = job.resolve_deps(if_dependencies, rd_dependencies)
+        # Resolve different versions of same filetypes
+        dependencies = job.resolve_deps(input_deps_rel, result_deps)
 
         # Add number of cores to input file
         job.add_core_to_input(file, n_cores)
