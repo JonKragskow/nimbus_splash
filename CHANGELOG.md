@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2023-03-10)
+### Feature
+* Add gbw file copy from results directory if present in submission folder ([`37cd11d`](https://github.com/JonKragskow/nimbus_splash/commit/37cd11dad3967ecb05ee3fd18fdadc89b33bd60a))
+
+### Documentation
+* Update badge ([`41bde30`](https://github.com/JonKragskow/nimbus_splash/commit/41bde30abe41b24a8db167b407120f415fd8eea9))
+* Fix badge ([`842691d`](https://github.com/JonKragskow/nimbus_splash/commit/842691d86a9daff0ed82d7f4f75663a928861b2a))
+* Add badge ([`50dbead`](https://github.com/JonKragskow/nimbus_splash/commit/50dbead2f41813c0c7fb92d3c5d2e70588092700))
+* Update readme ([`8ab98c3`](https://github.com/JonKragskow/nimbus_splash/commit/8ab98c3c4af4889bd84ca0389538d5dcae79fe86))
+* Update readme ([`dc34268`](https://github.com/JonKragskow/nimbus_splash/commit/dc3426879cef769f590424bb0cefb60c1ec9eff3))
+
 ## v0.6.1 (2023-02-24)
 ### Fix
 * Exclude all files with .tmp extension, even .tmp.something ([`e007855`](https://github.com/JonKragskow/nimbus_splash/commit/e0078559f5a97bcf9ddce58e50c3cc1917bbdb31))
