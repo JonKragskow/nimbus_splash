@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.1 (2023-03-16)
+### Performance
+* Increase default job time ([`0b688a0`](https://github.com/JonKragskow/nimbus_splash/commit/0b688a0a8b18f1933c79cca9ee31fa534705a873))
+
 ## v0.9.0 (2023-03-16)
 ### Feature
 * Add optimisation restart ([`c3d4cdf`](https://github.com/JonKragskow/nimbus_splash/commit/c3d4cdf7abba922ce982ab301c0534e0475c88fc))
