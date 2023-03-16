@@ -225,8 +225,8 @@ def read_args(arg_list=None):
         '-t',
         '--time',
         type=str,
-        default='06:00:00',
-        help='Time for job, formatted as HH:MM:SS, default 06:00:00'
+        default='24:00:00',
+        help='Time for job, formatted as HH:MM:SS, default 24:00:00'
     )
 
     gen_job.add_argument(
