@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2023-03-16)
+### Feature
+* Add optimisation restart ([`c3d4cdf`](https://github.com/JonKragskow/nimbus_splash/commit/c3d4cdf7abba922ce982ab301c0534e0475c88fc))
+
 ## v0.8.0 (2023-03-10)
 ### Feature
 * Add absolute path support for gbw file ([`f1b5dd2`](https://github.com/JonKragskow/nimbus_splash/commit/f1b5dd2a90e7f39069150a6a01f49101bb8fe236))
