@@ -65,7 +65,8 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('#SBATCH --account={}\n'.format(os.environ['CLOUD_ACC']))
         j.write('#SBATCH --qos={}\n'.format(node_type))
         j.write('#SBATCH --output={}.%j.o\n'.format(job_name))
-        j.write('#SBATCH --error={}.%j.e\n\n'.format(job_name))
+        j.write('#SBATCH --error={}.%j.e\n'.format(job_name))
+        j.write('#SBATCH --signal=B:USR1\n\n')
 
         j.write('# Job time\n')
         j.write('#SBATCH --time={}\n\n'.format(time))
@@ -127,23 +128,20 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('# UCX transport protocols for MPI\n')
         j.write('export UCX_THS=self,tcp,sm\n\n')
 
-        j.write('# If sigterm (eviction) copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
-        j.write(' $results; exit 15" 15\n\n')
+        j.write('# If timeout, evicted, cancelled, then manually end orca\n')
 
-        j.write('# If node dies copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
-        j.write(' $results; exit 1" 1\n\n')
+        j.write("trap 'echo signal recieved in BATCH!; kill -15 ")
+        j.write('"${PID}"; wait "${PID}";')
+        j.write("' SIGINT SIGTERM USR1 15\n\n")
 
-        j.write('# If time limit reached, copy files before job is killed\n')
-        j.write('trap "rsync -aP --exclude=*.tmp* $localscratch/*')
-        j.write(' $results; exit 9" 9\n\n')
+        j.write('# Run calculation in background\n')
+        j.write('# Catch the PID var for trap, and wait for process to end\n')
+        j.write('$(which orca) $input >> $campaigndir/$output &\n')
+        j.write('PID="$!"\n')
+        j.write('wait "${PID}"\n\n')
 
-        j.write('# run the calculation and clean up\n')
-        j.write('$(which orca) $input >> $campaigndir/$output\n\n')
-
-        j.write('rm *.tmp*\n')
-        j.write('rsync -aP $localscratch/* $results\n')
+        j.write('Clean up and copy back files\n')
+        j.write('rsync -aP --exclude=*.tmp* $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
     if verbose:
