@@ -35,11 +35,22 @@ def write_file(input_file: str, node_type: str, time: str,
     # Check for research allocation id environment variable
     check_envvar('CLOUD_ACC')
 
-    job_name = os.path.splitext(input_file)[0]
+    inpath, in_raw = os.path.split(input_file)
 
-    job_file = "{}.slm".format(
-        job_name
+    # Name of job
+    job_name = os.path.splitext(in_raw)[0]
+
+    # Job file to write to, must use path if present in input_file
+    job_file = os.path.join(
+        inpath,
+        "{}.slm".format(job_name)
     )
+
+    # Path of jobfile, input, xyz, gbw etc
+    if not len(inpath):
+        calc_dir = os.path.abspath(os.getcwd())
+    else:
+        calc_dir = os.path.abspath(inpath)
 
     with open(job_file, 'w') as j:
 
@@ -60,9 +71,9 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('#SBATCH --time={}\n\n'.format(time))
 
         j.write('# name and path of the input/output files and locations\n')
-        j.write('input={}\n'.format(input_file))
+        j.write('input={}\n'.format(in_raw))
         j.write('output={}.out\n'.format(job_name))
-        j.write('campaigndir=$(pwd -P)\n')
+        j.write('campaigndir={}\n'.format(calc_dir))
         j.write('results=$campaigndir/{}\n\n'.format(job_name))
 
         j.write('# If results directory already exists, append OLD and ')
@@ -93,7 +104,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('# Copy files to localscratch\n')
         j.write("rsync -aP ")
 
-        j.write('$campaigndir/{}'.format(input_file))
+        j.write('$campaigndir/{}'.format(in_raw))
 
         for dep in dependencies:
             j.write(' $campaigndir/{}'.format(dep))
@@ -136,7 +147,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('rm -r $localscratch\n')
 
     if verbose:
-        print("\u001b[32m Submission script written to {} \033[0m".format(
+        print("\u001b[32mSubmission script written to {} \033[0m".format(
             job_file
         ))
 
@@ -196,6 +207,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
     full_path_deps = dict()
     rel_path_deps = dict()
 
+    # Path of input file if provided
+    inpath = os.path.split(input_file)[0]
+
     with open(input_file, 'r') as f:
         for line in f:
 
@@ -213,7 +227,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
 
                 xyzfile = line.split()[-1]
 
-                if not os.path.exists(xyzfile):
+                if not os.path.exists(os.path.join(inpath, xyzfile)):
                     red_exit(
                         "xyz file specified in {} cannot be found".format(
                             input_file
@@ -226,7 +240,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
             if '%moinp' in line.lower():
                 if len(line.split()) != 2:
                     red_exit(
-                        "Incorrect gbw_file definition in {}".format(input_file)
+                        "Incorrect gbw_file definition in {}".format(
+                            input_file
+                        )
                     )
 
                 gbw_file = line.split()[-1].replace('"', '').replace("'", "")
@@ -240,9 +256,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                 # Neither, then error!
                 else:
                     red_exit(
-                        "Path to gbw file specified in {} must be absolute or name of file in current directory".format( # noqa
-                            input_file
-                        )
+                        "Path to gbw file specified in {} must be absolute or name of file in current directory".format(input_file) # noqa
                     )
 
                 if os.path.basename(gbw_file) == os.path.basename(input_file):
@@ -252,7 +266,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                         )
                     )
 
-                if not os.path.exists(gbw_file):
+                if not os.path.exists(os.path.join(inpath, gbw_file)):
                     red_exit(
                         "gbw file specified in {} cannot be found".format(
                             input_file
@@ -280,7 +294,6 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                     red_exit(
                         "Specified per core memory in {} exceeds node limit".format(input_file) # noqa
                     )
-
 
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))
