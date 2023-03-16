@@ -2,8 +2,10 @@ import argparse
 from . import job
 import subprocess
 import os
+import re
+import xyz_py as xyzp
 
-from .utils import red_exit
+from .utils import red_exit, get_opt_coords, get_input_section
 
 
 def gen_job_func(uargs):
@@ -117,6 +119,49 @@ def gen_job_func(uargs):
     return
 
 
+def rst_opt_func(uargs, job_args):
+
+    path, raw_file = os.path.split(uargs.output_file)
+    head = os.path.splitext(raw_file)[0]
+
+    # Extract coordinates from output file
+    labels, coords = get_opt_coords(uargs.output_file)
+
+    # Extract input information from output file
+    input_info = get_input_section(uargs.output_file)
+
+    # Create rst folder
+    new_folder = os.path.join(path, 'rst')
+    os.mkdir(new_folder)
+
+    # Create -rst xyz file
+    new_xyz = os.path.join(new_folder, "{}-rst.xyz".format(head))
+    xyzp.save_xyz(new_xyz, labels, coords, verbose=False)
+
+    # Edit xyz file name in input_info
+    input_info = re.sub(
+        r"[a-z0-9A-Z_]+\.xyz",
+        "{}-rst.xyz".format(head),
+        input_info
+    )
+
+    # Create -rst input file
+    new_input = os.path.join(new_folder, "{}-rst.inp".format(head))
+    with open(new_input, 'w') as f:
+        f.write(input_info)
+
+    # Run gen_job on new calculation
+    read_args(
+        [
+            "gen_job",
+            new_input,
+            *job_args
+        ]
+    )
+
+    return
+
+
 def read_args(arg_list=None):
     '''
     Reader for command line arguments. Uses subReaders for individual programs
@@ -191,15 +236,32 @@ def read_args(arg_list=None):
         help='If specified, jobs are not submitted to nimbus queue'
     )
 
-    # If arg_list==None, i.e. normal cli usage, parse_args() reads from
-    # 'sys.argv'. The arg_list can be used to call the argparser from the
-    # back end.
+    rst_opt = subparsers.add_parser(
+        'rst_opt',
+        description='Restart optimisation from output file'
+    )
+    rst_opt.set_defaults(func=rst_opt_func)
+
+    rst_opt.add_argument(
+        'output_file',
+        type=str,
+        help='Orca output file name(s) (must contain coordinates from optimisation)' # noqa
+    )
+
+    # If argument list is none, then call function func
+    # which is assigned to help function
+    parser.set_defaults(func=lambda user_args: parser.print_help())
 
     # read sub-parser
-    parser.set_defaults(func=lambda args: parser.print_help())
-    args = parser.parse_args(arg_list)
-    args.func(args)
+    _args, _ = parser.parse_known_args(arg_list)
 
+    # select parsing option based on sub-parser
+    if _args.prog in ['rst_opt']:
+        args, job_args = parser.parse_known_args(arg_list)
+        args.func(args, job_args)
+    else:
+        args = parser.parse_args(arg_list)
+        args.func(args)
     return args
 
 
