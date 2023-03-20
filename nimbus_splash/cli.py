@@ -140,7 +140,7 @@ def rst_opt_func(uargs, job_args):
 
     # Edit xyz file name in input_info
     input_info = re.sub(
-        r"[a-z0-9A-Z_]+\.xyz",
+        r"[\-a-z0-9A-Z_]+\.xyz",
         "{}-rst.xyz".format(head),
         input_info
     )
