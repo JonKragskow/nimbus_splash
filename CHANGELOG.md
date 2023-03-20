@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2023-03-20)
+### Feature
+* Add check for optimisation complete, and restart only with frequencies ([`503b948`](https://github.com/JonKragskow/nimbus_splash/commit/503b94881cccff9bb984c7b04083a13f08165456))
+
 ## v0.9.3 (2023-03-20)
 ### Fix
 * Add support for hyphen in rst_opt output file name ([`cd7e917`](https://github.com/JonKragskow/nimbus_splash/commit/cd7e9175137bb2673b4e688bca8640a2690a75b3))
