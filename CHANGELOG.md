@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.2 (2023-03-16)
+### Fix
+* Add working trap ([`ce87cce`](https://github.com/JonKragskow/nimbus_splash/commit/ce87cce2e27e728e37ad676cbce42402390834d8))
+
 ## v0.9.1 (2023-03-16)
 ### Performance
 * Increase default job time ([`0b688a0`](https://github.com/JonKragskow/nimbus_splash/commit/0b688a0a8b18f1933c79cca9ee31fa534705a873))
