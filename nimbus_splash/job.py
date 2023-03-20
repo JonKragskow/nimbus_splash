@@ -126,7 +126,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('module load ORCA/5.0.1-gompi-2021a\n\n')
 
         j.write('# UCX transport protocols for MPI\n')
-        j.write('export UCX_THS=self,tcp,sm\n\n')
+        j.write('export UCX_TLS=self,tcp,sm\n\n')
 
         j.write('# If timeout, evicted, cancelled, then manually end orca\n')
 
