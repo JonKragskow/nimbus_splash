@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.1 (2023-03-20)
+### Fix
+* Correct UCX envvar name ([`69454bf`](https://github.com/JonKragskow/nimbus_splash/commit/69454bfd97cff9f663dfa3a4e925230fc1096cde))
+
 ## v0.10.0 (2023-03-20)
 ### Feature
 * Add check for optimisation complete, and restart only with frequencies ([`503b948`](https://github.com/JonKragskow/nimbus_splash/commit/503b94881cccff9bb984c7b04083a13f08165456))
