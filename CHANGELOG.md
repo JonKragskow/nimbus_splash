@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.3 (2023-03-20)
+### Fix
+* Add support for hyphen in rst_opt output file name ([`cd7e917`](https://github.com/JonKragskow/nimbus_splash/commit/cd7e9175137bb2673b4e688bca8640a2690a75b3))
+
 ## v0.9.2 (2023-03-16)
 ### Fix
 * Add working trap ([`ce87cce`](https://github.com/JonKragskow/nimbus_splash/commit/ce87cce2e27e728e37ad676cbce42402390834d8))
