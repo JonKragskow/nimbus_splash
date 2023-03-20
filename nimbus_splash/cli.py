@@ -5,7 +5,7 @@ import os
 import re
 import xyz_py as xyzp
 
-from .utils import red_exit, get_opt_coords, get_input_section
+from .utils import red_exit, get_opt_coords, get_input_section, blue_print
 
 
 def gen_job_func(uargs):
@@ -125,7 +125,7 @@ def rst_opt_func(uargs, job_args):
     head = os.path.splitext(raw_file)[0]
 
     # Extract coordinates from output file
-    labels, coords = get_opt_coords(uargs.output_file)
+    labels, coords, opt_yn = get_opt_coords(uargs.output_file)
 
     # Extract input information from output file
     input_info = get_input_section(uargs.output_file)
@@ -144,6 +144,15 @@ def rst_opt_func(uargs, job_args):
         "{}-rst.xyz".format(head),
         input_info
     )
+
+    # If optimised, delete opt keyword from input
+    if opt_yn:
+        input_info = re.sub(
+            r"\bopt\b(?!-)(?!\.)",
+            "",
+            input_info
+        )
+        blue_print("Optimisation complete, restarting only for frequencies")
 
     # Create -rst input file
     new_input = os.path.join(new_folder, "{}-rst.inp".format(head))
