@@ -1,7 +1,7 @@
 import setuptools
 
-# with open("README.md", "r", encoding="utf-8") as fh:
-#     long_description = fh.read()
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
@@ -14,6 +14,7 @@ setuptools.setup(
     author_email="jgck20@bath.ac.uk",
     description="A package to make life easier when using the University of \
         Bath's cloud computing suite for Orca calculations.",
+    long_descrption=long_description,
     url="https://github.com/jonkragskow/nimbus_splash",
     # project_urls={
         # "Bug Tracker": "",
