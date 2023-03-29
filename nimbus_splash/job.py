@@ -289,9 +289,14 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                         "Cannot parse per core memory in {}".format(input_file)
                     )
                 if n_try > max_mem:
-                    red_exit(
-                        "Specified per core memory in {} exceeds node limit".format(input_file) # noqa
+
+                    string = "Specified per core memory of"
+                    string += " {:.0f} MB in {} exceeds".format(
+                        n_try, input_file
                     )
+                    string += " node limit of {:d} MB".format(max_mem) 
+
+                    red_exit(string)
 
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))

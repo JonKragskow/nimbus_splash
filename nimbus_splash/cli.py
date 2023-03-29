@@ -35,7 +35,7 @@ def gen_job_func(uargs):
     }
 
     # Currently available nodes
-    supported_nodes = {
+    supported_nodes = [
         'spot-fsv2-1',
         'spot-fsv2-2',
         'spot-fsv2-4',
@@ -72,6 +72,43 @@ def gen_job_func(uargs):
         'vis-ncv3-24',
         'vis-ncv3-6',
         'vis-ndv2-40'
+    ]
+
+    node_memory = {
+        'spot-fsv2-1': 4000,
+        'spot-fsv2-2': 4000,
+        'spot-fsv2-4': 4000,
+        'spot-fsv2-16': 4000,
+        'spot-fsv2-24': 4000,
+        'spot-fsv2-32': 4000,
+        'spot-fsv2-36': 4000,
+        'paygo-fsv2-1': 4000,
+        'paygo-fsv2-2': 4000,
+        'paygo-fsv2-4': 4000,
+        'paygo-fsv2-16': 4000,
+        'paygo-fsv2-24': 4000,
+        'paygo-fsv2-32': 4000,
+        'paygo-fsv2-36': 4000,
+        'paygo-hbv2-120': 3500,
+        'paygo-hbv3-120': 3500,
+        'paygo-hc-44': 8000,
+        'paygo-ncv3-6': 18500,
+        'paygo-ncv3-12': 18500,
+        'paygo-ncv3-24': 18500,
+        'paygo-ncv3r-24': 18500,
+        'paygo-ndv2-40': 16500,
+        'spot-hbv2-120': 3500,
+        'spot-hbv3-120': 3500,
+        'spot-hc-44': 8000,
+        'spot-ncv3-6': 18500,
+        'spot-ncv3-12': 18500,
+        'spot-ncv3-24': 18500,
+        'spot-ncv3r-24': 18500,
+        'spot-ndv2-40': 16500,
+        'vis-ncv3-12': 18500,
+        'vis-ncv3-24': 18500,
+        'vis-ncv3-6': 18500,
+        'vis-ndv2-40': 16500
     }
 
     if uargs.node_type:
@@ -96,7 +133,7 @@ def gen_job_func(uargs):
             red_exit("Cannot locate {}".format(file))
 
         # Check contents of input file and find any file dependencies
-        _, input_deps_rel = job.parse_input_contents(file, 4000)
+        _, input_deps_rel = job.parse_input_contents(file, node_memory[node])
 
         # Check for old results folder and look at contents
         # to see if any restart capable files exist
