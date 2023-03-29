@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.11.0 (2023-03-29)
+### Feature
+* Add per-node memory limits for different node types ([`98484b9`](https://github.com/JonKragskow/nimbus_splash/commit/98484b93b339863ec56025ff02ff84e12daab669))
+
+### Documentation
+* Add long_description and fix typo in readme ([`0146e8f`](https://github.com/JonKragskow/nimbus_splash/commit/0146e8f9143afdcc424daef88165e74ab7705e78))
+
 ## v0.10.1 (2023-03-20)
 ### Fix
 * Correct UCX envvar name ([`69454bf`](https://github.com/JonKragskow/nimbus_splash/commit/69454bfd97cff9f663dfa3a4e925230fc1096cde))
