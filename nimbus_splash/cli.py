@@ -102,14 +102,6 @@ def gen_job_func(uargs):
     else:
         red_exit("Node type unsupported")
 
-    if uargs.n_cores:
-        if cores_per_node[node] < uargs.n_cores:
-            red_exit("Specified number of cores exceeds node limit")
-        else:
-            n_cores = uargs.n_cores
-    else:
-        n_cores = cores_per_node[node]
-
     # Write job file
     for file in uargs.input_files:
 
@@ -119,7 +111,9 @@ def gen_job_func(uargs):
 
         # Check contents of input file and find any file dependencies
         _, input_deps_rel = job.parse_input_contents(
-            file, total_node_memory[node] / n_cores
+            file,
+            total_node_memory[node],
+            cores_per_node[node]
         )
 
         # Check for old results folder and look at contents
@@ -128,9 +122,6 @@ def gen_job_func(uargs):
 
         # Resolve different versions of same filetypes
         dependencies = job.resolve_deps(input_deps_rel, result_deps)
-
-        # Add number of cores to input file
-        job.add_core_to_input(file, n_cores)
 
         job_file = job.write_file(
             file, node, uargs.time, verbose=True, dependencies=dependencies
@@ -239,13 +230,6 @@ def read_args(arg_list=None):
         help='Orca input file name(s)'
     )
 
-    gen_job.add_argument(
-        '-n',
-        '--n_cores',
-        type=int,
-        default=False,
-        help='Number of cores to use on given node, default uses all cores'
-    )
     gen_job.add_argument(
         '-nt',
         '--node_type',

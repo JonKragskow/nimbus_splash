@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-from .utils import red_exit, yellow_print
+from .utils import red_exit
 
 
 def write_file(input_file: str, node_type: str, time: str,
@@ -175,8 +175,9 @@ def check_envvar(var_str: str) -> None:
     return
 
 
-def parse_input_contents(input_file: str, max_mem: int) -> tuple[
-        dict[str: str], dict[str: str], bool]:
+def parse_input_contents(input_file: str, max_mem: int,
+                         max_cores: int) -> tuple[
+        dict[str: str], dict[str: str]]:
     """
     Checks contents of input file and returns file dependencies
     Specific checks:
@@ -189,7 +190,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> tuple[
     input_file : str
         Name of orca input file
     max_mem : int
-        Max memory (MB) per core on given node
+        Max memory (MB) total on node
+    max_cores : int
+        Maximum number of cores on node
 
     Returns
     -------
@@ -201,8 +204,9 @@ def parse_input_contents(input_file: str, max_mem: int) -> tuple[
         key is identifier (xyz, gbw), value is file name
     """
 
-    # Found memory definition
+    # Found memory and cores
     mem_found = False
+    core_found = False
 
     # Dependencies (files) of this input file
     # as either full or relative path
@@ -287,23 +291,43 @@ def parse_input_contents(input_file: str, max_mem: int) -> tuple[
                     )
 
                 try:
-                    n_try = int(line.split()[-1])
+                    n_mb = int(line.split()[-1])
                 except ValueError:
                     red_exit(
                         "Cannot parse per core memory in {}".format(input_file)
                     )
-                if n_try > max_mem:
 
-                    string = "Warning: Specified per core memory of"
-                    string += " {:.0f} MB in {} exceeds".format(
-                        n_try, input_file
+            # Number of cores
+            if 'pal nprocs' in line.lower():
+                n_cores = int(line.split()[2])
+                core_found = True
+
+                if n_cores > max_cores:
+
+                    string = "Warning: Specified number of cores"
+                    string += " {:d} in {} exceeds".format(
+                        n_cores, input_file
                     )
-                    string += " node limit of {:.2f} MB".format(max_mem) 
+                    string += " node limit of {:d}".format(max_cores)
 
-                    yellow_print(string)
+                    red_exit(string)
 
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))
+
+    if not core_found:
+        red_exit("Cannot locate %maxcore definition in {}".format(input_file))
+
+    # Check memory doesnt exceed per-core limit
+    if n_mb > max_mem / n_cores:
+
+        string = "Warning: Specified per core memory of"
+        string += " {:d} MB in {} exceeds".format(
+            n_mb, input_file
+        )
+        string += " node limit of {:.2f} MB".format(max_mem / n_cores)
+
+        red_exit(string)
 
     return full_path_deps, rel_path_deps
 

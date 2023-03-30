@@ -50,7 +50,7 @@ def get_opt_coords(file_name: str) -> tuple[list[str], list[float]]:
                     coords.append([float(val) for val in line.split()[1:]])
                     line = next(f)
             # Optimisation finished, read again
-            if '*** FINAL ENERGY EVALUATION AT THE STATIONARY POINT ***' in line:
+            if '*** FINAL ENERGY EVALUATION AT THE STATIONARY POINT ***' in line: # noqa
                 labels = []
                 coords = []
                 opt_yn = True
