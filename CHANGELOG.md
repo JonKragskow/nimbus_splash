@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.12.1 (2023-03-30)
+### Fix
+* Fix error in memory warning text ([`c827c14`](https://github.com/JonKragskow/nimbus_splash/commit/c827c142a07f7c1fa69b495496f742a2010ec4af))
+
 ## v0.12.0 (2023-03-30)
 ### Feature
 * Add calculation of per-core memory, and add user input of number of cores to use on node ([`d77bac5`](https://github.com/JonKragskow/nimbus_splash/commit/d77bac555141d58706e9539a14d3a68f26290245))
