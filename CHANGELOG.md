@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.1 (2023-03-30)
+### Fix
+* Change memory limit breach error to warning ([`a03b861`](https://github.com/JonKragskow/nimbus_splash/commit/a03b861093a480f9cc3ff232e29149f016ce7962))
+
 ## v0.13.0 (2023-03-30)
 ### Feature
 * Core and Memory control is now user specified in file, no use of -n. Core count and per-core memory are checked and flagged if incorrect ([`361a26e`](https://github.com/JonKragskow/nimbus_splash/commit/361a26e9b6ed1be0add64ce9df0ecbe5af272f58))
