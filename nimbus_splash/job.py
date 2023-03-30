@@ -298,7 +298,7 @@ def parse_input_contents(input_file: str, max_mem: int) -> tuple[
                     string += " {:.0f} MB in {} exceeds".format(
                         n_try, input_file
                     )
-                    string += " node limit of {:d} MB".format(max_mem) 
+                    string += " node limit of {:.2f} MB".format(max_mem) 
 
                     yellow_print(string)
 
