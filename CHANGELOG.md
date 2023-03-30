@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.12.0 (2023-03-30)
+### Feature
+* Add calculation of per-core memory, and add user input of number of cores to use on node ([`d77bac5`](https://github.com/JonKragskow/nimbus_splash/commit/d77bac555141d58706e9539a14d3a68f26290245))
+
 ## v0.11.0 (2023-03-29)
 ### Feature
 * Add per-node memory limits for different node types ([`98484b9`](https://github.com/JonKragskow/nimbus_splash/commit/98484b93b339863ec56025ff02ff84e12daab669))
