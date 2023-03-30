@@ -5,6 +5,10 @@ def red_exit(string):
     return sys.exit('\u001b[31m Error: {} \033[0m'.format(string))
 
 
+def yellow_warn(string):
+    return print('\u001b[43m Warning: {} \033[0m'.format(string))
+
+
 def blue_print(string):
     return print('\u001b[34m{} \033[0m'.format(string))
 
