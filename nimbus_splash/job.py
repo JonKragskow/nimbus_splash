@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-from .utils import red_exit
+from .utils import red_exit, yellow_print
 
 
 def write_file(input_file: str, node_type: str, time: str,
@@ -175,7 +175,8 @@ def check_envvar(var_str: str) -> None:
     return
 
 
-def parse_input_contents(input_file: str, max_mem: int) -> str:
+def parse_input_contents(input_file: str, max_mem: int) -> tuple[
+        dict[str: str], dict[str: str], bool]:
     """
     Checks contents of input file and returns file dependencies
     Specific checks:
@@ -193,7 +194,10 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
     Returns
     -------
     dict[str: str]
-        Names of dependencies (files) which this input needs
+        Names of full-path dependencies (files) which this input needs
+        key is identifier (xyz, gbw), value is file name
+    dict[str: str]
+        Names of relative-path dependencies (files) which this input needs
         key is identifier (xyz, gbw), value is file name
     """
 
@@ -290,13 +294,13 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                     )
                 if n_try > max_mem:
 
-                    string = "Specified per core memory of"
+                    string = "Warning: Specified per core memory of"
                     string += " {:.0f} MB in {} exceeds".format(
                         n_try, input_file
                     )
                     string += " node limit of {:d} MB".format(max_mem) 
 
-                    red_exit(string)
+                    yellow_print(string)
 
     if not mem_found:
         red_exit("Cannot locate %maxcore definition in {}".format(input_file))

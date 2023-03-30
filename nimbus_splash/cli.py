@@ -23,33 +23,18 @@ def gen_job_func(uargs):
 
     '''
 
-    # Default node types - fsv2 spot
-    default_from_core = {
-        1: 'spot-fsv2-1',
-        2: 'spot-fsv2-2',
-        4: 'spot-fsv2-4',
-        16: 'spot-fsv2-16',
-        24: 'spot-fsv2-24',
-        32: 'spot-fsv2-32',
-        36: 'spot-fsv2-36',
-    }
-
     # Currently available nodes
     supported_nodes = [
-        'spot-fsv2-1',
         'spot-fsv2-2',
         'spot-fsv2-4',
+        'spot-fsv2-8',
         'spot-fsv2-16',
-        'spot-fsv2-24',
         'spot-fsv2-32',
-        'spot-fsv2-36',
-        'paygo-fsv2-1',
         'paygo-fsv2-2',
         'paygo-fsv2-4',
+        'paygo-fsv2-8',
         'paygo-fsv2-16',
-        'paygo-fsv2-24',
         'paygo-fsv2-32',
-        'paygo-fsv2-36',
         'paygo-hb-60',
         'paygo-hbv2-120',
         'paygo-hbv3-120',
@@ -74,58 +59,58 @@ def gen_job_func(uargs):
         'vis-ndv2-40'
     ]
 
-    node_memory = {
-        'spot-fsv2-1': 4000,
-        'spot-fsv2-2': 4000,
-        'spot-fsv2-4': 4000,
-        'spot-fsv2-16': 4000,
-        'spot-fsv2-24': 4000,
-        'spot-fsv2-32': 4000,
-        'spot-fsv2-36': 4000,
-        'paygo-fsv2-1': 4000,
-        'paygo-fsv2-2': 4000,
-        'paygo-fsv2-4': 4000,
-        'paygo-fsv2-16': 4000,
-        'paygo-fsv2-24': 4000,
-        'paygo-fsv2-32': 4000,
-        'paygo-fsv2-36': 4000,
-        'paygo-hbv2-120': 3500,
-        'paygo-hbv3-120': 3500,
-        'paygo-hc-44': 8000,
-        'paygo-ncv3-6': 18500,
-        'paygo-ncv3-12': 18500,
-        'paygo-ncv3-24': 18500,
-        'paygo-ncv3r-24': 18500,
-        'paygo-ndv2-40': 16500,
-        'spot-hbv2-120': 3500,
-        'spot-hbv3-120': 3500,
-        'spot-hc-44': 8000,
-        'spot-ncv3-6': 18500,
-        'spot-ncv3-12': 18500,
-        'spot-ncv3-24': 18500,
-        'spot-ncv3r-24': 18500,
-        'spot-ndv2-40': 16500,
-        'vis-ncv3-12': 18500,
-        'vis-ncv3-24': 18500,
-        'vis-ncv3-6': 18500,
-        'vis-ndv2-40': 16500
+    cores_per_node = {
+        node: int(node.split('-')[-1])
+        for node in supported_nodes
     }
 
-    if uargs.node_type:
-        if uargs.node_type in supported_nodes:
-            node = uargs.node_type
-        else:
-            red_exit("Node type unsupported")
-    else:
-        try:
-            node = default_from_core[uargs.n_cores]
-        except KeyError:
-            red_exit("Specified number of cores is unsupported")
+    total_node_memory = {
+        'spot-fsv2-2': 4000,
+        'spot-fsv2-4': 8000,
+        'spot-fsv2-8': 16000,
+        'spot-fsv2-16': 32000,
+        'spot-fsv2-32': 64000,
+        'paygo-fsv2-2': 4000,
+        'paygo-fsv2-4': 8000,
+        'paygo-fsv2-8': 16000,
+        'paygo-fsv2-16': 32000,
+        'paygo-fsv2-32': 64000,
+        'paygo-hbv2-120': 456000,
+        'paygo-hbv3-120': 448000,
+        'paygo-hc-44': 352000,
+        'paygo-ncv3-6': 112000,
+        'paygo-ncv3-12': 224000,
+        'paygo-ncv3-24': 448000,
+        'paygo-ncv3r-24': 18500,
+        'paygo-ndv2-40': 672000,
+        'spot-hbv2-120': 456000,
+        'spot-hbv3-120': 448000,
+        'spot-hc-44': 352000,
+        'spot-ncv3-6': 112000,
+        'spot-ncv3-12': 224000,
+        'spot-ncv3-24': 448000,
+        'spot-ncv3r-24': 18500,
+        'spot-ndv2-40': 672000,
+        'vis-ncv3-6': 112000,
+        'vis-ncv3-12': 224000,
+        'vis-ncv3-24': 448000,
+        'vis-ndv2-40': 672000
+    }
 
-    n_cores = int(node.split('-')[-1])
+    if uargs.node_type in supported_nodes:
+        node = uargs.node_type
+    else:
+        red_exit("Node type unsupported")
+
+    if uargs.n_cores:
+        if cores_per_node[node] < uargs.n_cores:
+            red_exit("Specified number of cores exceeds node limit")
+        else:
+            n_cores = uargs.n_cores
+    else:
+        n_cores = cores_per_node[node]
 
     # Write job file
-
     for file in uargs.input_files:
 
         # Check input exists
@@ -133,7 +118,9 @@ def gen_job_func(uargs):
             red_exit("Cannot locate {}".format(file))
 
         # Check contents of input file and find any file dependencies
-        _, input_deps_rel = job.parse_input_contents(file, node_memory[node])
+        _, input_deps_rel = job.parse_input_contents(
+            file, total_node_memory[node] / n_cores
+        )
 
         # Check for old results folder and look at contents
         # to see if any restart capable files exist
@@ -252,17 +239,17 @@ def read_args(arg_list=None):
         help='Orca input file name(s)'
     )
 
-    node_spec = gen_job.add_mutually_exclusive_group()
-    node_spec.add_argument(
+    gen_job.add_argument(
         '-n',
         '--n_cores',
         type=int,
-        default=16,
-        help='Number of cores to use for fsv2 node, default is 16'
+        default=False,
+        help='Number of cores to use on given node, default uses all cores'
     )
-    node_spec.add_argument(
+    gen_job.add_argument(
         '-nt',
         '--node_type',
+        default='spot-fsv2-16',
         type=str,
         help='Node to run on, default is spot-fsv2-16'
     )

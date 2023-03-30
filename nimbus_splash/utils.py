@@ -9,6 +9,10 @@ def blue_print(string):
     return print('\u001b[34m{} \033[0m'.format(string))
 
 
+def yellow_print(string):
+    return print('\u001b[43m{} \033[0m'.format(string))
+
+
 def get_opt_coords(file_name: str) -> tuple[list[str], list[float]]:
     '''
     Extracts coordinates from orca optimisation cycle
