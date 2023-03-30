@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-from .utils import red_exit
+from .utils import red_exit, yellow_warn
 
 
 def write_file(input_file: str, node_type: str, time: str,
@@ -304,7 +304,7 @@ def parse_input_contents(input_file: str, max_mem: int,
 
                 if n_cores > max_cores:
 
-                    string = "Warning: Specified number of cores"
+                    string = "Specified number of cores"
                     string += " {:d} in {} exceeds".format(
                         n_cores, input_file
                     )
@@ -321,13 +321,13 @@ def parse_input_contents(input_file: str, max_mem: int,
     # Check memory doesnt exceed per-core limit
     if n_mb > max_mem / n_cores:
 
-        string = "Warning: Specified per core memory of"
+        string = "Specified per core memory of"
         string += " {:d} MB in {} exceeds".format(
             n_mb, input_file
         )
         string += " node limit of {:.2f} MB".format(max_mem / n_cores)
 
-        red_exit(string)
+        yellow_warn(string)
 
     return full_path_deps, rel_path_deps
 
