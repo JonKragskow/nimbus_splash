@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.0 (2023-03-30)
+### Feature
+* Core and Memory control is now user specified in file, no use of -n. Core count and per-core memory are checked and flagged if incorrect ([`361a26e`](https://github.com/JonKragskow/nimbus_splash/commit/361a26e9b6ed1be0add64ce9df0ecbe5af272f58))
+
 ## v0.12.1 (2023-03-30)
 ### Fix
 * Fix error in memory warning text ([`c827c14`](https://github.com/JonKragskow/nimbus_splash/commit/c827c142a07f7c1fa69b495496f742a2010ec4af))
