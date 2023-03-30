@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.2 (2023-03-30)
+### Fix
+* Change warn to print ([`c92e8f1`](https://github.com/JonKragskow/nimbus_splash/commit/c92e8f1e4a4e1a801bd7b5027f1ba00057b12221))
+
 ## v0.13.1 (2023-03-30)
 ### Fix
 * Change memory limit breach error to warning ([`a03b861`](https://github.com/JonKragskow/nimbus_splash/commit/a03b861093a480f9cc3ff232e29149f016ce7962))
