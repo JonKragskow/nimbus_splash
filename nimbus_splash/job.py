@@ -77,20 +77,6 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('campaigndir={}\n'.format(calc_dir))
         j.write('results=$campaigndir/{}\n\n'.format(job_name))
 
-        j.write('# If results directory already exists, append OLD and ')
-        j.write('last access time\n')
-        j.write('if [ -d $results ]; then\n')
-        j.write(
-            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
-        j.write('fi\n\n')
-
-        j.write('# If output file already exists, append OLD and ')
-        j.write('last access time\n')
-        j.write('if [ -d $output ]; then\n')
-        j.write(
-            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
-        j.write('fi\n\n')
-
         j.write('# Local (Node) scratch, either node itself if supported')
         j.write('or burstbuffer\n')
         j.write('if [ -d "/mnt/resource/" ]; then\n')
@@ -100,6 +86,13 @@ def write_file(input_file: str, node_type: str, time: str,
         )
         j.write('else\n')
         j.write('    localscratch=$BURSTBUFFER\n')
+        j.write('fi\n\n')
+
+        j.write('# If output file already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $output ]; then\n')
+        j.write(
+            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
@@ -140,7 +133,18 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('PID="$!"\n')
         j.write('wait "${PID}"\n\n')
 
-        j.write('Clean up and copy back files\n')
+        j.write('# Clean up and copy back files\n')
+
+        j.write('# Check for existing results directory\n')
+        j.write('cd $campaigndir\n')
+        j.write('# If results directory already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $results ]; then\n')
+        j.write(
+            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
+        j.write('fi\n\n')
+        j.write('cd $localscratch\n')
+
         j.write('rsync -aP --exclude=*.tmp* $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
