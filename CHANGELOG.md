@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.3 (2023-04-05)
+### Fix
+* Move results rename to cleanup to avoid incorrect gbw ref ([`50904fd`](https://github.com/JonKragskow/nimbus_splash/commit/50904fd7cb6ffb2005af745d04d7784a224f9790))
+
 ## v0.13.2 (2023-03-30)
 ### Fix
 * Change warn to print ([`c92e8f1`](https://github.com/JonKragskow/nimbus_splash/commit/c92e8f1e4a4e1a801bd7b5027f1ba00057b12221))
