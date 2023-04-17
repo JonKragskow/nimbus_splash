@@ -68,7 +68,7 @@ To instead start your new `nimbus_base` environment every time you connect, open
 conda activate nimbus_base
 ```
 
-then save and exit, and run 
+then save and exit `nano`, and run the command
 
 ```
 source ~/.bashrc
@@ -78,10 +78,9 @@ in your terminal.
 
 If everything is working correctly, `(nimbus_base)` will appear at the start of your prompt.
 
-
 You now have a(n) (updatable) conda environment to use!
 
-Now, to set up this environment and install `python`, run the command 
+Now, to set up this environment and install `python`, run the command
 
 ```
 conda install pip
