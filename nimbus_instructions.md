@@ -68,7 +68,7 @@ To instead start your new `nimbus_base` environment every time you connect, open
 conda activate nimbus_base
 ```
 
-then save and exit `nano`, and run the command
+then save and exit `nano`, and run the commandq
 
 ```
 source ~/.bashrc
@@ -100,3 +100,14 @@ pip install nimbus_splash
 ```
 
 installs `nimbus_splash`.
+
+# Research Allocation ID
+
+To select your Research Allocation ID, add the following environment variable in your nimbus
+`~/.bash_rc` file and replace `<name_here>` with your Research Allocation ID.
+
+```
+export CLOUD_ACC=<name_here>
+```
+
+If you don't do this, `nimbus_splash` will tell you to.
