@@ -91,7 +91,7 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('# If output file already exists, append OLD and ')
         j.write('last access time\n')
-        j.write('if [ -d $output ]; then\n')
+        j.write('if [ -f $output ]; then\n')
         j.write(
             '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
         j.write('fi\n\n')
