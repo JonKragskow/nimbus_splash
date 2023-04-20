@@ -119,15 +119,16 @@ def gen_job_func(uargs):
             cores_per_node[node]
         )
 
+        # Check dependencies exist
+        dependency_paths = job.locate_dependencies(dependencies, file)
+
         if uargs.verbose:
             print(dependencies)
-
-        # Check dependencies exist
-        job.check_dependencies(dependencies, file)
+            print(dependency_paths)
 
         job_file = job.write_file(
             file, node, uargs.time, verbose=True,
-            dependencies=dependencies.values()
+            dependency_paths=dependency_paths.values()
         )
 
         # Submit to queue

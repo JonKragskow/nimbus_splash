@@ -6,7 +6,8 @@ from . import utils as ut
 
 
 def write_file(input_file: str, node_type: str, time: str,
-               verbose: bool = False, dependencies: list[str] = []) -> str:
+               dependency_paths: dict[str: str],
+               verbose: bool = False) -> str:
     '''
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -22,9 +23,8 @@ def write_file(input_file: str, node_type: str, time: str,
         Job time limit formatted as HH:MM:SS
     verbose : bool, default=False
         If True, prints job file name to screen
-    dependencies : list[str]
-        Full paths of additional files on which this job depends,
-        these will be copied to the compute node at runtime
+    dependency_paths : list[str]
+        Full path to each dependency
 
     Returns
     -------
@@ -39,7 +39,10 @@ def write_file(input_file: str, node_type: str, time: str,
     inpath, in_raw = os.path.split(input_file)
 
     # Name of job
-    job_name = os.path.splitext(in_raw)[0]
+    job_name = ut.gen_job_name(input_file)
+
+    # Name of results directory
+    results_name = ut.gen_results_name(input_file)
 
     # Job file to write to, must use path if present in input_file
     job_file = os.path.join(
@@ -47,11 +50,8 @@ def write_file(input_file: str, node_type: str, time: str,
         '{}.slm'.format(job_name)
     )
 
-    # Path of jobfile, input, xyz, gbw etc
-    if not len(inpath):
-        calc_dir = os.path.abspath(os.getcwd())
-    else:
-        calc_dir = os.path.abspath(inpath)
+    # Path of input file
+    calc_dir = os.path.abspath(inpath)
 
     with open(job_file, 'w') as j:
 
@@ -76,23 +76,9 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write(f'input={in_raw}\n')
         j.write(f'output={job_name}.out\n')
         j.write(f'campaigndir={calc_dir}\n')
-        j.write(f'results=$campaigndir/{job_name}\n\n')
+        j.write(f'results=$campaigndir/{results_name}\n\n')
 
-        j.write('# If results directory already exists, append OLD and ')
-        j.write('last access time\n')
-        j.write('if [ -d $results ]; then\n')
-        j.write(
-            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
-        j.write('fi\n\n')
-
-        j.write('# If output file already exists, append OLD and ')
-        j.write('last access time\n')
-        j.write('if [ -d $output ]; then\n')
-        j.write(
-            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
-        j.write('fi\n\n')
-
-        j.write('# Local (Node) scratch, either node itself if supported')
+        j.write('# Local (Node) scratch, either node itself if supported ')
         j.write('or burstbuffer\n')
         j.write('if [ -d "/mnt/resource/" ]; then\n')
         j.write(
@@ -113,9 +99,9 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('# Copy files to localscratch\n')
         j.write('rsync -aP ')
 
-        j.write(f'$campaigndir/{in_raw}')
+        j.write(f'{input_file}')
 
-        for dep in dependencies:
+        for dep in dependency_paths:
             j.write(f' {dep}')
 
         j.write(' $localscratch\n')
@@ -260,11 +246,13 @@ def parse_input_contents(input_file: str, max_mem: int,
 
                 xyzfile = line.split()[-1]
 
-                # Check if absolute, if not then absolutize using input path
-                if not os.path.isabs(xyzfile):
-                    xyzfile = os.path.join(inpath, xyzfile)
+                # Check if contains path info, if so error
+                if os.sep in xyzfile:
+                    ut.red_exit(
+                        f'Path provided for xyzfile definition in {e_input_file}' # noqa
+                    )
 
-                dependencies['xyz'] = os.path.abspath(xyzfile)
+                dependencies['xyz'] = xyzfile
 
             # gbw file
             if '%moinp' in line.lower():
@@ -276,11 +264,12 @@ def parse_input_contents(input_file: str, max_mem: int,
 
                 gbw_file = line.split()[-1].replace('"', '').replace("'", "")
 
-                # Check if absolute, if not then absolutize using input path
-                if not os.path.isabs(gbw_file):
-                    gbw_file = os.path.join(inpath, gbw_file)
-
-                dependencies['gbw'] = os.path.abspath(gbw_file)
+                # Check if contains path info, if so error
+                if os.sep in gbw_file:
+                    ut.red_exit(
+                        f'Path provided for gbw definition in {e_input_file}'
+                    )
+                dependencies['gbw'] = gbw_file
 
             if 'moread' in line.lower():
                 mo_read = True
@@ -323,42 +312,64 @@ def parse_input_contents(input_file: str, max_mem: int,
         ut.red_exit(f'Cannot locate %maxcore definition in {e_input_file}')
 
     if not core_found:
-        ut.red_exit("Cannot locate %maxcore definition in {}".format(input_file))
+        ut.red_exit(f"Cannot locate %maxcore definition in {input_file}")
 
     # Check memory doesnt exceed per-core limit
     if n_mb > max_mem / n_cores:
 
-        string = "Specified per core memory of"
-        string += " {:d} MB in {} exceeds".format(
-            n_mb, input_file
-        )
-        string += " node limit of {:.2f} MB".format(max_mem / n_cores)
+        string = 'Specified per core memory of'
+        string += f' {n_mb:d} MB in {input_file} exceeds'
+        string += ' node limit of {:.2f} MB'.format(max_mem / n_cores)
 
         ut.cprint(string, 'black_yellowbg')
 
     return dependencies
 
 
-def check_dependencies(files: dict[str: str], input_file: str):
+def locate_dependencies(files: dict[str: str], input_file: str):
     '''
-    Checks the existence of each file in a dict of files with absolute path
+    Locates each dependency in either input directory or results directory
 
     Parameters
     ----------
     files: dict[str: str]
         Keys are filetype e.g. xyz, gbw
-        Values are absolute path of file
+        Values are name file (no path information)
     input_file: str
-        Name of input file, used in error message if dependencies cannot be found
+        Full path of input file
     '''
 
-    for file_type, file_name in files.items():
-        if not os.path.exists(file_name):
-            ut.red_exit(
-                f'{file_type} file specified in {input_file} cannot be found'
-            )
+    results_name = ut.gen_results_name(input_file)
+    in_path = os.path.split(input_file)[0]
 
-    return
+    dependency_paths = {}
+
+    for file_type, file_name in files.items():
+
+        # Potential path of current file if in input directory
+        curr = os.path.join(in_path, file_name)
+        # Potential path of current file if in results directory
+        res = os.path.join(in_path, results_name, file_name)
+
+        # gbw check both currdir and currdir/results_name
+        if file_type == 'gbw':
+            if os.path.exists(curr):
+                dependency_paths[file_type] = os.path.abspath(curr)
+            elif os.path.exists(res):
+                dependency_paths[file_type] = os.path.abspath(res)
+            else:
+                ut.red_exit(
+                    f'{file_type} file specified in {input_file} cannot be found' # noqa
+                )
+        else:
+            if os.path.exists(curr):
+                dependency_paths[file_type] = os.path.abspath(curr)
+            else:
+                ut.red_exit(
+                    f'{file_type} file specified in {input_file} cannot be found' # noqa
+                )
+
+    return dependency_paths
 
 
 def add_core_to_input(input_file: str, n_cores: int) -> None:

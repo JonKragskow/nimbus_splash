@@ -1,4 +1,5 @@
 import sys
+import os
 
 
 def red_exit(string):
@@ -137,3 +138,11 @@ def get_input_section(file_name: str) -> str:
         )
 
     return input_str
+
+
+def gen_job_name(input_file: str) -> str:
+    return os.path.splitext(os.path.split(input_file)[1])[0]
+
+
+def gen_results_name(input_file: str) -> str:
+    return '{}_results'.format(gen_job_name(input_file))
