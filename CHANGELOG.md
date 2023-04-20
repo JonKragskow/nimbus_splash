@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.6 (2023-04-20)
+### Performance
+* Check for gbw in results first ([`acd26cc`](https://github.com/JonKragskow/nimbus_splash/commit/acd26ccb89bc65c0aa25c4bb511d160cb2bf1e58))
+
 ## v0.13.5 (2023-04-20)
 ### Fix
 * Correct file check for old output ([`1547951`](https://github.com/JonKragskow/nimbus_splash/commit/1547951bcdf1d05549b3ffd46ae02f204a0eb472))
