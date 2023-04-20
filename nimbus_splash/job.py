@@ -93,7 +93,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('last access time\n')
         j.write('if [ -f $output ]; then\n')
         j.write(
-            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
+            '    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")\n')
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
@@ -142,7 +142,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('last access time\n')
         j.write('if [ -d $results ]; then\n')
         j.write(
-            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
+            '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n')
         j.write('fi\n\n')
         j.write('cd $localscratch\n')
 
@@ -150,8 +150,8 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('rm -r $localscratch\n')
 
     if verbose:
-        if os.path.split(input_file)[0] == os.getcwd():
-            pp_jf = os.path.split(input_file)[1]
+        if os.path.split(job_file)[0] == os.getcwd():
+            pp_jf = os.path.split(job_file)[1]
         else:
             pp_jf = job_file
         ut.cprint(f'Submission script written to {pp_jf}', 'green')
