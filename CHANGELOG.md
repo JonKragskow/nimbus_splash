@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.5 (2023-04-20)
+### Fix
+* Correct file check for old output ([`1547951`](https://github.com/JonKragskow/nimbus_splash/commit/1547951bcdf1d05549b3ffd46ae02f204a0eb472))
+
 ## v0.13.4 (2023-04-20)
 ### Documentation
 * Add test examples ([`3af74ba`](https://github.com/JonKragskow/nimbus_splash/commit/3af74baaad2c583d0c401840f40e1765cfcf63cb))
