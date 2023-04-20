@@ -351,12 +351,12 @@ def locate_dependencies(files: dict[str: str], input_file: str):
         # Potential path of current file if in results directory
         res = os.path.join(in_path, results_name, file_name)
 
-        # gbw check both currdir and currdir/results_name
+        # gbw check both currdir/results_name and then currdir
         if file_type == 'gbw':
-            if os.path.exists(curr):
-                dependency_paths[file_type] = os.path.abspath(curr)
-            elif os.path.exists(res):
+            if os.path.exists(res):
                 dependency_paths[file_type] = os.path.abspath(res)
+            elif os.path.exists(curr):
+                dependency_paths[file_type] = os.path.abspath(curr)
             else:
                 ut.red_exit(
                     f'{file_type} file specified in {input_file} cannot be found' # noqa
