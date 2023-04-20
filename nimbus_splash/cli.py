@@ -119,6 +119,21 @@ def gen_job_func(uargs):
             cores_per_node[node]
         )
 
+        # Look for old gbw in results directory, if it exists
+        results_name = ut.gen_results_name(file)
+        if 'gbw' not in dependencies and os.path.exists(results_name) and not uargs.no_guess: # noqa
+            old_gbw = '{}.gbw'.format(
+                os.path.split(os.path.splitext(file)[0])[1]
+            )
+            # If a file is located, send it to compute node for orca
+            # to use as guess MO
+            if os.path.exists(os.path.join(results_name, old_gbw)):
+                dependencies['gbw'] = old_gbw
+                ut.cprint(
+                    f'Using {old_gbw} in {results_name} as input MO in {file}',
+                    'black_yellowbg'
+                )
+
         # Check dependencies exist
         dependency_paths = job.locate_dependencies(dependencies, file)
 
@@ -265,6 +280,16 @@ def read_args(arg_list=None):
         '--verbose',
         action='store_true',
         help='If specified, debug information is printed to screen'
+    )
+
+    gen_job.add_argument(
+        '-ng',
+        '--no_guess',
+        action='store_true',
+        help=(
+            'If specified, gbw files found in results directory will not be'
+            'used automatically'
+        )
     )
 
     rst_opt = subparsers.add_parser(

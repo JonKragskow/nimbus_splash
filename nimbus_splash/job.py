@@ -223,6 +223,9 @@ def parse_input_contents(input_file: str, max_mem: int,
     # Path of input file
     inpath = os.path.split(input_file)[0]
 
+    # head of input file
+    inhead = os.path.split(os.path.splitext(input_file)[0])[1]
+
     # If input file is in cwd then no need to print massive path for errors
     if inpath == os.getcwd():
         e_input_file = os.path.split(input_file)[1]
@@ -249,7 +252,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                 # Check if contains path info, if so error
                 if os.sep in xyzfile:
                     ut.red_exit(
-                        f'Path provided for xyzfile definition in {e_input_file}' # noqa
+                        f'Path provided for xyz file in {e_input_file}'
                     )
 
                 dependencies['xyz'] = xyzfile
@@ -259,7 +262,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                 mo_inp = True
                 if len(line.split()) != 2:
                     ut.red_exit(
-                        f'Incorrect gbw_file definition in {e_input_file}'
+                        f'Incorrect gbw file definition in {e_input_file}'
                     )
 
                 gbw_file = line.split()[-1].replace('"', '').replace("'", "")
@@ -267,9 +270,15 @@ def parse_input_contents(input_file: str, max_mem: int,
                 # Check if contains path info, if so error
                 if os.sep in gbw_file:
                     ut.red_exit(
-                        f'Path provided for gbw definition in {e_input_file}'
+                        f'Path provided for gbw file in {e_input_file}'
                     )
                 dependencies['gbw'] = gbw_file
+
+                # Check gbw doesnt have same name as input
+                if os.path.splitext(gbw_file)[0] == inhead:
+                    ut.red_exit(
+                        f'gbw file in {e_input_file} has same name as input'
+                    )
 
             if 'moread' in line.lower():
                 mo_read = True
