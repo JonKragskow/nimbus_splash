@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.4 (2023-04-20)
+### Documentation
+* Add test examples ([`3af74ba`](https://github.com/JonKragskow/nimbus_splash/commit/3af74baaad2c583d0c401840f40e1765cfcf63cb))
+* Add raid part ([`b35f520`](https://github.com/JonKragskow/nimbus_splash/commit/b35f5201beb44c7fc6738ccd3145c89d3d5916c2))
+* Add detail ([`26cb37e`](https://github.com/JonKragskow/nimbus_splash/commit/26cb37ed55b57a0fbff641fb8e34419ee1444d56))
+* Add nimbus instructions ([`565a99b`](https://github.com/JonKragskow/nimbus_splash/commit/565a99b9eda96e2292d7890d20264e7f6c29d56c))
+
+### Performance
+* Improve mo file handling ([`9f3cbbc`](https://github.com/JonKragskow/nimbus_splash/commit/9f3cbbc094095410dd5298a735728a9c9b97d2c1))
+
 ## v0.13.3 (2023-04-05)
 ### Fix
 * Move results rename to cleanup to avoid incorrect gbw ref ([`50904fd`](https://github.com/JonKragskow/nimbus_splash/commit/50904fd7cb6ffb2005af745d04d7784a224f9790))
