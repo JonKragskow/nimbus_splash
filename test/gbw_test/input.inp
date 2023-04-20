@@ -1,0 +1,5 @@
+!B3LYP def2-tzvpp opt numfreq cpcm MORead
+%PAL NPROCS 16 END
+%moinp gbw.gbw
+%maxcore 3000
+* xyzfile 4 5 xyz.xyz 
