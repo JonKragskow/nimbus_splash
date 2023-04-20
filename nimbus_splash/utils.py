@@ -2,11 +2,57 @@ import sys
 
 
 def red_exit(string):
-    return sys.exit('\u001b[31m Error: {} \033[0m'.format(string))
+    cprint(string, 'red')
+    sys.exit(-1)
+    return
 
 
-def blue_print(string):
-    return print('\u001b[34m{} \033[0m'.format(string))
+def cprint(string: str, color: str):
+    '''
+    Prints colored output to screen
+
+    Parameters
+    ----------
+    string: str
+        String to print
+    color: str {red, green, yellow, blue, magenta, cyan, white}
+        String name of color
+
+    Returns
+    -------
+    None
+    '''
+
+    ccodes = {
+        'red': '\u001b[31m',
+        'green': '\u001b[32m',
+        'yellow': '\u001b[33m',
+        'blue': '\u001b[34m',
+        'magenta': '\u001b[35m',
+        'cyan': '\u001b[36m',
+        'white': '\u001b[37m',
+        'black_yellowbg': '\u001b[30;43m\u001b[K',
+        'white_bluebg': '\u001b[37;44m\u001b[K',
+    }
+    end = '\033[0m\u001b[K'
+
+    # Count newlines at neither beginning nor end
+    num_c_nl = string.rstrip('\n').lstrip('\n').count('\n')
+
+    # Remove right new lines to count left new lines
+    num_l_nl = string.rstrip('\n').count('\n') - num_c_nl
+    l_nl = ''.join(['\n'] * num_l_nl)
+
+    # Remove left new lines to count right new lines
+    num_r_nl = string.lstrip('\n').count('\n') - num_c_nl
+    r_nl = ''.join(['\n'] * num_r_nl)
+
+    # Remove left and right newlines, will add in again later
+    _string = string.rstrip('\n').lstrip('\n')
+
+    print('{}{}{}{}{}'.format(l_nl, ccodes[color], _string, end, r_nl))
+
+    return
 
 
 def get_opt_coords(file_name: str) -> tuple[list[str], list[float]]:
@@ -46,7 +92,7 @@ def get_opt_coords(file_name: str) -> tuple[list[str], list[float]]:
                     coords.append([float(val) for val in line.split()[1:]])
                     line = next(f)
             # Optimisation finished, read again
-            if '*** FINAL ENERGY EVALUATION AT THE STATIONARY POINT ***' in line:
+            if '*** FINAL ENERGY EVALUATION AT THE STATIONARY POINT ***' in line: # noqa
                 labels = []
                 coords = []
                 opt_yn = True

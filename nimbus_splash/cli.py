@@ -5,7 +5,7 @@ import os
 import re
 import xyz_py as xyzp
 
-from .utils import red_exit, get_opt_coords, get_input_section, blue_print
+from . import utils as ut
 
 
 def gen_job_func(uargs):
@@ -78,12 +78,12 @@ def gen_job_func(uargs):
         if uargs.node_type in supported_nodes:
             node = uargs.node_type
         else:
-            red_exit("Node type unsupported")
+            ut.red_exit("Node type unsupported")
     else:
         try:
             node = default_from_core[uargs.n_cores]
         except KeyError:
-            red_exit("Specified number of cores is unsupported")
+            ut.red_exit("Specified number of cores is unsupported")
 
     n_cores = int(node.split('-')[-1])
 
@@ -91,25 +91,28 @@ def gen_job_func(uargs):
 
     for file in uargs.input_files:
 
+        if not os.path.isabs(file):
+            file = os.path.join(os.getcwd(), file)
+
         # Check input exists
         if not os.path.exists(file):
-            red_exit("Cannot locate {}".format(file))
+            ut.red_exit("Cannot locate {}".format(file))
 
-        # Check contents of input file and find any file dependencies
-        _, input_deps_rel = job.parse_input_contents(file, 4000)
+        # Find any file dependencies in input
+        dependencies = job.parse_input_contents(file, 4000)
 
-        # Check for old results folder and look at contents
-        # to see if any restart capable files exist
-        result_deps = job.parse_results_contents(file)
+        if uargs.verbose:
+            print(dependencies)
 
-        # Resolve different versions of same filetypes
-        dependencies = job.resolve_deps(input_deps_rel, result_deps)
+        # Check dependencies exist
+        job.check_dependencies(dependencies, file)
 
         # Add number of cores to input file
         job.add_core_to_input(file, n_cores)
 
         job_file = job.write_file(
-            file, node, uargs.time, verbose=True, dependencies=dependencies
+            file, node, uargs.time, verbose=True, 
+            dependencies=dependencies.values()
         )
 
         # Submit to queue
@@ -125,10 +128,10 @@ def rst_opt_func(uargs, job_args):
     head = os.path.splitext(raw_file)[0]
 
     # Extract coordinates from output file
-    labels, coords, opt_yn = get_opt_coords(uargs.output_file)
+    labels, coords, opt_yn = ut.get_opt_coords(uargs.output_file)
 
     # Extract input information from output file
-    input_info = get_input_section(uargs.output_file)
+    input_info = ut.get_input_section(uargs.output_file)
 
     # Create rst folder
     new_folder = os.path.join(path, 'rst')
@@ -152,7 +155,10 @@ def rst_opt_func(uargs, job_args):
             "",
             input_info
         )
-        blue_print("Optimisation complete, restarting only for frequencies")
+        ut.cprint(
+            'Optimisation complete, restarting only for frequencies',
+            'blue'
+        )
 
     # Create -rst input file
     new_input = os.path.join(new_folder, "{}-rst.inp".format(head))
@@ -243,6 +249,13 @@ def read_args(arg_list=None):
         '--no_start',
         action='store_true',
         help='If specified, jobs are not submitted to nimbus queue'
+    )
+
+    gen_job.add_argument(
+        '-v',
+        '--verbose',
+        action='store_true',
+        help='If specified, debug information is printed to screen'
     )
 
     rst_opt = subparsers.add_parser(
