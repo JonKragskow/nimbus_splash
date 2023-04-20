@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.14.1 (2023-04-20)
+### Fix
+* Correct print of submission script name, and add time to old output and results ([`3f46bfe`](https://github.com/JonKragskow/nimbus_splash/commit/3f46bfe39b7c711271e023ea9ce8484545e8dea2))
+
 ## v0.14.0 (2023-04-20)
 ### Feature
 * Add automatic copy of old gbw if detected in results, warn user if so, and add option to suppress ([`9c88cc2`](https://github.com/JonKragskow/nimbus_splash/commit/9c88cc288372f002b51d0ff338d90349c332ad26))
