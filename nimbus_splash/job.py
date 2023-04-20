@@ -103,6 +103,13 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('    localscratch=$BURSTBUFFER\n')
         j.write('fi\n\n')
 
+        j.write('# If output file already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $output ]; then\n')
+        j.write(
+            '    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")\n')
+        j.write('fi\n\n')
+
         j.write('# Copy files to localscratch\n')
         j.write('rsync -aP ')
 
@@ -127,7 +134,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('module load ORCA/5.0.1-gompi-2021a\n\n')
 
         j.write('# UCX transport protocols for MPI\n')
-        j.write('export UCX_THS=self,tcp,sm\n\n')
+        j.write('export UCX_TLS=self,tcp,sm\n\n')
 
         j.write('# If timeout, evicted, cancelled, then manually end orca\n')
 
@@ -141,7 +148,18 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('PID="$!"\n')
         j.write('wait "${PID}"\n\n')
 
-        j.write('Clean up and copy back files\n')
+        j.write('# Clean up and copy back files\n')
+
+        j.write('# Check for existing results directory\n')
+        j.write('cd $campaigndir\n')
+        j.write('# If results directory already exists, append OLD and ')
+        j.write('last access time\n')
+        j.write('if [ -d $results ]; then\n')
+        j.write(
+            '    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")\n')
+        j.write('fi\n\n')
+        j.write('cd $localscratch\n')
+
         j.write('rsync -aP --exclude=*.tmp* $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
@@ -178,12 +196,11 @@ def check_envvar(var_str: str) -> None:
     return
 
 
-def parse_input_contents(input_file: str, max_mem: int) -> str:
+def parse_input_contents(input_file: str, max_mem: int,
+                         max_cores: int) -> dict[str: str]:
     '''
     Checks contents of input file and returns file dependencies
-    Specific checks:
-        If specified xyz file exists
-        If specified gbw file exists
+    Specifically, checks:
         If maxcore (memory) specified is appropriate
 
     Parameters
@@ -191,17 +208,23 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
     input_file : str
         Full path to orca input file
     max_mem : int
-        Max memory (MB) per core on given node
+        Max memory (MB) total on node
+    max_cores : int
+        Maximum number of cores on node
 
     Returns
     -------
     dict[str: str]
-        Names of dependencies (files) which this input needs
+        Names of full-path dependencies (files) which this input needs
+        key is identifier (xyz, gbw), value is file name
+    dict[str: str]
+        Names of relative-path dependencies (files) which this input needs
         key is identifier (xyz, gbw), value is file name
     '''
 
-    # Found memory definition
+    # Found memory and cores
     mem_found = False
+    core_found = False
 
     # MO Sections
     mo_read = False
@@ -219,7 +242,6 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
         e_input_file = os.path.split(input_file)[1]
     else:
         e_input_file = input_file
-
 
     with open(input_file, 'r') as f:
         for line in f:
@@ -273,15 +295,24 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
                     )
 
                 try:
-                    n_try = int(line.split()[-1])
+                    n_mb = int(line.split()[-1])
                 except ValueError:
                     ut.red_exit(
                         f'Cannot parse per core memory in {e_input_file}'
                     )
-                if n_try > max_mem:
-                    ut.red_exit(
-                        f'Specified per core memory in {e_input_file} exceeds node limit' # noqa
-                    )
+
+            # Number of cores
+            if 'pal nprocs' in line.lower():
+                n_cores = int(line.split()[2])
+                core_found = True
+
+                if n_cores > max_cores:
+
+                    string = 'Specified number of cores'
+                    string += f' {n_cores:d} in {input_file} exceeds'
+                    string += 'node limit of max_cores'
+
+                    ut.red_exit(string)
 
     if mo_inp ^ mo_read:
         ut.red_exit(
@@ -290,6 +321,20 @@ def parse_input_contents(input_file: str, max_mem: int) -> str:
 
     if not mem_found:
         ut.red_exit(f'Cannot locate %maxcore definition in {e_input_file}')
+
+    if not core_found:
+        ut.red_exit("Cannot locate %maxcore definition in {}".format(input_file))
+
+    # Check memory doesnt exceed per-core limit
+    if n_mb > max_mem / n_cores:
+
+        string = "Specified per core memory of"
+        string += " {:d} MB in {} exceeds".format(
+            n_mb, input_file
+        )
+        string += " node limit of {:.2f} MB".format(max_mem / n_cores)
+
+        ut.cprint(string, 'black_yellowbg')
 
     return dependencies
 

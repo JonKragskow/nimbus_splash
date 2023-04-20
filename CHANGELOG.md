@@ -2,6 +2,45 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.3 (2023-04-05)
+### Fix
+* Move results rename to cleanup to avoid incorrect gbw ref ([`50904fd`](https://github.com/JonKragskow/nimbus_splash/commit/50904fd7cb6ffb2005af745d04d7784a224f9790))
+
+## v0.13.2 (2023-03-30)
+### Fix
+* Change warn to print ([`c92e8f1`](https://github.com/JonKragskow/nimbus_splash/commit/c92e8f1e4a4e1a801bd7b5027f1ba00057b12221))
+
+## v0.13.1 (2023-03-30)
+### Fix
+* Change memory limit breach error to warning ([`a03b861`](https://github.com/JonKragskow/nimbus_splash/commit/a03b861093a480f9cc3ff232e29149f016ce7962))
+
+## v0.13.0 (2023-03-30)
+### Feature
+* Core and Memory control is now user specified in file, no use of -n. Core count and per-core memory are checked and flagged if incorrect ([`361a26e`](https://github.com/JonKragskow/nimbus_splash/commit/361a26e9b6ed1be0add64ce9df0ecbe5af272f58))
+
+## v0.12.1 (2023-03-30)
+### Fix
+* Fix error in memory warning text ([`c827c14`](https://github.com/JonKragskow/nimbus_splash/commit/c827c142a07f7c1fa69b495496f742a2010ec4af))
+
+## v0.12.0 (2023-03-30)
+### Feature
+* Add calculation of per-core memory, and add user input of number of cores to use on node ([`d77bac5`](https://github.com/JonKragskow/nimbus_splash/commit/d77bac555141d58706e9539a14d3a68f26290245))
+
+## v0.11.0 (2023-03-29)
+### Feature
+* Add per-node memory limits for different node types ([`98484b9`](https://github.com/JonKragskow/nimbus_splash/commit/98484b93b339863ec56025ff02ff84e12daab669))
+
+### Documentation
+* Add long_description and fix typo in readme ([`0146e8f`](https://github.com/JonKragskow/nimbus_splash/commit/0146e8f9143afdcc424daef88165e74ab7705e78))
+
+## v0.10.1 (2023-03-20)
+### Fix
+* Correct UCX envvar name ([`69454bf`](https://github.com/JonKragskow/nimbus_splash/commit/69454bfd97cff9f663dfa3a4e925230fc1096cde))
+
+## v0.10.0 (2023-03-20)
+### Feature
+* Add check for optimisation complete, and restart only with frequencies ([`503b948`](https://github.com/JonKragskow/nimbus_splash/commit/503b94881cccff9bb984c7b04083a13f08165456))
+
 ## v0.9.3 (2023-03-20)
 ### Fix
 * Add support for hyphen in rst_opt output file name ([`cd7e917`](https://github.com/JonKragskow/nimbus_splash/commit/cd7e9175137bb2673b4e688bca8640a2690a75b3))
