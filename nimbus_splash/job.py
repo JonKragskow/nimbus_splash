@@ -1,5 +1,4 @@
 import os
-import sys
 import subprocess
 
 from . import utils as ut
@@ -33,7 +32,7 @@ def write_file(input_file: str, node_type: str, time: str,
     '''
 
     # Check for research allocation id environment variable
-    check_envvar('CLOUD_ACC')
+    ut.check_envvar('CLOUD_ACC')
 
     # Get raw name of input file excluding path
     inpath, in_raw = os.path.split(input_file)
@@ -159,29 +158,6 @@ def write_file(input_file: str, node_type: str, time: str,
     return job_file
 
 
-def check_envvar(var_str: str) -> None:
-    '''
-    Checks specified environment variable has been defined, exits program if
-    variable is not defined
-
-    Parameters
-    ----------
-    var_str : str
-        String name of environment variable
-
-    Returns
-    -------
-    None
-    '''
-
-    try:
-        os.environ[var_str]
-    except KeyError:
-        sys.exit(f'Please set ${var_str} environment variable')
-
-    return
-
-
 def parse_input_contents(input_file: str, max_mem: int,
                          max_cores: int) -> dict[str, str]:
     '''
@@ -233,7 +209,7 @@ def parse_input_contents(input_file: str, max_mem: int,
         for line in f:
 
             # xyz file
-            if 'xyzfile' in line.lower() and not '!' in line:
+            if 'xyzfile' in line.lower() and '!' not in line:
                 if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
                     ut.red_exit(
                         f'Incorrect xyzfile definition in {e_input_file}'

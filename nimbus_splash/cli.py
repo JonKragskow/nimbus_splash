@@ -252,12 +252,16 @@ def read_args(arg_list=None):
         help='Orca input file name(s)'
     )
 
+    default_compute = ut.get_envvar('DEF_COMP_INST')
+    if not len(default_compute):
+        default_compute = 'spot-fsv2-16'
+
     gen_job.add_argument(
         '-nt',
         '--node_type',
-        default='spot-fsv2-16',
+        default=default_compute,
         type=str,
-        help='Node to run on, default is spot-fsv2-16'
+        help=f'Node to run on, default is {default_compute}'
     )
 
     gen_job.add_argument(

@@ -146,3 +146,50 @@ def gen_job_name(input_file: str) -> str:
 
 def gen_results_name(input_file: str) -> str:
     return '{}_results'.format(gen_job_name(input_file))
+
+
+def check_envvar(var_str: str) -> None:
+    '''
+    Checks specified environment variable has been defined, exits program if
+    variable is not defined
+
+    Parameters
+    ----------
+    var_str : str
+        String name of environment variable
+
+    Returns
+    -------
+    None
+    '''
+
+    try:
+        os.environ[var_str]
+    except KeyError:
+        sys.exit(f'Please set ${var_str} environment variable')
+
+    return
+
+
+def get_envvar(var_str: str) -> str:
+    '''
+    Gets specified environment variable
+    If undefined then returns empty string
+
+    Parameters
+    ----------
+    var_str : str
+        String name of environment variable
+
+    Returns
+    -------
+    str
+        Value of environment variable, or empty is not defined
+    '''
+
+    try:
+        val = os.environ[var_str]
+    except KeyError:
+        val = ''
+
+    return val
