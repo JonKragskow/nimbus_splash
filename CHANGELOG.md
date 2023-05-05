@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.0 (2023-05-05)
+### Feature
+* Add envvar for default node_type ([`0de58b8`](https://github.com/JonKragskow/nimbus_splash/commit/0de58b8d4129b0a863c0fdd1c9a630ca184f1fa4))
+
+### Documentation
+* Add default node env_var specification ([`4425f49`](https://github.com/JonKragskow/nimbus_splash/commit/4425f49309df9004fdde0be51aa974833d119cdd))
+* Update submission section with default instance ([`2edcfb1`](https://github.com/JonKragskow/nimbus_splash/commit/2edcfb12d906d83b4525d82ff7539d39a61ebb3a))
+
 ## v0.14.2 (2023-05-05)
 ### Fix
 * Fix bug in pyproject.toml ([`2c678b5`](https://github.com/JonKragskow/nimbus_splash/commit/2c678b5366e948ff9a086d8cebd34030fe2cb790))
