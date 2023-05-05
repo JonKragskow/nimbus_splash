@@ -2,6 +2,27 @@
 
 <!--next-version-placeholder-->
 
+## v0.14.2 (2023-05-05)
+### Fix
+* Fix bug in pyproject.toml ([`2c678b5`](https://github.com/JonKragskow/nimbus_splash/commit/2c678b5366e948ff9a086d8cebd34030fe2cb790))
+* Fix bug in pyproject.toml file ([`da6e5f8`](https://github.com/JonKragskow/nimbus_splash/commit/da6e5f806587fbd5b6e245de1b87dcad0d59f0a3))
+* Add catch for xyzfile keyword rather than line ([`fe13793`](https://github.com/JonKragskow/nimbus_splash/commit/fe137934838b8a438113496b38dfceec7381f271))
+
+### Documentation
+* Fix typo ([`ca955be`](https://github.com/JonKragskow/nimbus_splash/commit/ca955be3a9725826f23461e669d417318e1f32a1))
+* Update installation instructions ([`a05f7a2`](https://github.com/JonKragskow/nimbus_splash/commit/a05f7a256897ea635e68a362ae4274c5de96862b))
+* Update docs badge ([`8b5df29`](https://github.com/JonKragskow/nimbus_splash/commit/8b5df29bcafc2c2cfaab3564b4144b6d03e1b652))
+* Update readme ([`c0e2587`](https://github.com/JonKragskow/nimbus_splash/commit/c0e2587fbcb3745bfbcea5c8b4d51963bcb93ebd))
+* Add docs badge to readme ([`ddc718e`](https://github.com/JonKragskow/nimbus_splash/commit/ddc718e7596d4b2d0236f0bebe076b22daa98833))
+* Add docs vers to semantic-release ([`dacceb4`](https://github.com/JonKragskow/nimbus_splash/commit/dacceb4c492db5cc9a98ab8ce43e4b1bc76fa8c3))
+* Update docs vers number ([`e1b0428`](https://github.com/JonKragskow/nimbus_splash/commit/e1b0428e9a2e6462f251e9a12f25be64b5302306))
+* Update sphinx command for docs build ([`0fc564b`](https://github.com/JonKragskow/nimbus_splash/commit/0fc564b291991caa66dbf5b9265288a8c116d46e))
+* Fix docs build ([`04cc0e6`](https://github.com/JonKragskow/nimbus_splash/commit/04cc0e6a50ce0e9346f37a41cde8758426f71e42))
+* Fix docs build ([`18ec0e3`](https://github.com/JonKragskow/nimbus_splash/commit/18ec0e30dc8ebefb62dcdaacabb708f36351e5bc))
+* Update docs build ([`b845b8c`](https://github.com/JonKragskow/nimbus_splash/commit/b845b8c37110cbffba2a6025bcfa277dd7db0326))
+* Add docs build ([`7b66e64`](https://github.com/JonKragskow/nimbus_splash/commit/7b66e64e3e7cca3227c3d6299642e5e3bab820c8))
+* Add sphinx docs and update docstrings ([`dcc9ed7`](https://github.com/JonKragskow/nimbus_splash/commit/dcc9ed7a16071451317571f42950df2ee5f695e7))
+
 ## v0.14.1 (2023-04-20)
 ### Fix
 * Correct print of submission script name, and add time to old output and results ([`3f46bfe`](https://github.com/JonKragskow/nimbus_splash/commit/3f46bfe39b7c711271e023ea9ce8484545e8dea2))
