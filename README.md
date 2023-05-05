@@ -8,7 +8,7 @@
 </a>
 
 <a href="https://www.kragskow.dev/nimbus_splash/">
-<https://img.shields.io/website?label=Documentation&down_color=red&down_message=Offline&up_color=green&up_message=Online&url=https%3A%2F%2Fwww.kragskow.dev%2Fnimbus_splash>
+<img src="https://img.shields.io/website?label=Documentation&down_color=red&down_message=Offline&up_color=green&up_message=Online&url=https%3A%2F%2Fwww.kragskow.dev%2Fnimbus_splash">
 </a>
 
 # nimbus_splash
