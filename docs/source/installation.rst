@@ -1,11 +1,9 @@
 Installation
 ============
 
-The ``nimbus_splash`` package and its command line interface can be installed using the ``pip`` package manager ::
+The ``nimbus_splash`` package and its command line interface are designed to be installed on `Nimbus`.
 
-    pip install nimbus_splash
-
-Unfortunately, the copy of ``python 3.8`` that comes as default on Nimbus is too old for ``nimbus_splash``, so instead 
+Unfortunately, the copy of ``python 3.8`` that comes as default on `Nimbus` is too old for ``nimbus_splash``, so instead 
 it's better to use a newer version of ``python`` in an Anaconda ``conda`` environment.
 
 A ``conda`` environment contains a sandboxed installation of ``python`` that is separate from the system version, so if anything bad happens you can just delete the environment and start again without affecting anything.
@@ -13,7 +11,7 @@ A ``conda`` environment contains a sandboxed installation of ``python`` that is 
 Loading Anaconda
 ----------------
 
-First add the Anaconda module load to ``~/.bashrc``.
+First, log into `Nimbus`, and add the Anaconda ``module load`` command to ``~/.bashrc`` by doing the following.
 
 Open your ``~/.bashrc`` file in ``nano`` using the following command ::
 
