@@ -94,6 +94,8 @@ Compute instances
 
 Different compute instances can be requested using the ``--node_type`` option.
 
+By default, ``splash`` submits to `spot-fsv2-16` which has 16 cores and 2GB RAM per core.
+
 The full list of instances currently known to splash are ::
 
     spot-fsv2-2
