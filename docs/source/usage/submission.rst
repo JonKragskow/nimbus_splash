@@ -44,7 +44,7 @@ You should then see an message informing you that a submission script was create
 
 The job will be given the same name as your input file, and output file for this calculation should appear in the current directory when the job starts running.
 
-When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory named in the same location as your input and ``.xyz`` files.
+When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and ``.xyz`` files.
 This directory will be named ``<jobname>_results`` and will contain all the files ORCA creates. 
 
 
@@ -60,7 +60,7 @@ copies the ``<jobname>.gbw`` file to the compute node's scratch space. This feat
 
 
 To provide a different set of orbitals to ORCA, make sure you have both the ``MORead`` keyword, and ``%moinp "<gbw_filename>"`` line in
-your input file. Note that ORCA will not allow ``<gbw_filename>`` have the same name head as the input file.
+your input file. Note that ORCA will not allow the file ``<gbw_filename>`` to have the same name-head as the input file.
 
 For the benzene example above, a correct input file would be
 
@@ -130,7 +130,7 @@ The full list of instances currently known to splash are ::
     vis-ndv2-4
 
 Note, you can only use instances to which you have been granted access.
-If you get a ``QOS`` error, please check your account on the RCAM portal.
+If you get a ``QOS`` error, please check your account on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
 
 More
 ----
