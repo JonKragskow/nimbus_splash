@@ -233,7 +233,7 @@ def parse_input_contents(input_file: str, max_mem: int,
         for line in f:
 
             # xyz file
-            if 'xyzfile' in line.lower():
+            if 'xyzfile' in line.lower() and not '!' in line:
                 if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
                     ut.red_exit(
                         f'Incorrect xyzfile definition in {e_input_file}'
