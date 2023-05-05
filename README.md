@@ -7,6 +7,10 @@
 <img src="https://img.shields.io/badge/dynamic/json?label=Python%20&query=%24.info.requires_python&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fnimbus_splash%2Fjson" />
 </a>
 
+<a href="https://www.kragskow.dev/nimbus_splash/">
+<https://img.shields.io/website?label=Documentation&down_color=red&down_message=Offline&up_color=green&up_message=Online&url=https%3A%2F%2Fwww.kragskow.dev%2Fnimbus_splash>
+</a>
+
 # nimbus_splash
 
 Splash - the sound an orca would make if it had a Bath.
