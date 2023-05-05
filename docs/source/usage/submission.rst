@@ -94,8 +94,6 @@ Compute instances
 
 Different compute instances can be requested using the ``--node_type`` option.
 
-By default, ``splash`` submits to `spot-fsv2-16` which has 16 cores and 2GB RAM per core.
-
 The full list of instances currently known to splash are ::
 
     spot-fsv2-2
@@ -132,7 +130,13 @@ The full list of instances currently known to splash are ::
     vis-ndv2-4
 
 Note, you can only use instances to which you have been granted access.
-If you get a ``QOS`` error, please check your account on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
+This is usually indicated by a ``QOS`` error at submission time. To resolve this, modify your access
+on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
+
+By default, ``splash`` submits to `spot-fsv2-16` which has 16 cores and 2GB RAM per core, to change this default for your account
+add the following to your ``~/.bash_rc`` file, where ``<node_name>`` is one of those given above ::
+
+    export DEF_COMP_INST=<node_name>
 
 More
 ----
