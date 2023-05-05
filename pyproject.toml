@@ -2,6 +2,7 @@
 version_variable = [
     'setup.py:__version__',
     'nimbus_splash/__version__.py:__version__'
+    'docs/source/conf.py/release'
     ]
 upload_to_pypi=true
 branch = "main"
