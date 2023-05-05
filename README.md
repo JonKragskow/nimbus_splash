@@ -20,33 +20,4 @@ Splash - the sound an orca would make if it had a Bath.
 
 # Installation
 
-Install using pip 
-
-```
-pip install nimbus_splash
-```
-
-Then add the following environment variable in your nimbus `~/.bash_rc` file
-and set it to the name of your Research Allocation ID
-
-```
-export CLOUD_ACC=<name_here>
-```
-
-and source
-```
-source ~/.bashrc
-```
-
-# Usage
-
-Run
-
-```
-nimbussplash -h
-```
-or 
-```
-splash -h
-```
-for options.
+See the [Documentation](https://www.kragskow.com/nimbus_splash) for Installation and Usage instructions
