@@ -10,7 +10,7 @@ def red_exit(string):
 
 def cprint(string: str, color: str):
     '''
-    Prints colored output to screen
+    Prints colorised output to screen
 
     Parameters
     ----------

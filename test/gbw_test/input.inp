@@ -1,5 +1,5 @@
 !B3LYP def2-tzvpp opt numfreq cpcm MORead
+%moinp "new_orbs.gbw"
 %PAL NPROCS 16 END
-%moinp gbw.gbw
-%maxcore 3000
+%maxcore 2000
 * xyzfile 4 5 xyz.xyz 

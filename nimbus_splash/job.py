@@ -6,7 +6,7 @@ from . import utils as ut
 
 
 def write_file(input_file: str, node_type: str, time: str,
-               dependency_paths: dict[str: str],
+               dependency_paths: dict[str, str],
                verbose: bool = False) -> str:
     '''
     Writes slurm jobscript to file for ORCA calculation on nimbus
@@ -47,7 +47,7 @@ def write_file(input_file: str, node_type: str, time: str,
     # Job file to write to, must use path if present in input_file
     job_file = os.path.join(
         inpath,
-        '{}.slm'.format(job_name)
+        f'{job_name}.slm'
     )
 
     # Path of input file
@@ -93,7 +93,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('last access time\n')
         j.write('if [ -f $output ]; then\n')
         j.write(
-            '    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")\n')
+            '    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")\n') # noqa
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
@@ -142,7 +142,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('last access time\n')
         j.write('if [ -d $results ]; then\n')
         j.write(
-            '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n')
+            '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n') # noqa
         j.write('fi\n\n')
         j.write('cd $localscratch\n')
 
@@ -177,17 +177,17 @@ def check_envvar(var_str: str) -> None:
     try:
         os.environ[var_str]
     except KeyError:
-        sys.exit('Please set ${} environment variable'.format(var_str))
+        sys.exit(f'Please set ${var_str} environment variable')
 
     return
 
 
 def parse_input_contents(input_file: str, max_mem: int,
-                         max_cores: int) -> dict[str: str]:
+                         max_cores: int) -> dict[str, str]:
     '''
     Checks contents of input file and returns file dependencies
     Specifically, checks:
-        If maxcore (memory) specified is appropriate
+    If maxcore (memory) specified is appropriate
 
     Parameters
     ----------
@@ -200,10 +200,7 @@ def parse_input_contents(input_file: str, max_mem: int,
 
     Returns
     -------
-    dict[str: str]
-        Names of full-path dependencies (files) which this input needs
-        key is identifier (xyz, gbw), value is file name
-    dict[str: str]
+    dict[str, str]
         Names of relative-path dependencies (files) which this input needs
         key is identifier (xyz, gbw), value is file name
     '''
@@ -306,9 +303,9 @@ def parse_input_contents(input_file: str, max_mem: int,
 
                 if n_cores > max_cores:
 
-                    string = 'Specified number of cores'
+                    string = 'Error: Specified number of cores'
                     string += f' {n_cores:d} in {input_file} exceeds'
-                    string += 'node limit of max_cores'
+                    string += f'node limit of {max_cores:d} cores'
 
                     ut.red_exit(string)
 
@@ -326,7 +323,7 @@ def parse_input_contents(input_file: str, max_mem: int,
     # Check memory doesnt exceed per-core limit
     if n_mb > max_mem / n_cores:
 
-        string = 'Specified per core memory of'
+        string = 'Warning! Specified per core memory of'
         string += f' {n_mb:d} MB in {input_file} exceeds'
         string += ' node limit of {:.2f} MB'.format(max_mem / n_cores)
 
@@ -335,17 +332,23 @@ def parse_input_contents(input_file: str, max_mem: int,
     return dependencies
 
 
-def locate_dependencies(files: dict[str: str], input_file: str):
+def locate_dependencies(files: dict[str, str],
+                        input_file: str) -> dict[str, str]:
     '''
     Locates each dependency in either input directory or results directory
 
     Parameters
     ----------
-    files: dict[str: str]
+    files: dict[str, str]
         Keys are filetype e.g. xyz, gbw
         Values are name file (no path information)
     input_file: str
         Full path of input file
+
+    Returns
+    -------
+    dict[str, str]
+        Absolute path to each dependency
     '''
 
     results_name = ut.gen_results_name(input_file)
@@ -399,7 +402,7 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
 
     found = False
 
-    new_file = '{}_tmp'.format(input_file)
+    new_file = f'{input_file}_tmp'
 
     with open(input_file, 'r') as fold:
         with open(new_file, 'w') as fnew:
@@ -408,14 +411,14 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
             for oline in fold:
                 # Number of cores
                 if 'pal nprocs' in oline.lower():
-                    fnew.write('%PAL NPROCS {:d} END\n'.format(n_cores))
+                    fnew.write(f'%PAL NPROCS {n_cores:d} END\n')
                     found = True
                 else:
                     fnew.write('{}'.format(oline))
 
             # Add if missing
             if not found:
-                fnew.write('\n%PAL NPROCS {:d} END\n'.format(n_cores))
+                fnew.write('\n%PAL NPROCS {n_cores:d} END\n')
 
     subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
 

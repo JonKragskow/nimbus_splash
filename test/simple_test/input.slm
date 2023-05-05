@@ -28,8 +28,8 @@ else
 fi
 
 # If output file already exists, append OLD and last access time
-if [ -d $output ]; then
-    mv $output "$output"_OLD_$(date -r $output "+%m-%d-%Y")
+if [ -f $output ]; then
+    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d %H:%M:%S")
 fi
 
 # Copy files to localscratch
@@ -65,7 +65,7 @@ wait "${PID}"
 cd $campaigndir
 # If results directory already exists, append OLD and last access time
 if [ -d $results ]; then
-    mv $results "$results"_OLD_$(date -r $results "+%m-%d-%Y")
+    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d %H:%M:%S")
 fi
 
 cd $localscratch
