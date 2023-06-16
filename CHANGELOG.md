@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.2 (2023-06-16)
+
+### Fix
+
+* Add missing memory for -hb-60 ([`1868cea`](https://github.com/JonKragskow/nimbus_splash/commit/1868ceabc9b10a0c7cf1cf5e166293f6be8742b5))
+
 ## v0.15.1 (2023-06-16)
 
 ### Fix
