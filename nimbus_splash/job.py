@@ -280,7 +280,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                 if n_cores > max_cores:
 
                     string = 'Error: Specified number of cores'
-                    string += f' {n_cores:d} in {input_file} exceeds'
+                    string += f' {n_cores:d} in {input_file} exceeds '
                     string += f'node limit of {max_cores:d} cores'
 
                     ut.red_exit(string)
