@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.3 (2023-06-16)
+
+### Fix
+
+* Remove nodes which don't support orca ([`d4bd0da`](https://github.com/JonKragskow/nimbus_splash/commit/d4bd0dab5d5fbd37098eed2b84c64282e3d1747b))
+
 ## v0.15.2 (2023-06-16)
 
 ### Fix
