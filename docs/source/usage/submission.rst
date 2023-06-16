@@ -1,7 +1,9 @@
+.. _submission:
+
 Submitting a Job
 ================
 
-Using ``splash``, you can submit an ORCA job on Nimbus using only an ORCA input file, a ``.xyz`` file, and a single command.
+Using ``splash``, you can submit an ``ORCA`` job on Nimbus using only an ``ORCA`` input file, a ``.xyz`` file, and a single command.
 
 First, prepare your input file. As an example, this is an input file for a geometry optimisation and frequency calculation of benzene
 
@@ -45,13 +47,13 @@ You should then see an message informing you that a submission script was create
 The job will be given the same name as your input file, and output file for this calculation should appear in the current directory when the job starts running.
 
 When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and ``.xyz`` files.
-This directory will be named ``<jobname>_results`` and will contain all the files ORCA creates. 
+This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 
 
 
 Providing Input Orbitals
 ------------------------
 
-When resuming a job, ORCA automatically searches for a ``.gbw`` file with the same name as your input file.
+When resuming a job, ``ORCA`` automatically searches for a ``.gbw`` file with the same name as your input file.
 To support this, ``splash`` checks for a ``<jobname>_results`` directory whenever you run ``splash gen_job`` and
 copies the ``<jobname>.gbw`` file to the compute node's scratch space. This feature can be disabled with the 
 ``--no_guess`` argument, e.g. ::
@@ -59,8 +61,8 @@ copies the ``<jobname>.gbw`` file to the compute node's scratch space. This feat
     splash gen_job benzene.inp --no_guess
 
 
-To provide a different set of orbitals to ORCA, make sure you have both the ``MORead`` keyword, and ``%moinp "<gbw_filename>"`` line in
-your input file. Note that ORCA will not allow the file ``<gbw_filename>`` to have the same name-head as the input file.
+To provide a different set of orbitals to ``ORCA``, make sure you have both the ``MORead`` keyword, and ``%moinp "<gbw_filename>"`` line in
+your input file. Note that ``ORCA`` will not allow the file ``<gbw_filename>`` to have the same name-head as the input file.
 
 For the benzene example above, a correct input file would be
 
@@ -94,7 +96,7 @@ Compute instances
 
 Different compute instances can be requested using the ``--node_type`` option.
 
-The full list of instances currently known to splash are ::
+The full list of ``ORCA`` compatible instances currently known to splash are ::
 
     spot-fsv2-2
     spot-fsv2-4
@@ -106,28 +108,10 @@ The full list of instances currently known to splash are ::
     paygo-fsv2-8
     paygo-fsv2-16
     paygo-fsv2-32
-    paygo-hb-60
     paygo-hbv2-120
     paygo-hbv3-120
-    paygo-hc-44
-    paygo-ncv3-12
-    paygo-ncv3-24
-    paygo-ncv3-6
-    paygo-ncv3r-24
-    paygo-ndv2-40
-    spot-hb-60
     spot-hbv2-120
     spot-hbv3-120
-    spot-hc-44
-    spot-ncv3-12
-    spot-ncv3-24
-    spot-ncv3-6
-    spot-ncv3r-24
-    spot-ndv2-40
-    vis-ncv3-12
-    vis-ncv3-24
-    vis-ncv3-6
-    vis-ndv2-4
 
 Note, you can only use instances to which you have been granted access.
 This is usually indicated by a ``QOS`` error at submission time. To resolve this, modify your access

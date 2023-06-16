@@ -8,3 +8,5 @@ Contents
 
     Submitting Jobs <submission>
 
+
+Currently, splash only supports submission of jobs, see :ref:`submission` for more information.
