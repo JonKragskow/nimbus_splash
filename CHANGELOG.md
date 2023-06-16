@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.1 (2023-06-16)
+
+### Fix
+
+* Fix typo in core count error message ([`a25fc78`](https://github.com/JonKragskow/nimbus_splash/commit/a25fc7821e25a8c967559f11141a5e0be24946fc))
+
 ## v0.15.0 (2023-05-05)
 ### Feature
 * Add envvar for default node_type ([`0de58b8`](https://github.com/JonKragskow/nimbus_splash/commit/0de58b8d4129b0a863c0fdd1c9a630ca184f1fa4))
