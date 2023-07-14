@@ -1,29 +1,52 @@
 Installation
 ============
 
-The ``nimbus_splash`` package and its command line interface are designed to be installed on `Nimbus`.
+The ``nimbus_splash`` package and its command line interface are designed to be installed on Bath's `Nimbus` HPC system.
 
 Unfortunately, the copy of ``python 3.8`` that comes as default on `Nimbus` is too old for ``nimbus_splash``, so instead 
 it's better to use a newer version of ``python`` in an Anaconda ``conda`` environment.
 
-A ``conda`` environment contains a sandboxed installation of ``python`` that is separate from the system version, so if anything bad happens you can just delete the environment and start again without affecting anything.
+Depending on your level of python knowledge, follow either the short instructions or the long instructions.
 
-Loading Anaconda
-----------------
+Short Instructions
+------------------
+
+1. Load Anaconda ``module load Anaconda3/2021.05`` - Optionally add this to your ``~/.bashrc`` file for automatic loading.
+2. Create a ``conda`` environment or ``pyenv`` - Optionally set this to automatically load every time you log in using ``~/.bash_rc``.
+3. Install ``pip`` with ``conda install pip``.
+4. Install ``nimbus_splash`` using ``pip``
+5. Check your installation was sucessful with ``splash -h``. You should see a help screen.
+6. Set the ``CLOUD_ACC`` environment variable to your Research Allocation ID in ``~/.bashrc`` - ``export CLOUD_ACC=<RA_ID_HERE>``
+
+Long Instructions
+-----------------
+
+To install ``splash``, we will need to create a ``conda`` environment. This contains a sandboxed installation of ``python``
+that is separate from the system version, so if anything bad happens you can just delete the environment
+and start again without affecting anything. We then install ``splash`` to this environment.
+
+Enabling Anaconda
+^^^^^^^^^^^^^^^^^
 
 First, log into `Nimbus`, and add the Anaconda ``module load`` command to ``~/.bashrc`` by doing the following.
 
-Open your ``~/.bashrc`` file in ``nano`` using the following command ::
+Open your ``~/.bashrc`` file in ``nano`` using the following command
+
+.. code-block::
 
     nano ~/.bashrc
 
 
-Then go to the bottom of the file using your arrow keys or mouse, and paste in the following lines ::
+Then go to the bottom of the file using your arrow keys or mouse, and paste in the following lines
 
-    module load  Anaconda3/2021.05
+.. code-block::
+
+    module load Anaconda3/2021.05
 
 
-Then save and exit nano using ``ctrl+o``, ``enter``, then ``ctrl+x``, and then run the command ::
+Then save and exit nano using ``ctrl+o``, ``enter``, then ``ctrl+x``, and then run the command
+
+.. code-block::
 
     source ~/.bashrc
 
@@ -31,31 +54,39 @@ Then save and exit nano using ``ctrl+o``, ``enter``, then ``ctrl+x``, and then r
 to reload your ``bashrc`` file.
 
 Creating a conda environment
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now create a conda environment called ``nimbus_base``, this is a sandboxed copy of ``python`` that you can use as a default and are free to mess around with in the knowledge that it can just be deleted if something breaks!
+Now create a ``conda`` environment called ``nimbus_base``, this is a sandboxed copy of ``python`` that you can use as a default and are free to mess around with in the knowledge that it can just be deleted if something breaks!
 
-Run the following command ::
+Run the following command
+
+.. code-block::
 
     conda create -n nimbus_base
 
 
 answering ``Y`` to any questions.
 
-You'll probably get a message about initialising your shell for conda, so run ::
+You'll probably get a message about initialising your shell for conda, so run
+
+.. code-block::
 
     conda init bash
 
 
 This adds some configuration information to your ``~/.bashrc``, to make sure it works properly, exit your ssh window (close the connection), and then reconnect to ``Nimbus``.
 
-Upon reconnection, you should see the word ``(base)`` at the start of your terminal prompt. This is the ``base`` conda environment which we don't want to use.
-To stop this ``base`` environment loading every time you open a shell, run the following command ::
+Upon reconnection, you should see the word ``(base)`` at the start of your terminal prompt. This is the ``base`` ``conda`` environment which we don't want to use.
+To stop this ``base`` environment loading every time you open a shell, run the following command
+
+.. code-block::
 
     conda config --set auto_activate_base false
 
 
-and then deactivate this environment using ::
+and then deactivate this environment using
+
+.. code-block::
 
     conda deactivate
 
@@ -63,12 +94,16 @@ and then deactivate this environment using ::
 Now ``(base)`` should be gone.
 
 To instead start your new ``nimbus_base`` environment every time you connect, open ``~/.bashrc`` with
-``nano``, and add the following to the bottom of the file. ::
+``nano``, and add the following to the bottom of the file.
+
+.. code-block::
 
     conda activate nimbus_base
 
 
-then save and exit ``nano``, and run the command ::
+then save and exit ``nano``, and run the command
+
+.. code-block::
 
     source ~/.bashrc
 
@@ -79,22 +114,23 @@ If everything is working correctly, ``(nimbus_base)`` will appear at the start o
 
 You now have a(n) (updatable) conda environment to use!
 
-Now, to set up this environment and install ``python``, run the command ::
+Now, to set up this environment and install ``python``, run the command
+
+.. code-block::
 
     conda install pip
 
 
 answering ``Y`` to any questions.
 
-And finally, install any ``python`` package you like using ::
+Installing ``nimbus_splash``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    pip install NAME
+Install ``nimbus_splash`` with
 
-
-e.g. ::
+.. code-block::
 
     pip install nimbus_splash
-
 
 installs ``nimbus_splash``.
 
@@ -102,7 +138,9 @@ Setting your Research Allocation ID
 -----------------------------------
 
 To select your Research Allocation ID, add the following environment variable in your nimbus
-``~/.bash_rc`` file and replace ``<name_here>`` with your Research Allocation ID ::
+``~/.bash_rc`` file and replace ``<name_here>`` with your Research Allocation ID
+
+.. code-block::
 
     export CLOUD_ACC=<name_here>
 

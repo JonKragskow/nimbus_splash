@@ -37,7 +37,8 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
-    'sphinxcontrib.bibtex'
+    'sphinxcontrib.bibtex',
+    'sphinx_copybutton'
 ]
 bibtex_bibfiles = ['refs.bib']
 bibtex_reference_style = 'super'
