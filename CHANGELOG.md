@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.4 (2023-07-14)
+
+### Fix
+
+* Re-enable nodes ([`e16a267`](https://github.com/JonKragskow/nimbus_splash/commit/e16a2675aa5f89d609b654375ee7fa9737298607))
+
+### Documentation
+
+* Update documentation, add copybutton ([`9384094`](https://github.com/JonKragskow/nimbus_splash/commit/9384094cbf919345d074306fb430fb6371cf152f))
+
 ## v0.15.3 (2023-06-16)
 
 ### Fix
