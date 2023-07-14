@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.5 (2023-07-14)
+
+### Fix
+
+* Reenable nodes ([`ff4590e`](https://github.com/JonKragskow/nimbus_splash/commit/ff4590e8cc26fa351be2987f439c622bd7877aa5))
+
 ## v0.15.4 (2023-07-14)
 
 ### Fix
