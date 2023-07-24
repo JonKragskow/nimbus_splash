@@ -2,6 +2,26 @@
 
 
 
+## v0.16.2 (2023-07-24)
+
+
+## v0.16.1 (2023-07-24)
+
+### Ci
+
+* ci: update version ([`de46d76`](https://github.com/JonKragskow/nimbus_splash/commit/de46d7681ffeeb036f1b8a0716a47216c1c4137a))
+
+* ci: update pysemver version ([`bba24f7`](https://github.com/JonKragskow/nimbus_splash/commit/bba24f77b2e24c6868cb04f87605c87d78fe7e60))
+
+* ci: update pysemver version ([`3739a78`](https://github.com/JonKragskow/nimbus_splash/commit/3739a78df3b21efcaef1a632e460d02b934ccd5d))
+
+* ci: update pysemver action ([`fd6ec40`](https://github.com/JonKragskow/nimbus_splash/commit/fd6ec4098d5934c95f4c43a7be24f14f0d236ba8))
+
+### Fix
+
+* fix: update memory limits for fsv2 ([`addf106`](https://github.com/JonKragskow/nimbus_splash/commit/addf106277adbdd20ac4b1afe984a9554bd1434b))
+
+
 ## v0.16.0 (2023-07-24)
 
 ### Feature
