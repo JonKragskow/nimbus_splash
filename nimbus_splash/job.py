@@ -237,6 +237,10 @@ def parse_input_contents(input_file: str, max_mem: int,
                     ut.red_exit(
                         f'Incorrect gbw file definition in {e_input_file}'
                     )
+                if abs(line.count('"') - line.count("'")) != 2:
+                    ut.red_exit(
+                        f'Missing quotes around gbw file name in {e_input_file}' # noqa
+                    )
 
                 gbw_file = line.split()[-1].replace('"', '').replace("'", "")
 
