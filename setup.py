@@ -20,7 +20,7 @@ setuptools.setup(
     author_email="jgck20@bath.ac.uk",
     description="A package to make life easier when using the University of \
         Bath's cloud computing suite for Orca calculations.",
-    long_descrption=long_description,
+    long_description=long_description,
     long_description_content_type='text/markdown',
     url="https://github.com/jonkragskow/nimbus_splash",
     project_urls={
