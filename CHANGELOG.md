@@ -2,6 +2,17 @@
 
 
 
+## v1.0.2 (2023-07-25)
+
+### Ci
+
+* ci: add if statement to build step ([`d212219`](https://github.com/JonKragskow/nimbus_splash/commit/d21221904f71ff052840696a76eb56c22ad05336))
+
+* ci: add build ([`092cdb3`](https://github.com/JonKragskow/nimbus_splash/commit/092cdb31076d381ec316b978fb397f9c949aea03))
+
+* ci: add build step ([`9f90497`](https://github.com/JonKragskow/nimbus_splash/commit/9f90497acfb24afdd2a85c390576e87cf2e2570d))
+
+
 ## v1.0.1 (2023-07-25)
 
 
