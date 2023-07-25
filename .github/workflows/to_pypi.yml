@@ -37,6 +37,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         force: ${{ inputs.force }}
+        build_command: python3 -m build
 
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
