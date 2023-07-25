@@ -22,10 +22,10 @@ setuptools.setup(
         Bath's cloud computing suite for Orca calculations.",
     long_descrption='',
     url="https://github.com/jonkragskow/nimbus_splash",
-    # project_urls={
-        # "Bug Tracker": "",
-        # "Documentation": ""
-    # },
+    project_urls={
+        "Bug Tracker": "https://github.com/JonKragskow/nimbus_splash/issues",
+        "Documentation": "https://www.kragskow.dev/nimbus_splash/index.html"
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -39,6 +39,7 @@ setuptools.setup(
         'console_scripts': [
             'splash = nimbus_splash.cli:interface',
             'nimbussplash = nimbus_splash.cli:interface'
+            'nimbus_splash = nimbus_splash.cli:interface'
         ]
     }
 )
