@@ -2,6 +2,15 @@
 
 
 
+## v1.0.5 (2023-07-25)
+
+### Build
+
+* build: fix entrypoints definition ([`f2b2d9f`](https://github.com/JonKragskow/nimbus_splash/commit/f2b2d9f9850eb1780eed9c11f5f96469120ad79c))
+
+* build: update setup.py ([`81f2997`](https://github.com/JonKragskow/nimbus_splash/commit/81f2997f528cd50372a6629f3d86f3b18ce8accb))
+
+
 ## v1.0.4 (2023-07-25)
 
 ### Build
