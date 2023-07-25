@@ -38,7 +38,7 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'splash = nimbus_splash.cli:interface',
-            'nimbussplash = nimbus_splash.cli:interface'
+            'nimbussplash = nimbus_splash.cli:interface',
             'nimbus_splash = nimbus_splash.cli:interface'
         ]
     }
