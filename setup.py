@@ -11,7 +11,7 @@ Please see the `nimbus_splash` documentation for more details.
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-__version__ = "1.0.3"
+__version__ = "1.0.0"
 
 setuptools.setup(
     name="Nimbus Splash",
@@ -20,7 +20,7 @@ setuptools.setup(
     author_email="jgck20@bath.ac.uk",
     description="A package to make life easier when using the University of \
         Bath's cloud computing suite for Orca calculations.",
-    long_descrption=long_description,
+    long_descrption='',
     url="https://github.com/jonkragskow/nimbus_splash",
     # project_urls={
         # "Bug Tracker": "",
