@@ -2,6 +2,25 @@
 
 
 
+## v1.0.0 (2023-07-25)
+
+### Ci
+
+* ci: add permission to yml ([`f40dfea`](https://github.com/JonKragskow/nimbus_splash/commit/f40dfea747d1b685f4c45b722dc5dc34d7a71bb0))
+
+* ci: add force option and manual action execution support ([`3ac0ebb`](https://github.com/JonKragskow/nimbus_splash/commit/3ac0ebb41a4fbba3c669db5356e24948da6a4d49))
+
+* ci: fix incorrect main/master name ([`9485ba9`](https://github.com/JonKragskow/nimbus_splash/commit/9485ba97cbace10fff16a5bec2980213a2f3174b))
+
+* ci: migrate to new pysemver version ([`0098598`](https://github.com/JonKragskow/nimbus_splash/commit/00985986d349616a04f58b7cd9e459c7bc3587f3))
+
+* ci: update pysemver version ([`f1a0620`](https://github.com/JonKragskow/nimbus_splash/commit/f1a062053308cf5dd32639a6952d8bc20581f8b8))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/JonKragskow/nimbus_splash ([`873649b`](https://github.com/JonKragskow/nimbus_splash/commit/873649b72e6dafb2201e05ca01fcf53d7dbf9bfe))
+
+
 ## v0.16.2 (2023-07-24)
 
 
