@@ -40,6 +40,7 @@ jobs:
 
     - name: Build wheel
       run: pip install build twine; python3 -m build
+      if: steps.release.outputs.released == 'true'
 
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
