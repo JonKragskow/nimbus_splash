@@ -2,6 +2,13 @@
 
 
 
+## v1.0.4 (2023-07-25)
+
+### Build
+
+* build: remove long description ([`74147b8`](https://github.com/JonKragskow/nimbus_splash/commit/74147b89f4f5c1f4fcb4921d6ec31a65ad46343c))
+
+
 ## v1.0.3 (2023-07-25)
 
 ### Build
