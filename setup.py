@@ -11,7 +11,7 @@ Please see the `nimbus_splash` documentation for more details.
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 
 setuptools.setup(
     name="Nimbus Splash",

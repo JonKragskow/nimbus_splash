@@ -2,6 +2,13 @@
 
 
 
+## v1.0.6 (2023-07-25)
+
+### Build
+
+* build: add long_dscription_content_type ([`98d4841`](https://github.com/JonKragskow/nimbus_splash/commit/98d4841deade650d9fac8ebdda10adf41c1d794d))
+
+
 ## v1.0.5 (2023-07-25)
 
 ### Build
