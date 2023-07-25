@@ -1,11 +1,17 @@
 import setuptools
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+long_description = '''
+Splash - the sound an Orca would make if it had a Bath.\n\n
+
+`nimbus_splash`, or `splash` for short, is a package to make life easier
+when using the University of Bath's `Nimbus` cloud computing suite for Orca calculations.\n\n
+
+Please see the `nimbus_splash` documentation for more details.
+'''
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-__version__ = "1.0.2"
+__version__ = "1.0.0"
 
 setuptools.setup(
     name="Nimbus Splash",
