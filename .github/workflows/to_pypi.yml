@@ -39,7 +39,7 @@ jobs:
         force: ${{ inputs.force }}
 
     - name: Build wheel and sdist
-      run: pip install build twine; python3 -m build; for f in *\ *; do mv "$f" "${f// /_}"; done
+      run: pip install build twine; python3 -m build; cd dist; for f in *\ *; do mv "$f" "${f// /_}"; done; cd ../;
       if: steps.release.outputs.released == 'true'
 
     - name: Publish package distributions to PyPI
