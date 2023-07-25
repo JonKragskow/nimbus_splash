@@ -2,6 +2,13 @@
 
 
 
+## v1.0.3 (2023-07-25)
+
+### Build
+
+* build: add new long_description ([`8e06e0f`](https://github.com/JonKragskow/nimbus_splash/commit/8e06e0f9dc211ea549ccc5baef888a6d7ec9210b))
+
+
 ## v1.0.2 (2023-07-25)
 
 ### Ci
