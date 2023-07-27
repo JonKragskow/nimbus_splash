@@ -2,6 +2,19 @@
 
 
 
+## v1.0.7 (2023-07-25)
+
+### Build
+
+* build: add rename for sdist tarball ([`e731f8c`](https://github.com/JonKragskow/nimbus_splash/commit/e731f8c8fb84bd319a09626587c9032d9642c091))
+
+* build: correct var name ([`61236d4`](https://github.com/JonKragskow/nimbus_splash/commit/61236d447de016bbc90caa98fdd7b3045edc938e))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/JonKragskow/nimbus_splash ([`65679de`](https://github.com/JonKragskow/nimbus_splash/commit/65679de8b49d2a20f0c8f1ce46782dcdfa9e0429))
+
+
 ## v1.0.6 (2023-07-25)
 
 ### Build
