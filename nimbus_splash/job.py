@@ -1,5 +1,6 @@
 import os
 import subprocess
+from glob import glob
 
 from . import utils as ut
 
@@ -145,6 +146,18 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('fi\n\n')
         j.write('cd $localscratch\n')
 
+        j.write(
+            'rsync -aP --exclude=*.tmp* $localscratch/*.Gradients $results\n'
+        )
+        j.write(
+            'rsync -aP --exclude=*.tmp* $localscratch/*.Dipoles $results\n'
+        )
+        j.write(
+            'rsync -aP --exclude=*.tmp* $localscratch/*.Ramans $results\n'
+        )
+        j.write(
+            'rsync -aP --exclude=*.tmp* $localscratch/*.Nacmes $results\n'
+        )
         j.write('rsync -aP --exclude=*.tmp* $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
@@ -338,10 +351,11 @@ def locate_dependencies(files: dict[str, str],
 
     for file_type, file_name in files.items():
 
-        # Potential path of current file if in input directory
-        curr = os.path.join(in_path, file_name)
-        # Potential path of current file if in results directory
-        res = os.path.join(in_path, results_name, file_name)
+        if 'extra' not in file_type:
+            # Potential path of current file if in input directory
+            curr = os.path.join(in_path, file_name)
+            # Potential path of current file if in results directory
+            res = os.path.join(in_path, results_name, file_name)
 
         # gbw check both currdir/results_name and then currdir
         if file_type == 'gbw':
@@ -353,6 +367,19 @@ def locate_dependencies(files: dict[str, str],
                 ut.red_exit(
                     f'{file_type} file specified in {input_file} cannot be found' # noqa
                 )
+        # Extra dependencies
+        elif file_type == 'extra':
+            dependency_paths['extra'] = []
+            # Value is list
+            for ed in file_name:
+                # Check for * wildcard and expand if neccessary
+                if '*' in ed:
+                    found = glob(ed)
+                else:
+                    found = [ed]
+                dependency_paths['extra'] += [
+                    os.path.abspath(fo) for fo in found
+                ]
         else:
             if os.path.exists(curr):
                 dependency_paths[file_type] = os.path.abspath(curr)
