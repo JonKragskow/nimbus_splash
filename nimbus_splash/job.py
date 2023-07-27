@@ -147,17 +147,26 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('cd $localscratch\n')
 
         j.write(
-            'rsync -aP --exclude=*.tmp* $localscratch/*.Gradients $results\n'
+            'if compgen -G "$localscratch/*.Gradients" > /dev/null; then\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.Gradients $results\n' # noqa
+            'fi\n'
         )
         j.write(
-            'rsync -aP --exclude=*.tmp* $localscratch/*.Dipoles $results\n'
+            'if compgen -G "$localscratch/*.Dipoles" > /dev/null; then\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.Dipoles $results\n'
+            'fi\n'
         )
         j.write(
-            'rsync -aP --exclude=*.tmp* $localscratch/*.Ramans $results\n'
+            'if compgen -G "$localscratch/*.Ramans" > /dev/null; then\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.Ramans $results\n'
+            'fi\n'
         )
         j.write(
-            'rsync -aP --exclude=*.tmp* $localscratch/*.Nacmes $results\n'
+            'if compgen -G "$localscratch/*.Nacmes" > /dev/null; then\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.Nacmes $results\n'
+            'fi\n'
         )
+
         j.write('rsync -aP --exclude=*.tmp* $localscratch/* $results\n')
         j.write('rm -r $localscratch\n')
 
