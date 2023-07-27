@@ -2,6 +2,29 @@
 
 
 
+## v1.1.0 (2023-07-27)
+
+### Ci
+
+* ci: add missing cd ([`85c91bb`](https://github.com/JonKragskow/nimbus_splash/commit/85c91bb3bf907946f19472fd2a8be7968b70e7e7))
+
+### Feature
+
+* feat: add additional rsync commands to copy numfreq files if they exist ([`f7f4617`](https://github.com/JonKragskow/nimbus_splash/commit/f7f46171663bdea381b2cc9f994f089f7fc3466a))
+
+* feat: add option to include extra dependencies ([`5c518c5`](https://github.com/JonKragskow/nimbus_splash/commit/5c518c50363fb107715f89478864f29b4edb74ec))
+
+### Performance
+
+* perf: improve rsync command for numfreq copy ([`ee3b698`](https://github.com/JonKragskow/nimbus_splash/commit/ee3b698ed1abcd9769a760f61050823a7b02406f))
+
+* perf: tweak numfreq copy ([`0bdfe96`](https://github.com/JonKragskow/nimbus_splash/commit/0bdfe96a90c8d12a692f45d93fec27e517139305))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/JonKragskow/nimbus_splash ([`1dad5b2`](https://github.com/JonKragskow/nimbus_splash/commit/1dad5b236095fa8363b4a1955112b58b85909ab5))
+
+
 ## v1.0.7 (2023-07-25)
 
 ### Build
