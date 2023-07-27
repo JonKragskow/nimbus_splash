@@ -121,6 +121,9 @@ def gen_job_func(uargs):
             cores_per_node[node]
         )
 
+        if len(uargs.extra_dependencies):
+            dependencies['extra'] = uargs.extra_dependencies
+
         # Look for old gbw in results directory, if it exists
         results_name = ut.gen_results_name(file)
         if 'gbw' not in dependencies and os.path.exists(results_name) and not uargs.no_guess: # noqa
@@ -145,7 +148,9 @@ def gen_job_func(uargs):
 
         job_file = job.write_file(
             file, node, uargs.time, verbose=True,
-            dependency_paths=dependency_paths.values()
+            dependency_paths=ut.flatten_recursive(
+                list(dependency_paths.values())
+            )
         )
 
         # Submit to queue
@@ -156,6 +161,10 @@ def gen_job_func(uargs):
 
 
 def rst_opt_func(uargs, job_args):
+    '''
+    Wrapper for command line call to rst_opt
+    Restarts optimisation calculation when only the output file is available
+    '''
 
     path, raw_file = os.path.split(uargs.output_file)
     head = os.path.splitext(raw_file)[0]
@@ -298,9 +307,24 @@ def read_args(arg_list=None):
         )
     )
 
+    gen_job.add_argument(
+        '-ed',
+        '--extra_dependencies',
+        nargs='+',
+        default='',
+        type=str,
+        help=(
+            'Extra dependencies (files) which will be copied to the compute'
+            ' node. Relative path to the file(s) must be given.'
+        )
+    )
+
     rst_opt = subparsers.add_parser(
         'rst_opt',
-        description='Restart optimisation from output file'
+        description=(
+            'Restart optimisation from output file alone.\n'
+            'Use only if you are missing a previous _results directory'
+        )
     )
     rst_opt.set_defaults(func=rst_opt_func)
 

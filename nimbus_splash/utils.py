@@ -193,3 +193,24 @@ def get_envvar(var_str: str) -> str:
         val = ''
 
     return val
+
+
+def flatten_recursive(to_flat: list[list]) -> list:
+    '''
+    Flatten a list of lists recursively.
+
+    Parameters
+    ----------
+    to_flat: list
+
+    Returns
+    -------
+    list
+        Input list flattened to a single list
+    '''
+
+    if to_flat == []:
+        return to_flat
+    if isinstance(to_flat[0], list):
+        return flatten_recursive(to_flat[0]) + flatten_recursive(to_flat[1:])
+    return to_flat[:1] + flatten_recursive(to_flat[1:])
