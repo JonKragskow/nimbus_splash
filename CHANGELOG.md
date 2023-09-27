@@ -2,6 +2,17 @@
 
 
 
+## v1.2.0 (2023-09-27)
+
+### Documentation
+
+* docs: update documentation ([`5c3e598`](https://github.com/JonKragskow/nimbus_splash/commit/5c3e598d71e6a838b86a2b134b72699e5e4774c3))
+
+### Feature
+
+* feat: add email environment variable, move CLOUD_ACC to SPLASH_RAID, add xyz file check ([`6bc1e49`](https://github.com/JonKragskow/nimbus_splash/commit/6bc1e49c168d7fb9d06bbb4dac925f1c460f734e))
+
+
 ## v1.1.0 (2023-07-27)
 
 ### Ci
