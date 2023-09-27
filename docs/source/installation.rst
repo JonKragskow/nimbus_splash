@@ -16,7 +16,7 @@ Short Instructions
 3. Install ``pip`` with ``conda install pip``.
 4. Install ``nimbus_splash`` using ``pip``
 5. Check your installation was sucessful with ``splash -h``. You should see a help screen.
-6. Set the ``CLOUD_ACC`` environment variable to your Research Allocation ID in ``~/.bashrc`` - ``export CLOUD_ACC=<RA_ID_HERE>``
+6. Set the ``SPLASH_RAID`` environment variable to your Research Allocation ID in ``~/.bashrc`` - ``export SPLASH_RAID=<RA_ID_HERE>``
 
 Long Instructions
 -----------------
@@ -142,7 +142,7 @@ To select your Research Allocation ID, add the following environment variable in
 
 .. code-block::
 
-    export CLOUD_ACC=<name_here>
+    export SPLASH_RAID=<name_here>
 
 
 If you don't do this, ``nimbus_splash`` will tell you to.
