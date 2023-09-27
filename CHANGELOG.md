@@ -2,6 +2,17 @@
 
 
 
+## v1.2.1 (2023-09-27)
+
+### Build
+
+* build: update xyzpy vers ([`2830e42`](https://github.com/JonKragskow/nimbus_splash/commit/2830e428b70c0215e9f110ec95213e82cdeb6171))
+
+### Fix
+
+* fix: fix bug in SPLASH_RAID, and xyz file path check ([`2c990f3`](https://github.com/JonKragskow/nimbus_splash/commit/2c990f37308aa996188ca204655865f73811bc82))
+
+
 ## v1.2.0 (2023-09-27)
 
 ### Documentation
