@@ -127,9 +127,6 @@ def gen_job_func(uargs):
             cores_per_node[node]
         )
 
-        # Check formatting of xyz file
-        xyzp.check_xyz(dependencies['xyz'])
-
         if len(uargs.extra_dependencies):
             dependencies['extra'] = uargs.extra_dependencies
 
@@ -150,6 +147,9 @@ def gen_job_func(uargs):
 
         # Check dependencies exist
         dependency_paths = job.locate_dependencies(dependencies, file)
+
+        # Check formatting of xyz file
+        xyzp.check_xyz(dependency_paths['xyz'])
 
         if uargs.verbose:
             print(dependencies)

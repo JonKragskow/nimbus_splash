@@ -67,7 +67,7 @@ def write_file(input_file: str, node_type: str, time: str,
             node_type.split('-')[-1])
         )
         j.write(f'#SBATCH --partition={node_type}\n')
-        j.write('#SBATCH --account={}\n'.format(os.environ['CLOUD_ACC']))
+        j.write('#SBATCH --account={}\n'.format(os.environ['SPLASH_RAID']))
         j.write(f'#SBATCH --qos={node_type}\n')
         j.write(f'#SBATCH --output={job_name}.%j.o\n')
         j.write(f'#SBATCH --error={job_name}.%j.e\n')
