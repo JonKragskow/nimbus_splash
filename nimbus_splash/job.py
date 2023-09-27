@@ -7,7 +7,8 @@ from . import utils as ut
 
 def write_file(input_file: str, node_type: str, time: str,
                dependency_paths: dict[str, str],
-               verbose: bool = False) -> str:
+               verbose: bool = False,
+               email: str = '') -> str:
     '''
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -25,6 +26,9 @@ def write_file(input_file: str, node_type: str, time: str,
         If True, prints job file name to screen
     dependency_paths : list[str]
         Full path to each dependency
+    email: str, optional
+        If provided, adds the specified email to the jobscript.\n
+        Users recieve an email for all changes in job status
 
     Returns
     -------
@@ -33,7 +37,7 @@ def write_file(input_file: str, node_type: str, time: str,
     '''
 
     # Check for research allocation id environment variable
-    ut.check_envvar('CLOUD_ACC')
+    ut.check_envvar('SPLASH_RAID')
 
     # Get raw name of input file excluding path
     inpath, in_raw = os.path.split(input_file)
@@ -67,6 +71,11 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write(f'#SBATCH --qos={node_type}\n')
         j.write(f'#SBATCH --output={job_name}.%j.o\n')
         j.write(f'#SBATCH --error={job_name}.%j.e\n')
+
+        if len(email):
+            j.write(f'#SBATCH --mail-user={email}\n')
+            j.write('#SBATCH --mail-type=ALL\n')
+
         j.write('#SBATCH --signal=B:USR1\n\n')
 
         j.write('# Job time\n')
@@ -153,17 +162,17 @@ def write_file(input_file: str, node_type: str, time: str,
         )
         j.write(
             'if compgen -G "$localscratch/*.res.Dipoles" > /dev/null; then\n'
-            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Dipoles $results\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Dipoles $results\n' # noqa
             'fi\n'
         )
         j.write(
             'if compgen -G "$localscratch/*.res.Ramans" > /dev/null; then\n'
-            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Ramans $results\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Ramans $results\n' # noqa
             'fi\n'
         )
         j.write(
             'if compgen -G "$localscratch/*.res.Nacmes" > /dev/null; then\n'
-            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Nacmes $results\n'
+            '    rsync -aP --exclude=*.tmp* $localscratch/*.res.Nacmes $results\n' # noqa
             'fi\n'
         )
 

@@ -104,6 +104,12 @@ def gen_job_func(uargs):
     else:
         ut.red_exit("Node type unsupported")
 
+    # Read email environment variable
+    try:
+        email = os.environ['SPLASH_EMAIL']
+    except KeyError:
+        email = ''
+
     # Write job file
     for file in uargs.input_files:
 
@@ -120,6 +126,9 @@ def gen_job_func(uargs):
             total_node_memory[node],
             cores_per_node[node]
         )
+
+        # Check formatting of xyz file
+        xyzp.check_xyz(dependencies['xyz'])
 
         if len(uargs.extra_dependencies):
             dependencies['extra'] = uargs.extra_dependencies
@@ -150,7 +159,8 @@ def gen_job_func(uargs):
             file, node, uargs.time, verbose=True,
             dependency_paths=ut.flatten_recursive(
                 list(dependency_paths.values())
-            )
+            ),
+            email=email
         )
 
         # Submit to queue

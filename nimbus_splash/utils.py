@@ -166,6 +166,15 @@ def check_envvar(var_str: str) -> None:
     try:
         os.environ[var_str]
     except KeyError:
+        if var_str == 'SPLASH_RAID':
+            try:
+                os.environ['CLOUD_ACC']
+            except KeyError:
+                sys.exit(f'Please set ${var_str} environment variable')
+            cprint(
+                'CLOUD_ACC is deprecated, replace with SPLASH_RAID in .bashrc',
+                'black_yellowbg'
+            )
         sys.exit(f'Please set ${var_str} environment variable')
 
     return
