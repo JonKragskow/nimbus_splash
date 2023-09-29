@@ -4,10 +4,12 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=16
 #SBATCH --partition=spot-fsv2-16
-#SBATCH --account=12345
+#SBATCH --account=123
 #SBATCH --qos=spot-fsv2-16
 #SBATCH --output=input.%j.o
 #SBATCH --error=input.%j.e
+#SBATCH --mail-user=jgck20@bath.ac.uk
+#SBATCH --mail-type=ALL
 #SBATCH --signal=B:USR1
 
 # Job time
@@ -29,7 +31,7 @@ fi
 
 # If output file already exists, append OLD and last access time
 if [ -f $output ]; then
-    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d %H:%M:%S")
+    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")
 fi
 
 # Copy files to localscratch
@@ -65,9 +67,21 @@ wait "${PID}"
 cd $campaigndir
 # If results directory already exists, append OLD and last access time
 if [ -d $results ]; then
-    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d %H:%M:%S")
+    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")
 fi
 
 cd $localscratch
+if compgen -G "$localscratch/*.res.Gradients" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Gradients $results
+fi
+if compgen -G "$localscratch/*.res.Dipoles" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Dipoles $results
+fi
+if compgen -G "$localscratch/*.res.Ramans" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Ramans $results
+fi
+if compgen -G "$localscratch/*.res.Nacmes" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Nacmes $results
+fi
 rsync -aP --exclude=*.tmp* $localscratch/* $results
 rm -r $localscratch
