@@ -17,7 +17,7 @@ Short Instructions
 4. Install ``nimbus_splash`` using ``pip``
 5. Check your installation was sucessful with ``splash -h``. You should see a help screen.
 6. Set the ``SPLASH_RAID`` environment variable to your Research Allocation ID in ``~/.bashrc`` - ``export SPLASH_RAID=<RA_ID_HERE>``
-
+7. Optional: Set the ``SPLASH_EMAIL`` environment variable to your email address to get job updates ``~/.bashrc`` - ``export SPLASH_EMAIL=<Email_Here>``
 Long Instructions
 -----------------
 
@@ -146,3 +146,14 @@ To select your Research Allocation ID, add the following environment variable in
 
 
 If you don't do this, ``nimbus_splash`` will tell you to.
+
+Optional: Setting your notification email
+-----------------------------------------
+
+To recieve emails on your job status, add the following environment variable in your nimbus
+``~/.bash_rc`` file and replace ``<email_here>`` with your email address.
+
+.. code-block::
+
+    export SPLASH_EMAIL=<email_here>
+
