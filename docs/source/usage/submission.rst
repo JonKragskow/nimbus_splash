@@ -50,6 +50,13 @@ When the calculation has finished, been evicted, timed-out, or otherwise halted,
 This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 
 
 
+Providing coordinates within the input file
+-------------------------------------------
+
+Instead of providing a separate ``.xyz`` file, it is possible to specify coordinates within the orca input file.
+
+This feature is supported by ``splash`` and requires no additional effort on the part of the user.
+
 Providing Input Orbitals
 ------------------------
 
