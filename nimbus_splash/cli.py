@@ -145,11 +145,12 @@ def gen_job_func(uargs):
                     'black_yellowbg'
                 )
 
-        # Check dependencies exist
+        # Check file dependencies exist
         dependency_paths = job.locate_dependencies(dependencies, file)
 
         # Check formatting of xyz file
-        xyzp.check_xyz(dependency_paths['xyz'])
+        if 'xyz' in dependencies.keys():
+            xyzp.check_xyz(dependency_paths['xyz'])
 
         if uargs.verbose:
             print(dependencies)

@@ -25,7 +25,7 @@ def write_file(input_file: str, node_type: str, time: str,
     verbose : bool, default=False
         If True, prints job file name to screen
     dependency_paths : list[str]
-        Full path to each dependency
+        Full path to each file required by this job
     email: str, optional
         If provided, adds the specified email to the jobscript.\n
         Users recieve an email for all changes in job status
