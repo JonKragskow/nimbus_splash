@@ -2,6 +2,23 @@
 
 
 
+## v1.3.0 (2024-02-21)
+
+### Documentation
+
+* docs: update docs with note about xyz in input ([`9556cd8`](https://github.com/JonKragskow/nimbus_splash/commit/9556cd8dfba363c349366d0d6e2655721f676ea9))
+
+* docs: add splash email ([`857389b`](https://github.com/JonKragskow/nimbus_splash/commit/857389b733d329098b9c8f35d225a5e3e3daaa9d))
+
+### Feature
+
+* feat: add support for xyz data in .input file ([`f61ef37`](https://github.com/JonKragskow/nimbus_splash/commit/f61ef37f15e1f8b2d6ce2e4ba2dcaa5548c46b59))
+
+### Test
+
+* test: update test ([`b053d06`](https://github.com/JonKragskow/nimbus_splash/commit/b053d06d09626517048e25e30d03eab5245b5fbd))
+
+
 ## v1.2.1 (2023-09-27)
 
 ### Build
