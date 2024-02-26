@@ -20,4 +20,4 @@ Splash - the sound an orca would make if it had a Bath.
 
 # Installation
 
-See the [Documentation](https://www.kragskow.com/nimbus_splash) for Installation and Usage instructions
+See the [Documentation](https://www.kragskow.dev/nimbus_splash) for Installation and Usage instructions
