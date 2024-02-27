@@ -1,0 +1,85 @@
+#!/bin/bash
+
+#SBATCH --job-name=input
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=16
+#SBATCH --partition=spot-fsv2-16
+#SBATCH --account=123
+#SBATCH --qos=spot-fsv2-16
+#SBATCH --output=input.%j.o
+#SBATCH --error=input.%j.e
+#SBATCH --signal=B:USR1
+
+# Job time
+#SBATCH --time=24:00:00
+
+# name and path of the input/output files and locations
+input=input.inp
+output=input.out
+campaigndir=/home/jon/git/nimbus_splash/test/xyz_in_input
+results=$campaigndir/input_results
+
+# Local (Node) scratch, either node itself if supported or burstbuffer
+if [ -d "/mnt/resource/" ]; then
+    localscratch="/mnt/resource/temp_scratch_$SLURM_JOB_ID"
+    mkdir $localscratch
+else
+    localscratch=$BURSTBUFFER
+fi
+
+# If output file already exists, append OLD and last access time
+if [ -f $output ]; then
+    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")
+fi
+
+# Copy files to localscratch
+rsync -aP /home/jon/git/nimbus_splash/test/xyz_in_input/input.inp $localscratch
+cd $localscratch
+
+# write date and node type to output
+date > $campaigndir/$output
+uname -n >> $campaigndir/$output
+
+# Module system setup
+source /apps/build/easy_build/scripts/id_instance.sh
+source /apps/build/easy_build/scripts/setup_modules.sh
+
+# Load orca
+module purge
+module load ORCA/5.0.1-gompi-2021a
+
+# UCX transport protocols for MPI
+export UCX_TLS=self,tcp,sm
+
+# If timeout, evicted, cancelled, then manually end orca
+trap 'echo signal recieved in BATCH!; kill -15 "${PID}"; wait "${PID}";' SIGINT SIGTERM USR1 15
+
+# Run calculation in background
+# Catch the PID var for trap, and wait for process to end
+$(which orca) $input >> $campaigndir/$output &
+PID="$!"
+wait "${PID}"
+
+# Clean up and copy back files
+# Check for existing results directory
+cd $campaigndir
+# If results directory already exists, append OLD and last access time
+if [ -d $results ]; then
+    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")
+fi
+
+cd $localscratch
+if compgen -G "$localscratch/*.res.Gradients" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Gradients $results
+fi
+if compgen -G "$localscratch/*.res.Dipoles" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Dipoles $results
+fi
+if compgen -G "$localscratch/*.res.Ramans" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Ramans $results
+fi
+if compgen -G "$localscratch/*.res.Nacmes" > /dev/null; then
+    rsync -aP --exclude=*.tmp* $localscratch/*.res.Nacmes $results
+fi
+rsync -aP --exclude=*.tmp* $localscratch/* $results
+rm -r $localscratch
