@@ -2,6 +2,23 @@
 
 
 
+## v1.4.0 (2024-02-27)
+
+### Feature
+
+* feat: add support for hessfile in dependencies ([`e0e5f3f`](https://github.com/JonKragskow/nimbus_splash/commit/e0e5f3f341b909112b0816b4612d0d8ed204a26d))
+
+### Test
+
+* test: add xyz input test ([`6449c4a`](https://github.com/JonKragskow/nimbus_splash/commit/6449c4aa84bf7a3f9b3ef59126e63d42e3e19d4b))
+
+### Unknown
+
+* Update README.md
+
+doc: fix link ([`115db6e`](https://github.com/JonKragskow/nimbus_splash/commit/115db6e5edde8dbe44008055ab4ee5c7896468cd))
+
+
 ## v1.3.0 (2024-02-21)
 
 ### Documentation
