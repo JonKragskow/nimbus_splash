@@ -209,7 +209,7 @@ def parse_input_contents(input_file: str, max_mem: int,
     -------
     dict[str, str]
         Names of relative-path dependencies (files) which this input needs
-        key is identifier (xyz, gbw), value is file name
+        key is identifier (xyz, gbw, hess), value is file name
     '''
 
     # Found memory and cores
@@ -287,6 +287,30 @@ def parse_input_contents(input_file: str, max_mem: int,
                     ut.red_exit(
                         f'gbw file in {e_input_file} has same name as input'
                     )
+            
+            if 'hessname' in line.lower():
+                if len(line.split()) != 2:
+                    ut.red_exit(
+                        f'Incorrect hessian file definition in {e_input_file}'
+                    )
+                if abs(line.count('"') - line.count("'")) != 2:
+                    ut.red_exit(
+                        f'Missing quotes around hessian file name in {e_input_file}' # noqa
+                    )
+
+                hess_file = line.split()[-1].replace('"', '').replace("'", "")
+
+                # Check if contains path info, if so error
+                if os.sep in hess_file:
+                    ut.red_exit(
+                        f'Path provided for hessian file in {e_input_file}'
+                    )
+                # Check hess doesnt have same name as input
+                if os.path.splitext(hess_file)[0] == inhead:
+                    ut.red_exit(
+                        f'hessian file in {e_input_file} has same name as input' # noqa
+                    )
+                dependencies['hess'] = hess_file
 
             if 'moread' in line.lower():
                 mo_read = True
@@ -369,11 +393,10 @@ def locate_dependencies(files: dict[str, str],
 
     for file_type, file_name in files.items():
 
-        if 'extra' not in file_type:
-            # Potential path of current file if in input directory
-            curr = os.path.join(in_path, file_name)
-            # Potential path of current file if in results directory
-            res = os.path.join(in_path, results_name, file_name)
+        # Potential path of current file if in input directory
+        curr = os.path.join(in_path, file_name)
+        # Potential path of current file if in results directory
+        res = os.path.join(in_path, results_name, file_name)
 
         # gbw check both currdir/results_name and then currdir
         if file_type == 'gbw':
@@ -385,19 +408,6 @@ def locate_dependencies(files: dict[str, str],
                 ut.red_exit(
                     f'{file_type} file specified in {input_file} cannot be found' # noqa
                 )
-        # Extra dependencies
-        elif file_type == 'extra':
-            dependency_paths['extra'] = []
-            # Value is list
-            for ed in file_name:
-                # Check for * wildcard and expand if neccessary
-                if '*' in ed:
-                    found = glob(ed)
-                else:
-                    found = [ed]
-                dependency_paths['extra'] += [
-                    os.path.abspath(fo) for fo in found
-                ]
         else:
             if os.path.exists(curr):
                 dependency_paths[file_type] = os.path.abspath(curr)

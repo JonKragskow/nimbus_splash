@@ -127,9 +127,6 @@ def gen_job_func(uargs):
             cores_per_node[node]
         )
 
-        if len(uargs.extra_dependencies):
-            dependencies['extra'] = uargs.extra_dependencies
-
         # Look for old gbw in results directory, if it exists
         results_name = ut.gen_results_name(file)
         if 'gbw' not in dependencies and os.path.exists(results_name) and not uargs.no_guess: # noqa
@@ -315,18 +312,6 @@ def read_args(arg_list=None):
         help=(
             'If specified, gbw files found in results directory will not be'
             'used automatically'
-        )
-    )
-
-    gen_job.add_argument(
-        '-ed',
-        '--extra_dependencies',
-        nargs='+',
-        default='',
-        type=str,
-        help=(
-            'Extra dependencies (files) which will be copied to the compute'
-            ' node. Relative path to the file(s) must be given.'
         )
     )
 
