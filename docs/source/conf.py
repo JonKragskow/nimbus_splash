@@ -27,6 +27,9 @@ copyright = '{:d}'.format(datetime.date.today().year)
 release = '1.4.0'
 version = release
 
+html_logo = 'splash.png'
+html_favicon = 'splash.ico'
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
