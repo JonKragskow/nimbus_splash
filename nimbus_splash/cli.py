@@ -146,8 +146,16 @@ def gen_job_func(uargs):
         dependency_paths = job.locate_dependencies(dependencies, file)
 
         # Check formatting of xyz file
-        if 'xyz' in dependencies.keys():
-            xyzp.check_xyz(dependency_paths['xyz'])
+        if 'xyz' in dependencies.keys() and not uargs.skip_xyz:
+            try:
+                xyzp.check_xyz(
+                    dependency_paths['xyz'],
+                    allow_indices=False
+                )
+            except ValueError as e:
+                ut.red_exit(
+                    f'{e}\n Use -sx to skip this check'
+                )
 
         if uargs.verbose:
             print(dependencies)
@@ -289,6 +297,13 @@ def read_args(arg_list=None):
         type=str,
         default='24:00:00',
         help='Time for job, formatted as HH:MM:SS, default 24:00:00'
+    )
+
+    gen_job.add_argument(
+        '-sx',
+        '--skip_xyz',
+        action='store_true',
+        help='Skip formatting check for .xyz file'
     )
 
     gen_job.add_argument(

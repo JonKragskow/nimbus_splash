@@ -1,6 +1,5 @@
 import os
 import subprocess
-from glob import glob
 
 from . import utils as ut
 
@@ -287,7 +286,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                     ut.red_exit(
                         f'gbw file in {e_input_file} has same name as input'
                     )
-            
+
             if 'hessname' in line.lower():
                 if len(line.split()) != 2:
                     ut.red_exit(
