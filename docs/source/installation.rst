@@ -18,12 +18,13 @@ Short Instructions
 5. Check your installation was sucessful with ``splash -h``. You should see a help screen.
 6. Set the ``SPLASH_RAID`` environment variable to your Research Allocation ID in ``~/.bashrc`` - ``export SPLASH_RAID=<RA_ID_HERE>``
 7. Optional: Set the ``SPLASH_EMAIL`` environment variable to your email address to get job updates ``~/.bashrc`` - ``export SPLASH_EMAIL=<Email_Here>``
+
 Long Instructions
 -----------------
 
-To install ``splash``, we will need to create a ``conda`` environment. This contains a sandboxed installation of ``python``
+To install ``splash``, you will need to create a ``conda`` environment. This contains a sandboxed installation of ``python``
 that is separate from the system version, so if anything bad happens you can just delete the environment
-and start again without affecting anything. We then install ``splash`` to this environment.
+and start again without affecting anything. You will then install ``splash`` to this environment.
 
 Enabling Anaconda
 ^^^^^^^^^^^^^^^^^
@@ -76,7 +77,7 @@ You'll probably get a message about initialising your shell for conda, so run
 
 This adds some configuration information to your ``~/.bashrc``, to make sure it works properly, exit your ssh window (close the connection), and then reconnect to ``Nimbus``.
 
-Upon reconnection, you should see the word ``(base)`` at the start of your terminal prompt. This is the ``base`` ``conda`` environment which we don't want to use.
+Upon reconnection, you should see the word ``(base)`` at the start of your terminal prompt. This is the ``base`` ``conda`` environment which you don't want to use.
 To stop this ``base`` environment loading every time you open a shell, run the following command
 
 .. code-block::
@@ -134,6 +135,10 @@ Install ``nimbus_splash`` with
 
 installs ``nimbus_splash``.
 
+Now, set your Research Allocation ID using the instructions below.
+
+.. _raid :
+
 Setting your Research Allocation ID
 -----------------------------------
 
@@ -146,6 +151,10 @@ To select your Research Allocation ID, add the following environment variable in
 
 
 If you don't do this, ``nimbus_splash`` will tell you to.
+
+You're now ready to use ```nimbus_splash`` - head to :ref:`Usage <guide>` to get started.
+
+.. _email :
 
 Optional: Setting your notification email
 -----------------------------------------

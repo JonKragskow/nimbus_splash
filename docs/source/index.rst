@@ -6,10 +6,12 @@ Home
    Usage <usage/index>
    Modules <modules/index>
    Contributors <contribs>
+   Bugs <bugs>
+   FAQ <faq>
+   File Formats <file_formats>
    :maxdepth: 3
    :caption: Contents:
    :hidden:
-
 
 Splash - the sound an Orca would make if it had a Bath.
 
