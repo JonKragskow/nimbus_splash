@@ -1,4 +1,4 @@
-Contributors
-============
+Author
+======
 
-`Dr. Jon Kragskow <https://www.kragskow.dev/>`_ wrote ``nimbus_splash``.
+The ``nimbus_splash`` package is written by `Dr. Jon Kragskow <https://www.kragskow.dev/>`_.
