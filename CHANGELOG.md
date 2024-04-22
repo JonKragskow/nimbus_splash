@@ -2,6 +2,29 @@
 
 
 
+## v1.5.0 (2024-04-22)
+
+### Build
+
+* build: bump xyzpy dependency vers ([`e137d2e`](https://github.com/JonKragskow/nimbus_splash/commit/e137d2e169bc936c4a57debaaa27f525614290d1))
+
+### Documentation
+
+* docs: cleanup docs ([`92a35b5`](https://github.com/JonKragskow/nimbus_splash/commit/92a35b5a2f3b1bc35f23745bfe85503a0e913070))
+
+* docs: add faq, bugs, and contribs pages ([`b219e38`](https://github.com/JonKragskow/nimbus_splash/commit/b219e38957c4df4d61941400e9e99848f11f0ea8))
+
+* docs: update image ([`c253516`](https://github.com/JonKragskow/nimbus_splash/commit/c253516f2d877474e283a23044e93c352ea8bbd7))
+
+* docs: add logo ([`22e6aec`](https://github.com/JonKragskow/nimbus_splash/commit/22e6aec20f6b452b7fc34c980cd62844a483ba3f))
+
+* docs: add logo ([`e0c3d39`](https://github.com/JonKragskow/nimbus_splash/commit/e0c3d3917f54572c4aef633b3bc6246836d528d3))
+
+### Feature
+
+* feat: add option to skip xyz file check ([`68bcc79`](https://github.com/JonKragskow/nimbus_splash/commit/68bcc79dd286aa3895262495b86c15df58aaecda))
+
+
 ## v1.4.0 (2024-02-27)
 
 ### Feature
