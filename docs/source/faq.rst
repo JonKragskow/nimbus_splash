@@ -16,6 +16,12 @@ Errors ...
 
     You need to set your Research Allocation ID environment variable - see :ref:`here <raid>`.
 
+... ``Cannot open file '/apps/x86_64/modules/all/Anaconda3/2021.05' for 'reading'``
+
+    Edit your ``~/.bashrc`` file and change ``module load Anaconda3/2021.05`` to ``module load Anaconda3/2022.10``
+    Then exit your session, re-ssh inot ``nimbus`` and run ``conda init bash``. Then exit and re-ssh again and you should
+    be able to use splash again.
+
 I want to ...
 ^^^^^^^^^^^^^
 
