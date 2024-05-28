@@ -3,6 +3,8 @@ import subprocess
 
 from . import utils as ut
 
+ORCA_MODULE = 'ORCA/5.0.4'
+
 
 def write_file(input_file: str, node_type: str, time: str,
                dependency_paths: dict[str, str],
@@ -125,7 +127,7 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('# Load orca\n')
         j.write('module purge\n')
-        j.write('module load ORCA/5.0.1-gompi-2021a\n\n')
+        j.write(f'module load {ORCA_MODULE}\n\n')
 
         j.write('# UCX transport protocols for MPI\n')
         j.write('export UCX_TLS=self,tcp,sm\n\n')
