@@ -149,7 +149,6 @@ To select your Research Allocation ID, add the following environment variable in
 
     export SPLASH_RAID=<name_here>
 
-
 save and exit, and then run
 
 .. code-block::
