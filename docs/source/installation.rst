@@ -12,7 +12,7 @@ Short Instructions
 ------------------
 
 1. Load Anaconda ``module load Anaconda3/2022.10`` - Optionally add this to your ``~/.bashrc`` file for automatic loading.
-2. Create a ``conda`` environment or ``pyenv`` - Optionally set this to automatically load every time you log in using ``~/.bash_rc``.
+2. Create a ``conda`` environment or ``pyenv`` - Optionally set this to automatically load every time you log in using ``~/.bashrc``.
 3. Install ``pip`` with ``conda install pip``.
 4. Install ``nimbus_splash`` using ``pip``
 5. Check your installation was sucessful with ``splash -h``. You should see a help screen.
@@ -143,7 +143,7 @@ Setting your Research Allocation ID
 -----------------------------------
 
 To select your Research Allocation ID, add the following environment variable in your nimbus
-``~/.bash_rc`` file and replace ``<name_here>`` with your Research Allocation ID
+``~/.bashrc`` file and replace ``<name_here>`` with your Research Allocation ID
 
 .. code-block::
 
@@ -153,7 +153,7 @@ save and exit, and then run
 
 .. code-block::
 
-    source ~/.bash_rc
+    source ~/.bashrc
 
 If you don't do this, ``nimbus_splash`` will tell you to.
 
@@ -165,7 +165,7 @@ Optional: Setting your notification email
 -----------------------------------------
 
 To recieve emails on your job status, add the following environment variable in your nimbus
-``~/.bash_rc`` file and replace ``<email_here>`` with your email address.
+``~/.bashrc`` file and replace ``<email_here>`` with your email address.
 
 .. code-block::
 
