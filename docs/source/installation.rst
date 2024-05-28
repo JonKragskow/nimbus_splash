@@ -150,6 +150,12 @@ To select your Research Allocation ID, add the following environment variable in
     export SPLASH_RAID=<name_here>
 
 
+save and exit, and then run
+
+.. code-block::
+
+    source ~/.bash_rc
+
 If you don't do this, ``nimbus_splash`` will tell you to.
 
 You're now ready to use ```nimbus_splash`` - head to :ref:`Usage <guide>` to get started.
