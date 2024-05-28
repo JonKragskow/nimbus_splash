@@ -24,7 +24,7 @@ copyright = '{:d}'.format(datetime.date.today().year)
 # The full version, including alpha/beta/rc tags
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-release = '1.5.0'
+release = '1.6.0'
 version = release
 
 html_logo = 'splash.png'

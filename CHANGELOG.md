@@ -2,6 +2,19 @@
 
 
 
+## v1.6.0 (2024-05-28)
+
+### Documentation
+
+* docs: update language ([`0aeb27d`](https://github.com/JonKragskow/nimbus_splash/commit/0aeb27da09f18f3e02438a64047656ec0a245858))
+
+* docs: update anaconda module version ([`09c96f0`](https://github.com/JonKragskow/nimbus_splash/commit/09c96f0d5457b534fe6a0bc17db06e9882019c4e))
+
+### Feature
+
+* feat: bump orca module version ([`3e107d0`](https://github.com/JonKragskow/nimbus_splash/commit/3e107d082d09e4cf6d6834a7e8372c8e95d97e00))
+
+
 ## v1.5.0 (2024-04-22)
 
 ### Build
