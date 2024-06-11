@@ -153,6 +153,9 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('if [ -d $results ]; then\n')
         j.write(
             '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n') # noqa
+        
+        j.write('else')
+        j.write('    mkdir $results')
         j.write('fi\n\n')
         j.write('cd $localscratch\n')
 
@@ -193,9 +196,8 @@ def write_file(input_file: str, node_type: str, time: str,
 def parse_input_contents(input_file: str, max_mem: int,
                          max_cores: int) -> dict[str, str]:
     '''
-    Checks contents of input file and returns file dependencies
-    Specifically, checks:
-    If maxcore (memory) specified is appropriate
+    Checks contents of input file and returns file dependencies\n
+    Also checks if maxcore (memory) specified is appropriate
 
     Parameters
     ----------
@@ -209,8 +211,8 @@ def parse_input_contents(input_file: str, max_mem: int,
     Returns
     -------
     dict[str, str]
-        Names of relative-path dependencies (files) which this input needs
-        key is identifier (xyz, gbw, hess), value is file name
+        Relative paths of files required by this this input file\n
+        Key is identifier (xyz, gbw, hess), Value is file name
     '''
 
     # Found memory and cores
@@ -376,7 +378,7 @@ def locate_dependencies(files: dict[str, str],
     Parameters
     ----------
     files: dict[str, str]
-        Keys are filetype e.g. xyz, gbw
+        Keys are filetype [xyz, gbw] \n
         Values are name file (no path information)
     input_file: str
         Full path of input file
@@ -384,7 +386,7 @@ def locate_dependencies(files: dict[str, str],
     Returns
     -------
     dict[str, str]
-        Absolute path to each dependency
+        Absolute path of each file, keys are same as `files`.
     '''
 
     results_name = ut.gen_results_name(input_file)
