@@ -2,6 +2,17 @@
 
 
 
+## v1.6.2 (2024-06-11)
+
+### Performance
+
+* perf: add support for spaces after % ([`56bb7de`](https://github.com/JonKragskow/nimbus_splash/commit/56bb7de4df54e6a71f9ce9436a55a5c0600922f2))
+
+### Test
+
+* test: add test files ([`be20b60`](https://github.com/JonKragskow/nimbus_splash/commit/be20b605325bb0037a95441bee061c6380cd4f8a))
+
+
 ## v1.6.1 (2024-06-11)
 
 ### Documentation
