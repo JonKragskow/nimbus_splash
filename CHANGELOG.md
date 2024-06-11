@@ -2,6 +2,27 @@
 
 
 
+## v1.6.1 (2024-06-11)
+
+### Documentation
+
+* docs: update bugs page ([`758a747`](https://github.com/JonKragskow/nimbus_splash/commit/758a74722509b2a1b036d5785411c06a6e7c3d10))
+
+* docs: update docstrings ([`a90c24a`](https://github.com/JonKragskow/nimbus_splash/commit/a90c24a6caf97487640226fd9a4bb2c0643604f4))
+
+* docs: fix typos ([`996f143`](https://github.com/JonKragskow/nimbus_splash/commit/996f14337184076f9c957fe4606c4a906b1f0f0d))
+
+* docs: fix typos ([`b369f9a`](https://github.com/JonKragskow/nimbus_splash/commit/b369f9a494a4cb7acbca58d8c8dbe76bf802ec90))
+
+* docs: add source command to bashrc edit ([`24a8754`](https://github.com/JonKragskow/nimbus_splash/commit/24a875484ad0e25d25abd56e5743f1f8777f0ad5))
+
+* docs: add source to bashrc edit command ([`912cf42`](https://github.com/JonKragskow/nimbus_splash/commit/912cf420b074c3b545c072b073eab93701a03a8a))
+
+### Performance
+
+* perf: add handling for missing memory and cores ([`c63f205`](https://github.com/JonKragskow/nimbus_splash/commit/c63f2054e8ae500ddc5e3dac53cdc371b64bec90))
+
+
 ## v1.6.0 (2024-05-28)
 
 ### Documentation
