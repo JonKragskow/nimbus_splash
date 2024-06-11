@@ -352,11 +352,29 @@ def parse_input_contents(input_file: str, max_mem: int,
             f'Only one of moread and %moinp specified in {e_input_file}'
         )
 
-    if not mem_found:
-        ut.red_exit(f'Cannot locate %maxcore definition in {e_input_file}')
-
     if not core_found:
-        ut.red_exit(f"Cannot locate %maxcore definition in {input_file}")
+        n_cores = max_cores
+        ut.cprint(
+            f'Cannot locate %pal nprocs definition in {e_input_file}',
+            'black_yellowbg'
+        )
+        ut.cprint(
+            f'Adding {max_cores:d} cores to input file\n',
+            'black_yellowbg'
+        )
+        add_core_to_input(input_file, n_cores)
+
+    if not mem_found:
+        n_mb = max_mem / n_cores
+        ut.cprint(
+            f'Cannot locate %maxcore definition in {e_input_file}',
+            'black_yellowbg'
+        )
+        ut.cprint(
+            f'Adding {n_mb:.0f}MB of memory to input file\n',
+            'black_yellowbg'
+        )
+        add_mem_to_input(input_file, n_mb)
 
     # Check memory doesnt exceed per-core limit
     if n_mb > max_mem / n_cores:
@@ -448,7 +466,7 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
             # Find line if already exists
             for oline in fold:
                 # Number of cores
-                if 'pal nprocs' in oline.lower():
+                if '%pal nprocs' in oline.lower():
                     fnew.write(f'%PAL NPROCS {n_cores:d} END\n')
                     found = True
                 else:
@@ -456,7 +474,48 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
 
             # Add if missing
             if not found:
-                fnew.write('\n%PAL NPROCS {n_cores:d} END\n')
+                fnew.write(f'%PAL NPROCS {n_cores:d} END\n')
+
+    subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
+
+    return
+
+
+def add_mem_to_input(input_file: str, mem: float) -> None:
+    '''
+    Adds memory (maxcore) definition to specified input file
+
+    Parameters
+    ----------
+    input_file : str
+        Name of orca input file
+    mem : int
+        Amount of memory to specify in MB
+
+    Returns
+    -------
+    None
+    '''
+
+    found = False
+
+    new_file = f'{input_file}_tmp'
+
+    with open(input_file, 'r') as fold:
+        with open(new_file, 'w') as fnew:
+
+            # Find line if already exists
+            for oline in fold:
+                # Number of cores
+                if '%maxcore' in oline.lower():
+                    fnew.write(f'%maxcore {mem:f}\n')
+                    found = True
+                else:
+                    fnew.write('{}'.format(oline))
+
+            # Add if missing
+            if not found:
+                fnew.write(f'%maxcore {mem:.0f}\n')
 
     subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
 
