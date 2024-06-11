@@ -102,7 +102,7 @@ To instead start your new ``nimbus_base`` environment every time you connect, op
     conda activate nimbus_base
 
 
-then save and exit ``nano``, and run the command
+then save and exit nano using ``ctrl+o``, ``enter``, then ``ctrl+x``, and then run the command
 
 .. code-block::
 
@@ -143,7 +143,7 @@ Setting your Research Allocation ID
 -----------------------------------
 
 To select your Research Allocation ID, add the following environment variable in your nimbus
-``~/.bashrc`` file and replace ``<name_here>`` with your Research Allocation ID
+``~/.bashrc`` file and replace ``<name_here>`` with your Research Allocation ID.
 
 .. code-block::
 
@@ -155,7 +155,11 @@ save and exit, and then run
 
     source ~/.bashrc
 
-If you don't do this, ``nimbus_splash`` will tell you to.
+If you don't do this, ``nimbus_splash`` will tell you to!
+
+Note, if you want to switch over to using a different Research Allocation ID, you'll need to update
+this line in ``~/.bashrc`` and run ``source ~/.bashrc``. Alternatively, you can temporarily change the value 
+for the current session by running ``export SPLASH_RAID=<name_here>`` in your terminal.
 
 You're now ready to use ```nimbus_splash`` - head to :ref:`Usage <guide>` to get started.
 

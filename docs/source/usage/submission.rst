@@ -22,7 +22,7 @@ First, prepare your input file. As an example, this is an input file for a geome
 
 Notice, the number of cores and maximum per-core memory have been specified.
 In this case the structure is located in a separate ``.xyz`` file - ``benzene.xyz``, though
-``splash`` does support input file coordinate specification. See :ref:`xyz_file_format` for more information.
+``splash`` does support input file coordinate specification (See :ref:`xyz_file_format`)
 
 .. code-block::
    :caption: ``benzene.xyz``
@@ -48,7 +48,7 @@ To submit a job for this calculation, simply run ::
 
 You should then see an message informing you that a submission script was created and subsequently submitted.
 
-The job will be given the same name as your input file, and output file for this calculation should appear in the current directory when the job starts running.
+The job will be given the same name as your input file, and the output file for this calculation should appear in the current directory when the job starts running.
 
 When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and ``.xyz`` files.
 This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 

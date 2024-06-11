@@ -32,3 +32,8 @@ I want to ...
 ... receive emails about my jobs
 
     See :ref:`here <email>` for instructions.
+
+... change my Resarch Allocation ID
+
+    To permanently change this, you'll need to update the ``export SPLASH_RAID=<name_here>`` line in your  ``~/.bashrc`` file, and then and run ``source ~/.bashrc``.
+    To temporarily change this value for the current session, run ``export SPLASH_RAID=<name_here>`` in your terminal.
