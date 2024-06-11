@@ -1,5 +1,6 @@
 import os
 import subprocess
+import re
 
 from . import utils as ut
 
@@ -153,7 +154,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('if [ -d $results ]; then\n')
         j.write(
             '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n') # noqa
-        
+
         j.write('else')
         j.write('    mkdir $results')
         j.write('fi\n\n')
@@ -242,8 +243,12 @@ def parse_input_contents(input_file: str, max_mem: int,
     with open(input_file, 'r') as f:
         for line in f:
 
+            line = line.lower().lstrip().rstrip()
+            line = re.sub(r'\s+', ' ', line)
+            line = line.replace('% ', '%')
+
             # xyz file
-            if 'xyzfile' in line.lower() and '!' not in line:
+            if 'xyzfile' in line and '!' not in line:
                 if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
                     ut.red_exit(
                         f'Incorrect xyzfile definition in {e_input_file}'
@@ -265,7 +270,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                 dependencies['xyz'] = xyzfile
 
             # gbw file
-            if '%moinp' in line.lower():
+            if '%moinp' in line:
                 mo_inp = True
                 if len(line.split()) != 2:
                     ut.red_exit(
@@ -291,7 +296,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                         f'gbw file in {e_input_file} has same name as input'
                     )
 
-            if 'hessname' in line.lower():
+            if 'hessname' in line:
                 if len(line.split()) != 2:
                     ut.red_exit(
                         f'Incorrect hessian file definition in {e_input_file}'
@@ -315,11 +320,11 @@ def parse_input_contents(input_file: str, max_mem: int,
                     )
                 dependencies['hess'] = hess_file
 
-            if 'moread' in line.lower():
+            if 'moread' in line:
                 mo_read = True
 
             # Per core memory
-            if '%maxcore' in line.lower():
+            if '%maxcore' in line:
                 mem_found = True
 
                 if len(line.split()) != 2:
@@ -335,7 +340,7 @@ def parse_input_contents(input_file: str, max_mem: int,
                     )
 
             # Number of cores
-            if 'pal nprocs' in line.lower():
+            if 'pal nprocs' in line:
                 n_cores = int(line.split()[2])
                 core_found = True
 
@@ -466,15 +471,18 @@ def add_core_to_input(input_file: str, n_cores: int) -> None:
             # Find line if already exists
             for oline in fold:
                 # Number of cores
-                if '%pal nprocs' in oline.lower():
-                    fnew.write(f'%PAL NPROCS {n_cores:d} END\n')
+                _oline = oline.lower().lstrip().rstrip()
+                _oline = re.sub(r'\s+', ' ', _oline)
+                _oline = _oline.replace('% ', '%')
+                if '%pal nprocs' in _oline:
+                    fnew.write(f'\n%PAL NPROCS {n_cores:d} END')
                     found = True
                 else:
                     fnew.write('{}'.format(oline))
 
             # Add if missing
             if not found:
-                fnew.write(f'%PAL NPROCS {n_cores:d} END\n')
+                fnew.write(f'\n%PAL NPROCS {n_cores:d} END')
 
     subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
 
@@ -507,15 +515,18 @@ def add_mem_to_input(input_file: str, mem: float) -> None:
             # Find line if already exists
             for oline in fold:
                 # Number of cores
-                if '%maxcore' in oline.lower():
-                    fnew.write(f'%maxcore {mem:f}\n')
+                _oline = oline.lower().lstrip().rstrip()
+                _oline = re.sub(r'\s+', ' ', _oline)
+                _oline = _oline.replace('% ', '%')
+                if '%maxcore' in _oline:
+                    fnew.write(f'\n%maxcore {mem:f}')
                     found = True
                 else:
                     fnew.write('{}'.format(oline))
 
             # Add if missing
             if not found:
-                fnew.write(f'%maxcore {mem:.0f}\n')
+                fnew.write(f'\n%maxcore {mem:.0f}')
 
     subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
 
