@@ -358,28 +358,14 @@ def parse_input_contents(input_file: str, max_mem: int,
         )
 
     if not core_found:
-        n_cores = max_cores
-        ut.cprint(
-            f'Cannot locate %pal nprocs definition in {e_input_file}',
-            'black_yellowbg'
+        ut.red_exit(
+            f'Cannot locate %pal nprocs definition in {e_input_file}'
         )
-        ut.cprint(
-            f'Adding {max_cores:d} cores to input file\n',
-            'black_yellowbg'
-        )
-        add_core_to_input(input_file, n_cores)
 
     if not mem_found:
-        n_mb = max_mem / n_cores
-        ut.cprint(
-            f'Cannot locate %maxcore definition in {e_input_file}',
-            'black_yellowbg'
+        ut.red_exit(
+            f'Cannot locate %maxcore definition in {e_input_file}'
         )
-        ut.cprint(
-            f'Adding {n_mb:.0f}MB of memory to input file\n',
-            'black_yellowbg'
-        )
-        add_mem_to_input(input_file, n_mb)
 
     # Check memory doesnt exceed per-core limit
     if n_mb > max_mem / n_cores:
