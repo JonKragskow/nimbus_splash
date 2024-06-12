@@ -157,11 +157,13 @@ save and exit, and then run
 
 If you don't do this, ``nimbus_splash`` will tell you to!
 
-Note, if you want to switch over to using a different Research Allocation ID, you'll need to update
-this line in ``~/.bashrc`` and run ``source ~/.bashrc``. Alternatively, you can temporarily change the value 
-for the current session by running ``export SPLASH_RAID=<name_here>`` in your terminal.
 
-You're now ready to use ```nimbus_splash`` - head to :ref:`Usage <guide>` to get started.
+.. note::
+    If you want to switch over to using a different Research Allocation ID, you'll need to update
+    this line in ``~/.bashrc`` and run ``source ~/.bashrc``. Alternatively, you can temporarily change the value 
+    for the current session by running ``export SPLASH_RAID=<name_here>`` in your terminal.
+
+You're now ready to use ``nimbus_splash`` - head to :ref:`Usage <guide>` to get started.
 
 .. _email :
 

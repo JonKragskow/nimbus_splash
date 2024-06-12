@@ -135,9 +135,12 @@ The full list of ``ORCA`` compatible instances currently known to splash are ::
     paygo-hbv2-120
     paygo-hbv3-120
 
-Note, you can only use instances to which you have been granted access.
-This is usually indicated by a ``QOS`` error at submission time. To resolve this, modify your access
-on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
+
+.. note::
+
+    You can only use instances to which you have been granted access.
+    This is usually indicated by a ``QOS`` error at submission time. To resolve this, modify your access
+    on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
 
 By default, ``splash`` submits to ``spot-fsv2-16`` which has 16 cores and 2GB RAM per core, to change this default for your account
 add the following to your ``~/.bash_rc`` file, where ``<node_name>`` is one of those given above ::
