@@ -10,4 +10,6 @@ Contents
     gen_job <submission>
 
 
-Currently, splash only supports submission of jobs, see :ref:`submission` for more information.
+Currently, ``nimbus_splash`` only allows users to submit ORCA jobs on Nimbus. 
+
+See :ref:`submission` for more information.
