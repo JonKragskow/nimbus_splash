@@ -2,6 +2,17 @@
 
 
 
+## v1.6.3 (2024-06-12)
+
+### Documentation
+
+* docs: add notes ([`82246bc`](https://github.com/JonKragskow/nimbus_splash/commit/82246bc9a3804cbbf25b2fb23f728910936ee7d6))
+
+### Performance
+
+* perf: revert back to fail when maxcore or pal nprocs missing ([`1cc14c6`](https://github.com/JonKragskow/nimbus_splash/commit/1cc14c62fd8cd62397ffa1185f535057aac44ead))
+
+
 ## v1.6.2 (2024-06-11)
 
 ### Performance
