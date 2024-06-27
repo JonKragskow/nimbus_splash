@@ -7,7 +7,7 @@ Contents
    :maxdepth: 1
    :hidden:
 
-    gen_job <submission>
+    submit <submission>
 
 
 Currently, ``nimbus_splash`` only allows users to submit ORCA jobs on Nimbus. 

@@ -1,6 +1,6 @@
 .. _submission:
 
-``gen_job``
+``submit``
 -----------
 
 
@@ -44,7 +44,7 @@ In this case the structure is located in a separate ``.xyz`` file - ``benzene.xy
 
 To submit a job for this calculation, simply run ::
     
-    splash gen_job benzene.inp
+    splash submit benzene.inp
 
 You should then see an message informing you that a submission script was created and subsequently submitted.
 
@@ -58,11 +58,11 @@ Submitting multiple jobs
 
 You can submit more than one calculation at once by providing more than one input file to splash. For example ::
 
-    splash gen_job input_1.slm input_2.slm
+    splash submit input_1.slm input_2.slm
 
 You can even use a wildcard to submit jobs without typing each filename out ::
 
-    splash gen_job input_*.slm
+    splash submit input_*.slm
 
 Note that this will run all jobs in the current directory, and so can produce a large number of files in the same directory.
 
@@ -81,11 +81,11 @@ From the current calculation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When resuming a job, ``ORCA`` automatically searches for a ``.gbw`` file with the same name as your input file.
-To support this, ``splash`` checks for a ``<jobname>_results`` directory whenever you run ``splash gen_job`` and
+To support this, ``splash`` checks for a ``<jobname>_results`` directory whenever you run ``splash submit`` and
 copies the ``<jobname>.gbw`` file to the compute node's scratch space. This feature can be disabled with the 
 ``--no_guess`` argument, e.g. ::
 
-    splash gen_job benzene.inp --no_guess
+    splash submit benzene.inp --no_guess
 
 From another calculation
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -150,6 +150,6 @@ add the following to your ``~/.bash_rc`` file, where ``<node_name>`` is one of t
 More
 ^^^^
 
-Additional command line arguments for ``splash gen_job`` can be listed by running ::
+Additional command line arguments for ``splash submit`` can be listed by running ::
 
-    splash gen_job -h
+    splash submit -h
