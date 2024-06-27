@@ -2,6 +2,19 @@
 
 
 
+## v1.6.4 (2024-06-27)
+
+### Documentation
+
+* docs: update docs ([`29732c8`](https://github.com/JonKragskow/nimbus_splash/commit/29732c840929249c3215f44efa2080f5a5d88387))
+
+* docs: update language ([`1b09e28`](https://github.com/JonKragskow/nimbus_splash/commit/1b09e280355d6b6fe03bd809e737cdc7d186db1a))
+
+### Performance
+
+* perf: change gen_job to submit ([`11381d2`](https://github.com/JonKragskow/nimbus_splash/commit/11381d2aba1502f43b33f8d26e6d51ee6dfa961a))
+
+
 ## v1.6.3 (2024-06-12)
 
 ### Documentation
