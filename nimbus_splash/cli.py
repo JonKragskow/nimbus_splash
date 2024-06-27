@@ -8,9 +8,9 @@ import xyz_py as xyzp
 from . import utils as ut
 
 
-def gen_job_func(uargs):
+def submit_func(uargs):
     '''
-    Wrapper for CLI gen_job call
+    Wrapper for CLI submit call
 
     Parameters
     ----------
@@ -223,10 +223,10 @@ def rst_opt_func(uargs, job_args):
     with open(new_input, 'w') as f:
         f.write(input_info)
 
-    # Run gen_job on new calculation
+    # Run submit on new calculation
     read_args(
         [
-            "gen_job",
+            "submit",
             new_input,
             *job_args
         ]
@@ -266,11 +266,75 @@ def read_args(arg_list=None):
 
     subparsers = parser.add_subparsers(dest='prog')
 
+    submit = subparsers.add_parser(
+        'submit',
+        description='Generate Nimbus SLURM submission script'
+    )
+    submit.set_defaults(func=submit_func)
+
+    submit.add_argument(
+        'input_files',
+        nargs='+',
+        type=str,
+        help='Orca input file name(s)'
+    )
+
+    default_compute = ut.get_envvar('DEF_COMP_INST')
+    if not len(default_compute):
+        default_compute = 'spot-fsv2-16'
+
+    submit.add_argument(
+        '-nt',
+        '--node_type',
+        default=default_compute,
+        type=str,
+        help=f'Node to run on, default is {default_compute}'
+    )
+
+    submit.add_argument(
+        '-t',
+        '--time',
+        type=str,
+        default='24:00:00',
+        help='Time for job, formatted as HH:MM:SS, default 24:00:00'
+    )
+
+    submit.add_argument(
+        '-sx',
+        '--skip_xyz',
+        action='store_true',
+        help='Skip formatting check for .xyz file'
+    )
+
+    submit.add_argument(
+        '-ns',
+        '--no_start',
+        action='store_true',
+        help='If specified, jobs are not submitted to nimbus queue'
+    )
+
+    submit.add_argument(
+        '-v',
+        '--verbose',
+        action='store_true',
+        help='If specified, debug information is printed to screen'
+    )
+
+    submit.add_argument(
+        '-ng',
+        '--no_guess',
+        action='store_true',
+        help=(
+            'If specified, gbw files found in results directory will not be'
+            'used automatically'
+        )
+    )
+
     gen_job = subparsers.add_parser(
         'gen_job',
         description='Generate Nimbus SLURM submission script'
     )
-    gen_job.set_defaults(func=gen_job_func)
+    gen_job.set_defaults(func=submit_func)
 
     gen_job.add_argument(
         'input_files',
