@@ -109,8 +109,8 @@ The file ``<gbw_filename>`` can be located either in ``<jobname>_results`` or in
 
 .. _instances :
 
-Compute instances
-^^^^^^^^^^^^^^^^^
+Selecting a compute instance
+============================
 
 Specific Nimbus compute instances can be requested using the ``--node_type`` option.
 
