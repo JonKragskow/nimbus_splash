@@ -49,6 +49,7 @@ You should then see an message informing you that a submission script was create
 The job will be given the same name as your input file, and the output file for this calculation should appear in the current directory when the job starts running - for example
 
 .. code-block:: console
+
     user@nimbus-1-login-1 ~/benzene $ ls
     benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz
 
@@ -57,6 +58,7 @@ When the calculation has finished, been evicted, timed-out, or otherwise halted,
 This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 
 
 .. code-block:: console
+
     user@nimbus-1-login-1 ~/benzene $ ls
     benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz  benzene_results
 
@@ -65,11 +67,11 @@ Submitting multiple jobs
 
 You can submit more than one calculation at once by providing more than one input file to splash. For example ::
 
-    splash submit input_1.slm input_2.slm
+    splash submit input_1.inp input_2.inp
 
 You can even use a wildcard to submit jobs without typing each filename out ::
 
-    splash submit input_*.slm
+    splash submit input_*.inp
 
 Note that this will run all jobs in the current directory, and so can produce a large number of files in the same directory.
 
