@@ -7,9 +7,9 @@
 Submitting a job
 ================
 
-Using ``splash``, you can submit an ``ORCA`` job on Nimbus using only an ``ORCA`` input file, a ``.xyz`` file, and a single terminal command.
+Using ``splash``, you can easily submit an ``ORCA`` job on Nimbus using only an ``ORCA`` input file and a single terminal command.
 
-First, prepare your input file. As an example, this is an input file for a geometry optimisation and frequency calculation of benzene
+To best demonstrate the use of ``splash``, lets look at the example of a geometry optimisation and frequency calculation for a benzene molecule.
 
 .. code-block::
    :caption: ``benzene.inp``
@@ -19,10 +19,8 @@ First, prepare your input file. As an example, this is an input file for a geome
     %maxcore 2000
     *xyzfile 0 1 benzene.xyz
 
-
-Notice, the number of cores and maximum per-core memory have been specified.
-In this case the structure is located in a separate ``.xyz`` file - ``benzene.xyz``, though
-``splash`` does support input file coordinate specification (See :ref:`xyz_file_format`)
+In this example the structure is located in a separate ``.xyz`` file - ``benzene.xyz``, though
+``splash`` does support input file coordinate specification.
 
 .. code-block::
    :caption: ``benzene.xyz``
@@ -48,10 +46,19 @@ To submit a job for this calculation, simply run ::
 
 You should then see an message informing you that a submission script was created and subsequently submitted.
 
-The job will be given the same name as your input file, and the output file for this calculation should appear in the current directory when the job starts running.
+The job will be given the same name as your input file, and the output file for this calculation should appear in the current directory when the job starts running - for example
+
+.. code-block:: console
+    user@nimbus-1-login-1 ~/benzene $ ls
+    benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz
+
 
 When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and ``.xyz`` files.
 This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 
+
+.. code-block:: console
+    user@nimbus-1-login-1 ~/benzene $ ls
+    benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz  benzene_results
 
 Submitting multiple jobs
 ========================

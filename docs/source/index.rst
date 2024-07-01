@@ -17,4 +17,4 @@ Splash - the sound an Orca would make if it had a Bath.
 
 ``nimbus_splash``, or ``splash`` for short, is a package to make life easier when using the University of Bath's `Nimbus` cloud computing suite for Orca calculations.
 
-To get started with ``splash``, first head to :ref:`installation`., and then take a look at :ref:`submission`.
+To get started with ``splash``, first head to :ref:`installation`, and then take a look at :ref:`submission`.
