@@ -160,7 +160,7 @@ def write_file(input_file: str, node_type: str, time: str,
             '    mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")\n') # noqa
 
         j.write('else')
-        j.write('    mkdir $results')
+        j.write('    mkdir $results\n')
         j.write('fi\n\n')
         j.write('cd $localscratch\n')
 
