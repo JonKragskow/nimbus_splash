@@ -166,6 +166,7 @@ def submit_func(uargs):
             dependency_paths=ut.flatten_recursive(
                 list(dependency_paths.values())
             ),
+            orca_module=uargs.orca_module,
             email=email
         )
 
@@ -279,7 +280,7 @@ def read_args(arg_list=None):
         help='Orca input file name(s)'
     )
 
-    default_compute = ut.get_envvar('DEF_COMP_INST')
+    default_compute = ut.get_envvar('SPLASH_DEFAULT_INSTANCE')
     if not len(default_compute):
         default_compute = 'spot-fsv2-16'
 
@@ -297,6 +298,18 @@ def read_args(arg_list=None):
         type=str,
         default='24:00:00',
         help='Time for job, formatted as HH:MM:SS, default 24:00:00'
+    )
+
+    default_module = ut.get_envvar('SPLASH_ORCA_MODULE')
+    if not len(default_module):
+        default_module = 'ORCA/6.0.0'
+
+    submit.add_argument(
+        '-o',
+        '--orca_module',
+        type=str,
+        default=default_module,
+        help='Name of orca module e.g. ORCA/6.0.0'
     )
 
     submit.add_argument(
@@ -328,85 +341,6 @@ def read_args(arg_list=None):
             'If specified, gbw files found in results directory will not be'
             'used automatically'
         )
-    )
-
-    gen_job = subparsers.add_parser(
-        'gen_job',
-        description='Generate Nimbus SLURM submission script'
-    )
-    gen_job.set_defaults(func=submit_func)
-
-    gen_job.add_argument(
-        'input_files',
-        nargs='+',
-        type=str,
-        help='Orca input file name(s)'
-    )
-
-    default_compute = ut.get_envvar('DEF_COMP_INST')
-    if not len(default_compute):
-        default_compute = 'spot-fsv2-16'
-
-    gen_job.add_argument(
-        '-nt',
-        '--node_type',
-        default=default_compute,
-        type=str,
-        help=f'Node to run on, default is {default_compute}'
-    )
-
-    gen_job.add_argument(
-        '-t',
-        '--time',
-        type=str,
-        default='24:00:00',
-        help='Time for job, formatted as HH:MM:SS, default 24:00:00'
-    )
-
-    gen_job.add_argument(
-        '-sx',
-        '--skip_xyz',
-        action='store_true',
-        help='Skip formatting check for .xyz file'
-    )
-
-    gen_job.add_argument(
-        '-ns',
-        '--no_start',
-        action='store_true',
-        help='If specified, jobs are not submitted to nimbus queue'
-    )
-
-    gen_job.add_argument(
-        '-v',
-        '--verbose',
-        action='store_true',
-        help='If specified, debug information is printed to screen'
-    )
-
-    gen_job.add_argument(
-        '-ng',
-        '--no_guess',
-        action='store_true',
-        help=(
-            'If specified, gbw files found in results directory will not be'
-            'used automatically'
-        )
-    )
-
-    rst_opt = subparsers.add_parser(
-        'rst_opt',
-        description=(
-            'Restart optimisation from output file alone.\n'
-            'Use only if you are missing a previous _results directory'
-        )
-    )
-    rst_opt.set_defaults(func=rst_opt_func)
-
-    rst_opt.add_argument(
-        'output_file',
-        type=str,
-        help='Orca output file name(s) (must contain coordinates from optimisation)' # noqa
     )
 
     # If argument list is none, then call function func

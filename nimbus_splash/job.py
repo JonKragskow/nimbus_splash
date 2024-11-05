@@ -4,11 +4,9 @@ import re
 
 from . import utils as ut
 
-ORCA_MODULE = 'ORCA/5.0.4'
-
 
 def write_file(input_file: str, node_type: str, time: str,
-               dependency_paths: dict[str, str],
+               dependency_paths: dict[str, str], orca_module: str,
                verbose: bool = False,
                email: str = '') -> str:
     '''
@@ -28,6 +26,9 @@ def write_file(input_file: str, node_type: str, time: str,
         If True, prints job file name to screen
     dependency_paths : list[str]
         Full path to each file required by this job
+    orca_module: str
+        string name of orca module loaded by environment modules package\n
+        e.g. ORCA/5.0.4
     email: str, optional
         If provided, adds the specified email to the jobscript.\n
         Users recieve an email for all changes in job status
@@ -37,6 +38,9 @@ def write_file(input_file: str, node_type: str, time: str,
     str
         Name of jobscript file
     '''
+
+    if 'module load' in orca_module:
+        orca_module = orca_module.split('module load')[1].lstrip().rstrip()
 
     # Check for research allocation id environment variable
     ut.check_envvar('SPLASH_RAID')
@@ -128,7 +132,7 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write('# Load orca\n')
         j.write('module purge\n')
-        j.write(f'module load {ORCA_MODULE}\n\n')
+        j.write(f'module load {orca_module}\n\n')
 
         j.write('# UCX transport protocols for MPI\n')
         j.write('export UCX_TLS=self,tcp,sm\n\n')
