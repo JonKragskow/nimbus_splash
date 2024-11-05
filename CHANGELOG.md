@@ -2,6 +2,33 @@
 
 
 
+## v1.7.0 (2024-11-05)
+
+### Build
+
+* build: bump dependencies ([`0e72720`](https://github.com/JonKragskow/nimbus_splash/commit/0e72720bc0a2fdf9d63bfd8b6406113c65317253))
+
+### Documentation
+
+* docs: add orca version number section ([`5ea4785`](https://github.com/JonKragskow/nimbus_splash/commit/5ea4785ddee04dd479e58a84afe520bdd9c9b6da))
+
+* docs: remove deprecated version number print ([`9b30cc0`](https://github.com/JonKragskow/nimbus_splash/commit/9b30cc0e5351d3de507dcbb8ebef8c08af5795b6))
+
+* docs: update image ([`0b384db`](https://github.com/JonKragskow/nimbus_splash/commit/0b384db08d92124b544e21b4745d628cc9a60ad6))
+
+* docs: fix typo ([`14c23a6`](https://github.com/JonKragskow/nimbus_splash/commit/14c23a66637ee9b511bf712843db7a56e3644af5))
+
+* docs: fix typos ([`b4b3c3b`](https://github.com/JonKragskow/nimbus_splash/commit/b4b3c3b6a63c1a2c8c34de3c0c5ae8498e0cbdd4))
+
+* docs: update documentation ([`2e67e84`](https://github.com/JonKragskow/nimbus_splash/commit/2e67e843a7d436c6e32580af2667036076dd30e7))
+
+* docs: fix header ([`5ed6a3c`](https://github.com/JonKragskow/nimbus_splash/commit/5ed6a3c81f417c76c1328a2205b3e7991e8206ce))
+
+### Feature
+
+* feat: add option to specify orca version ([`07ef6f8`](https://github.com/JonKragskow/nimbus_splash/commit/07ef6f8f28cdccc9e13cbb15d70ffc5ee08deb9d))
+
+
 ## v1.6.4 (2024-06-27)
 
 ### Documentation
