@@ -154,7 +154,19 @@ The full list of ``ORCA`` compatible instances currently known to splash are ::
 By default, ``splash`` submits to ``spot-fsv2-16`` which has 16 cores and 2GB RAM per core, to change this default for your account
 add the following to your ``~/.bash_rc`` file, where ``<node_name>`` is one of those given above ::
 
-    export DEF_COMP_INST=<node_name>
+    export SPLASH_DEFAULT_INSTANCE=<node_name>
+
+Selecting a different version of Orca
+=====================================
+
+Several versions of Orca are available on Nimbus - use ``module avail`` to see all available modules.
+
+By default, ``splash`` will use the most recent version of Orca, but a different version can be selected with the ``-orca_module <VALUE>`` optional argument.
+
+Alternatively, to select a new default orca version and avoid having to enter this optional argument contantly,
+add the following to your ``~/.bash_rc`` file, where ``<module_name>`` is one of those printed by ``module avail`` ::
+
+    export SPLASH_ORCA_MODULE=<module_name>
 
 More
 ^^^^
