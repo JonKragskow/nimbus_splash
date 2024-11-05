@@ -135,7 +135,6 @@ Install ``nimbus_splash`` with
 
     pip install nimbus_splash
 
-installs ``nimbus_splash``.
 
 Now, set your Research Allocation ID using the instructions below.
 
