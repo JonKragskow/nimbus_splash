@@ -12,7 +12,7 @@ Please see the `nimbus_splash` documentation for more details.
 
 # DO NOT EDIT THIS NUMBER!
 # IT IS AUTOMATICALLY CHANGED BY python-semantic-release
-__version__ = '1.7.0'
+__version__ = '1.7.1'
 
 setuptools.setup(
     name='Nimbus Splash',

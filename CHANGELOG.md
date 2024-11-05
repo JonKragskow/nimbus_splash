@@ -2,6 +2,23 @@
 
 
 
+## v1.7.1 (2024-11-05)
+
+### Documentation
+
+* docs: fix typo ([`17b8055`](https://github.com/JonKragskow/nimbus_splash/commit/17b80556d2151c193b9546a4a7903cf184f7c450))
+
+* docs: fix typo ([`91d5dbd`](https://github.com/JonKragskow/nimbus_splash/commit/91d5dbd3c0073f807f6010ee9f88c879b20bc208))
+
+* docs: fix typo ([`87ba922`](https://github.com/JonKragskow/nimbus_splash/commit/87ba9222dbe1d0df528774bca93acce609a1089c))
+
+### Fix
+
+* fix: add missing newline ([`0bf9157`](https://github.com/JonKragskow/nimbus_splash/commit/0bf9157dd8b6deb1688cb1ba84e2d666f509575f))
+
+* fix: add missing newline ([`097fdb6`](https://github.com/JonKragskow/nimbus_splash/commit/097fdb68ccf9a020f1eb61c0039020ce7e2bbcb1))
+
+
 ## v1.7.0 (2024-11-05)
 
 ### Build
