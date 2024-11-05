@@ -26,7 +26,7 @@ Long Instructions
 
 To install ``splash``, you will need to create a ``conda`` environment. This contains a sandboxed installation of ``python``
 that is separate from the system version, so if anything bad happens you can just delete the environment
-and start again without affecting anything. You will then install ``splash`` to this environment.
+and start again without affecting anything. You will then install ``splash`` in this environment.
 
 Enabling Anaconda
 ^^^^^^^^^^^^^^^^^
