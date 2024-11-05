@@ -65,7 +65,7 @@ This directory will be named ``<jobname>_results`` and will contain all the file
 Submitting multiple jobs
 ========================
 
-You can submit more than one calculation at once by providing more than one input file to splash. For example ::
+You can submit more than one calculation at once by providing more than one input file to ``splash``. For example ::
 
     splash submit input_1.inp input_2.inp
 
