@@ -7,14 +7,14 @@
 Submitting a job
 ================
 
-Using ``splash``, you can easily submit an ``ORCA`` job on Nimbus using only an ``ORCA`` input file and a single terminal command.
+Using ``splash``, you can easily submit an ``ORCA`` job to `Nimbus` using only an ``ORCA`` input file and a single terminal command.
 
 To best demonstrate the use of ``splash``, lets look at the example of a geometry optimisation and frequency calculation for a benzene molecule.
 
 .. code-block::
    :caption: ``benzene.inp``
 
-    !PBE def2-svp OPT FREQ
+    !BP86 def2-svp OPT FREQ
     %PAL NPROCS 16 END
     %maxcore 2000
     *xyzfile 0 1 benzene.xyz
@@ -86,42 +86,29 @@ This feature is supported by ``splash`` and requires no additional effort on the
 Providing input orbitals
 ========================
 
-From the current calculation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-When resuming a job, ``ORCA`` automatically searches for a ``.gbw`` file with the same name as your input file.
-To support this, ``splash`` checks for a ``<jobname>_results`` directory whenever you run ``splash submit`` and
-copies the ``<jobname>.gbw`` file to the compute node's scratch space. This feature can be disabled with the 
-``--no_guess`` argument, e.g. ::
-
-    splash submit benzene.inp --no_guess
-
-From another calculation
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-To provide ``ORCA`` with a guess set of orbitals to ``ORCA`` from another calculation, make sure you have both the ``MORead`` keyword and the ``%moinp "<gbw_filename>"`` line in
-your input file. Note that ``ORCA`` will not allow your specified file to have the same name-head as the input file.
+To provide ``ORCA`` with a set of orbitals, make sure you have both the ``MORead`` keyword and the ``%moinp "<gbw_filename>"`` line in
+your input file. Note that ``ORCA`` will not allow your specified file to have the same name-stem as the input file.
 
 For the benzene example in the previous section, a correct input file would be
 
 .. code-block::
    :caption: ``benzene.inp`` with specified orbital file
 
-    !PBE def2-svp OPT FREQ MORead
+    !BP86 def2-svp OPT FREQ MORead
     %moinp "new_orbs.gbw"
     %PAL NPROCS 16 END
     %maxcore 2000
     *xyzfile 0 1 benzene.xyz
 
 
-The file ``<gbw_filename>`` can be located either in ``<jobname>_results`` or in the same directory as the input file - ``splash`` will look for this file in both locations.
+The file ``<gbw_filename>`` must be in the same directory as the input file, and cannot contain any path information.
 
 .. _instances :
 
 Selecting a compute instance
 ============================
 
-Specific Nimbus compute instances can be requested using the ``--node_type`` option.
+Specific `Nimbus` compute instances can be requested using the ``--instance`` option.
 
 The full list of ``ORCA`` compatible instances currently known to splash are ::
 
@@ -131,18 +118,14 @@ The full list of ``ORCA`` compatible instances currently known to splash are ::
     spot-fsv2-16
     spot-fsv2-32
     spot-hc-44
-    spot-hb-60
     spot-hbv2-120
-    spot-hbv3-120
     paygo-fsv2-2
     paygo-fsv2-4
     paygo-fsv2-8
     paygo-fsv2-16
     paygo-fsv2-32
     paygo-hc-44
-    paygo-hb-66
     paygo-hbv2-120
-    paygo-hbv3-120
 
 
 .. note::
@@ -152,21 +135,32 @@ The full list of ``ORCA`` compatible instances currently known to splash are ::
     on the `RCAM <https://rcam.bath.ac.uk/>`_ portal.
 
 By default, ``splash`` submits to ``spot-fsv2-16`` which has 16 cores and 2GB RAM per core, to change this default for your account
-add the following to your ``~/.bash_rc`` file, where ``<node_name>`` is one of those given above ::
+add the following to your ``~/.bash_rc`` file, where ``<instance>`` is one of those given above ::
 
-    export SPLASH_DEFAULT_INSTANCE=<node_name>
+    export SPLASH_DEFAULT_INSTANCE=<instance>
 
-Selecting a different version of Orca
+Selecting a different version of ORCA
 =====================================
 
-Several versions of Orca are available on Nimbus - use ``module avail`` to see all available modules.
+Several versions of ORCA are available on `Nimbus` - use ``module check <INSTANCE_NAME> ORCA`` to see the ORCA versions available for a given instance.
 
-By default, ``splash`` will use the most recent version of Orca, but a different version can be selected with the ``-orca_module <VALUE>`` optional argument.
+.. note::
 
-Alternatively, to select a new default orca version and avoid having to enter this optional argument contantly,
+    You might get an error about ``termcolor`` when using ```module check``. If you do, run ``pip install termcolor`` and then try again!
+
+
+By default, ``splash`` will use the most recent version of ORCA (``6.0.1``), but a different version can be selected with
+the ``-orca_version <VALUE>`` optional argument.
+
+Alternatively, to select a new default ORCA version and avoid having to enter this optional argument constantly,
 add the following to your ``~/.bash_rc`` file, where ``<module_name>`` is one of those printed by ``module avail`` ::
 
     export SPLASH_ORCA_MODULE=<module_name>
+
+.. note::
+
+    Beware: For reasons beyond the developer of this package's comprehension, the support for different ORCA versions across
+    the different `Nimbus` instances is uneven and unclear.
 
 More
 ^^^^

@@ -8,7 +8,7 @@ File Formats
 ``.xyz`` files
 --------------
 
-Splash expects a specific standard for ``.xyz`` files, and will exit with an error message if this standard is not followed.
+``nimbus_splash`` expects a specific standard for ``.xyz`` files, and will exit with an error message if this standard is not followed.
 
 A ``.xyz`` file should be formatted as follows
 

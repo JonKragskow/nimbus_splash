@@ -10,6 +10,6 @@ Contents
     submit <submission>
 
 
-Currently, ``nimbus_splash`` only allows users to submit ORCA jobs on Nimbus. 
+Currently, ``nimbus_splash`` has one purpose - submitting Orca jobs to Nimbus!
 
 See :ref:`submission` for more information.

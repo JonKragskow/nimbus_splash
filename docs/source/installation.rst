@@ -143,7 +143,7 @@ Now, set your Research Allocation ID using the instructions below.
 Setting your Research Allocation ID
 -----------------------------------
 
-To select your Research Allocation ID, add the following environment variable in your nimbus
+To select your Research Allocation ID, add the following environment variable in your `Nimbus`
 ``~/.bashrc`` file and replace ``<name_here>`` with your Research Allocation ID.
 
 .. code-block::
@@ -171,7 +171,7 @@ You're now ready to use ``nimbus_splash`` - head to :ref:`Usage <guide>` to get 
 Optional: Setting your notification email
 -----------------------------------------
 
-To recieve emails on your job status, add the following environment variable in your nimbus
+To recieve emails on your job status, add the following environment variable in your `Nimbus`
 ``~/.bashrc`` file and replace ``<email_here>`` with your email address.
 
 .. code-block::
