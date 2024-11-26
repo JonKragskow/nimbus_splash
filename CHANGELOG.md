@@ -2,6 +2,29 @@
 
 
 
+## v1.8.0 (2024-11-26)
+
+### Build
+
+* build: update dependencies ([`8cbaec4`](https://github.com/JonKragskow/nimbus_splash/commit/8cbaec49d074c9859646c9ceacbc8ef229a88f68))
+
+### Documentation
+
+* docs: update documentation ([`79d6880`](https://github.com/JonKragskow/nimbus_splash/commit/79d6880308c124a2a18248b8ef33a9446afa811d))
+
+### Feature
+
+* feat: add orca version management ([`11e4b7b`](https://github.com/JonKragskow/nimbus_splash/commit/11e4b7b04601420f3f21255eedcc6dd50b1883d9))
+
+### Performance
+
+* perf: restore absolute rsync file names ([`1bd1542`](https://github.com/JonKragskow/nimbus_splash/commit/1bd1542e120eed3e48b32939c9b5eb899db0112f))
+
+### Test
+
+* test: update tests ([`5c04f94`](https://github.com/JonKragskow/nimbus_splash/commit/5c04f943c101a7e09fa2eb382e44970b477969c7))
+
+
 ## v1.7.1 (2024-11-05)
 
 ### Documentation
