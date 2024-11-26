@@ -1,4 +1,0 @@
-!PBE def2-svp OPT FREQ
-%PAL NPROCS 16 END
-%maxcore 2000
-*xyzfile 0 1 benzene.xyz

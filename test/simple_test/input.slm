@@ -4,12 +4,10 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=16
 #SBATCH --partition=spot-fsv2-16
-#SBATCH --account=123
+#SBATCH --account=None
 #SBATCH --qos=spot-fsv2-16
 #SBATCH --output=input.%j.o
 #SBATCH --error=input.%j.e
-#SBATCH --mail-user=jgck20@bath.ac.uk
-#SBATCH --mail-type=ALL
 #SBATCH --signal=B:USR1
 
 # Job time
@@ -35,10 +33,10 @@ if [ -f $output ]; then
 fi
 
 # Copy files to localscratch
-rsync -aP /home/jon/git/nimbus_splash/test/simple_test/input.inp /home/jon/git/nimbus_splash/test/simple_test/xyz.xyz $localscratch
+rsync -aP input.inp $localscratch
 cd $localscratch
 
-# write date and node type to output
+# Write date and instance type to output
 date > $campaigndir/$output
 uname -n >> $campaigndir/$output
 
@@ -48,7 +46,7 @@ source /apps/build/easy_build/scripts/setup_modules.sh
 
 # Load orca
 module purge
-module load ORCA/5.0.1-gompi-2021a
+module load {'5.0.1': 'ORCA/5.0.1-gompi-2021a', '5.0.4': '/apps/x86_64/modules/all/ORCA/5.0.4', '6.0.0': '/apps/x86_64/modules/all/ORCA/6.0.0', '6.0.1': 'ORCA/6.0.1-gompi-2023b'}
 
 # UCX transport protocols for MPI
 export UCX_TLS=self,tcp,sm
@@ -68,6 +66,8 @@ cd $campaigndir
 # If results directory already exists, append OLD and last access time
 if [ -d $results ]; then
     mv $results "$results"_OLD_$(date -r $results "+%Y-%m-%d-%H-%M-%S")
+else
+    mkdir $results
 fi
 
 cd $localscratch
