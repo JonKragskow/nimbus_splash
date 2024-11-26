@@ -2,7 +2,7 @@
 Information on Nimbus configuration and ORCA module - instance compatibility
 '''
 
-# Currently installed orca modules
+# Current installed orca modules - 26/11/2024
 ORCA_MODULES: dict[str, dict[str, str]] = {
     'fsv2': {
         '5.0.1': 'ORCA/5.0.1-gompi-2021a',

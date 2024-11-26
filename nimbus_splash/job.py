@@ -1,14 +1,16 @@
-import os
-import subprocess
-import re
+import pathlib
+from orto import extractor as oe
+import xyz_py as xyzp
 
 from . import utils as ut
+from . import config as cfg
 
 
-def write_file(input_file: str, node_type: str, time: str,
-               dependency_paths: dict[str, str], orca_module: str,
-               verbose: bool = False,
-               email: str = '') -> str:
+def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
+               dependencies: dict[str, str | pathlib.Path],
+               orca_version: str, research_allocation_id: str,
+               verbose: bool = False, email: str = '',
+               job_name: str = None) -> str:
     '''
     Writes slurm jobscript to file for ORCA calculation on nimbus
 
@@ -16,52 +18,64 @@ def write_file(input_file: str, node_type: str, time: str,
 
     Parameters
     ----------
-    input_file : str
+    input_file : str | pathlib.Path
         Full path to input file, including extension
-    node_type : str
-        Name of Nimbus node to use
+    instance_name : str
+        Name of Nimbus instance to use e.g. spot-hc-44
     time : str
         Job time limit formatted as HH:MM:SS
     verbose : bool, default=False
         If True, prints job file name to screen
-    dependency_paths : list[str]
-        Full path to each file required by this job
-    orca_module: str
-        string name of orca module loaded by environment modules package\n
-        e.g. ORCA/5.0.4
+    dependencies : dict[str | pathlib.Path]
+        Files required by job - e.g. xyz, gbw, hess
+    orca_version: str
+        string name of orca version
+        e.g. 5.0.4
+    research_allocation_id: str
+        Research allocation ID
     email: str, optional
         If provided, adds the specified email to the jobscript.\n
         Users recieve an email for all changes in job status
+    job_name: str, optional
+        Name of job. If not provided, then job name defaults to stem of
+        input file
 
     Returns
     -------
     str
         Name of jobscript file
+
+    Raises
+    ------
+    ValueError
+        If ORCA version not available on instance
     '''
 
-    if 'module load' in orca_module:
-        orca_module = orca_module.split('module load')[1].lstrip().rstrip()
+    # Check instance's ORCA compatibility
+    if instance_name not in cfg.ORCA_SUPPORTED_INSTANCES:
+        raise ValueError(
+            f'Specified instance {instance_name} does not support ORCA'
+        )
 
-    # Check for research allocation id environment variable
-    ut.check_envvar('SPLASH_RAID')
+    # Find relevant orca module for given instance
+    try:
+        orca_module = cfg.ORCA_MODULES[instance_name.split('-')[1]][orca_version] # noqa
+    except KeyError:
+        raise ValueError(
+            f'ORCA version {orca_version} not available on instance {instance_name}' # noqa
+        )
 
     # Get raw name of input file excluding path
-    inpath, in_raw = os.path.split(input_file)
+    input_file = pathlib.Path(input_file)
+
+    # Convert dependencies to Path objects
+    dependencies = [pathlib.Path(dep) for dep in dependencies]
 
     # Name of job
-    job_name = ut.gen_job_name(input_file)
+    if job_name is None:
+        job_name = input_file.stem
 
-    # Name of results directory
-    results_name = ut.gen_results_name(input_file)
-
-    # Job file to write to, must use path if present in input_file
-    job_file = os.path.join(
-        inpath,
-        f'{job_name}.slm'
-    )
-
-    # Path of input file
-    calc_dir = os.path.abspath(inpath)
+    job_file = pathlib.Path.joinpath(input_file.parent, f'{job_name}.slm')
 
     with open(job_file, 'w') as j:
 
@@ -70,11 +84,11 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write(f'#SBATCH --job-name={job_name}\n')
         j.write('#SBATCH --nodes=1\n')
         j.write('#SBATCH --ntasks-per-node={}\n'.format(
-            node_type.split('-')[-1])
-        )
-        j.write(f'#SBATCH --partition={node_type}\n')
-        j.write('#SBATCH --account={}\n'.format(os.environ['SPLASH_RAID']))
-        j.write(f'#SBATCH --qos={node_type}\n')
+            cfg.INSTANCE_TOTAL_CORES[instance_name]
+        ))
+        j.write(f'#SBATCH --partition={instance_name}\n')
+        j.write(f'#SBATCH --account={research_allocation_id}\n')
+        j.write(f'#SBATCH --qos={instance_name}\n')
         j.write(f'#SBATCH --output={job_name}.%j.o\n')
         j.write(f'#SBATCH --error={job_name}.%j.e\n')
 
@@ -88,10 +102,10 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write(f'#SBATCH --time={time}\n\n')
 
         j.write('# name and path of the input/output files and locations\n')
-        j.write(f'input={in_raw}\n')
+        j.write(f'input={input_file}\n')
         j.write(f'output={job_name}.out\n')
-        j.write(f'campaigndir={calc_dir}\n')
-        j.write(f'results=$campaigndir/{results_name}\n\n')
+        j.write(f'campaigndir={input_file.parent.absolute()}\n')
+        j.write(f'results=$campaigndir/{input_file.stem}_results\n\n')
 
         j.write('# Local (Node) scratch, either node itself if supported ')
         j.write('or burstbuffer\n')
@@ -107,8 +121,7 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('# If output file already exists, append OLD and ')
         j.write('last access time\n')
         j.write('if [ -f $output ]; then\n')
-        j.write(
-            '    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")\n') # noqa
+        j.write('    mv $output "$output"_OLD_$(date -r $output "+%Y-%m-%d-%H-%M-%S")\n') # noqa
         j.write('fi\n\n')
 
         j.write('# Copy files to localscratch\n')
@@ -116,13 +129,13 @@ def write_file(input_file: str, node_type: str, time: str,
 
         j.write(f'{input_file}')
 
-        for dep in dependency_paths:
+        for dep in dependencies:
             j.write(f' {dep}')
 
         j.write(' $localscratch\n')
         j.write('cd $localscratch\n\n')
 
-        j.write('# write date and node type to output\n')
+        j.write('# Write date and instance type to output\n')
         j.write('date > $campaigndir/$output\n')
         j.write('uname -n >> $campaigndir/$output\n\n')
 
@@ -189,335 +202,167 @@ def write_file(input_file: str, node_type: str, time: str,
         j.write('rm -r $localscratch\n')
 
     if verbose:
-        if os.path.split(job_file)[0] == os.getcwd():
-            pp_jf = os.path.split(job_file)[1]
+        if job_file.parent == pathlib.Path.cwd():
+            ut.cprint(f'Submission script written to {job_file.name}', 'green')
         else:
-            pp_jf = job_file
-        ut.cprint(f'Submission script written to {pp_jf}', 'green')
+            ut.cprint(f'Submission script written to {job_file}', 'green')
 
     return job_file
 
 
-def parse_input_contents(input_file: str, max_mem: int,
-                         max_cores: int) -> dict[str, str]:
+def parse_input_contents(input_file: str | pathlib.Path,
+                         instance_name: str,
+                         skip_xyz: bool = False) -> dict[str, pathlib.Path]:
     '''
     Checks contents of input file and returns file dependencies\n
-    Also checks if maxcore (memory) specified is appropriate
 
     Parameters
     ----------
-    input_file : str
+    input_file: str | pathlib.Path
         Full path to orca input file
-    max_mem : int
-        Max memory (MB) total on node
-    max_cores : int
-        Maximum number of cores on node
+    instance_name: str
+        Name of Nimbus instance e.g. spot-fsv2-32
+    skip_xyz: bool, default False
+        If True, skips checking of xyz file formatting
 
     Returns
     -------
-    dict[str, str]
+    dict[str, pathlib.Path]
         Relative paths of files required by this this input file\n
-        Key is identifier (xyz, gbw, hess), Value is file name
+        Key is identifier (xyz, gbw, hess), Value is file name as Path object
+
+    Raises
+    ------
+    ValueError
+        If errors encountered in input file format or xyz file format
+    FileNotFound
+        If xyz, gbw, or hessian file cannot be found
+    Warning
+        If specified per-core memory exceeds instance limit
     '''
 
-    # Found memory and cores
-    mem_found = False
-    core_found = False
-
-    # MO Sections
-    mo_read = False
-    mo_inp = False
+    # Convert to Path object
+    input_file = pathlib.Path(input_file)
 
     # Dependencies (files) of this input file
-    # as full paths
     dependencies = dict()
 
-    # Path of input file
-    inpath = os.path.split(input_file)[0]
+    # Load number of procs and amount of memory from orca input file
+    try:
+        n_procs = oe.NProcsInputExtractor.extract(input_file)[0]
+    except oe.DataNotFoundError:
+        raise ValueError(f'Missing Number of processors in {input_file}')
 
-    # head of input file
-    inhead = os.path.split(os.path.splitext(input_file)[0])[1]
+    try:
+        maxcore = oe.MaxCoreInputExtractor.extract(input_file)[0]
+    except oe.DataNotFoundError:
+        raise ValueError(f'Missing Max Core Memory in {input_file}')
 
-    # If input file is in cwd then no need to print massive path for errors
-    if inpath == os.getcwd():
-        e_input_file = os.path.split(input_file)[1]
-    else:
-        e_input_file = input_file
+    # Check against selected instance
+    if n_procs > cfg.INSTANCE_TOTAL_CORES[instance_name]:
+        string = 'Error: Specified number of cores'
+        string += f' {n_procs:d} in {input_file} exceeds '
+        string += f'instance limit of {cfg.INSTANCE_TOTAL_CORES[instance_name]:d} cores' # noqa
+        raise ValueError(string)
 
-    with open(input_file, 'r') as f:
-        for line in f:
+    # Check against selected instance
+    if maxcore * n_procs > cfg.INSTANCE_TOTAL_MEM[instance_name]:
+        string = 'Warning: Specified amount of memory'
+        string += f' {maxcore:d} * {n_procs:d} in {input_file} exceeds '
+        string += f'instance limit of {cfg.INSTANCE_TOTAL_MEM[instance_name]:d} MB' # noqa
+        raise Warning(string)
 
-            line = line.lower().lstrip().rstrip()
-            line = re.sub(r'\s+', ' ', line)
-            line = line.replace('% ', '%')
+    # Get xyz file name and check it exists and is formatted correctly
+    try:
+        xyz_file = oe.XYZFileInputExtractor.extract(input_file)
+    except oe.DataNotFoundError:
+        xyz_file = []
 
-            # xyz file
-            if 'xyzfile' in line and '!' not in line:
-                if len(line.split()) != 5 and line.split()[0] != '*xyzfile':
-                    ut.red_exit(
-                        f'Incorrect xyzfile definition in {e_input_file}'
-                    )
+    try:
+        xyzline = oe.XYZInputExtractor.extract(input_file)
+    except oe.DataNotFoundError:
+        xyzline = []
 
-                if len(line.split()) != 4 and line.split()[0] != '*':
-                    ut.red_exit(
-                        f'Incorrect xyzfile definition in {e_input_file}'
-                    )
-
-                xyzfile = line.split()[-1]
-
-                # Check if contains path info, if so error
-                if os.sep in xyzfile:
-                    ut.red_exit(
-                        f'Path provided for xyz file in {e_input_file}'
-                    )
-
-                dependencies['xyz'] = xyzfile
-
-            # gbw file
-            if '%moinp' in line:
-                mo_inp = True
-                if len(line.split()) != 2:
-                    ut.red_exit(
-                        f'Incorrect gbw file definition in {e_input_file}'
-                    )
-                if abs(line.count('"') - line.count("'")) != 2:
-                    ut.red_exit(
-                        f'Missing quotes around gbw file name in {e_input_file}' # noqa
-                    )
-
-                gbw_file = line.split()[-1].replace('"', '').replace("'", "")
-
-                # Check if contains path info, if so error
-                if os.sep in gbw_file:
-                    ut.red_exit(
-                        f'Path provided for gbw file in {e_input_file}'
-                    )
-                dependencies['gbw'] = gbw_file
-
-                # Check gbw doesnt have same name as input
-                if os.path.splitext(gbw_file)[0] == inhead:
-                    ut.red_exit(
-                        f'gbw file in {e_input_file} has same name as input'
-                    )
-
-            if 'hessname' in line:
-                if len(line.split()) != 2:
-                    ut.red_exit(
-                        f'Incorrect hessian file definition in {e_input_file}'
-                    )
-                if abs(line.count('"') - line.count("'")) != 2:
-                    ut.red_exit(
-                        f'Missing quotes around hessian file name in {e_input_file}' # noqa
-                    )
-
-                hess_file = line.split()[-1].replace('"', '').replace("'", "")
-
-                # Check if contains path info, if so error
-                if os.sep in hess_file:
-                    ut.red_exit(
-                        f'Path provided for hessian file in {e_input_file}'
-                    )
-                # Check hess doesnt have same name as input
-                if os.path.splitext(hess_file)[0] == inhead:
-                    ut.red_exit(
-                        f'hessian file in {e_input_file} has same name as input' # noqa
-                    )
-                dependencies['hess'] = hess_file
-
-            if 'moread' in line:
-                mo_read = True
-
-            # Per core memory
-            if '%maxcore' in line:
-                mem_found = True
-
-                if len(line.split()) != 2:
-                    ut.red_exit(
-                        f'Incorrect %maxcore definition in {e_input_file}'
-                    )
-
-                try:
-                    n_mb = int(line.split()[-1])
-                except ValueError:
-                    ut.red_exit(
-                        f'Cannot parse per core memory in {e_input_file}'
-                    )
-
-            # Number of cores
-            if 'pal nprocs' in line:
-                n_cores = int(line.split()[2])
-                core_found = True
-
-                if n_cores > max_cores:
-
-                    string = 'Error: Specified number of cores'
-                    string += f' {n_cores:d} in {input_file} exceeds '
-                    string += f'node limit of {max_cores:d} cores'
-
-                    ut.red_exit(string)
-
-    if mo_inp ^ mo_read:
-        ut.red_exit(
-            f'Only one of moread and %moinp specified in {e_input_file}'
+    if not len(xyz_file) and not len(xyzline):
+        raise ValueError(
+            'Error: missing or incorrect *xyzfile or *xyz line in input'
         )
 
-    if not core_found:
-        ut.red_exit(
-            f'Cannot locate %pal nprocs definition in {e_input_file}'
+    if len(xyz_file) > 1 or len(xyzline) > 1 or len(xyz_file + xyzline) > 1: # noqa
+        raise ValueError(
+            'Error: multiple *xyzfile or *xyz lines in input. Only one can be present' # noqa
         )
 
-    if not mem_found:
-        ut.red_exit(
-            f'Cannot locate %maxcore definition in {e_input_file}'
-        )
+    if len(xyz_file):
+        xyz_file = pathlib.Path(xyz_file[0])
+        if not xyz_file.is_file():
+            raise FileNotFoundError(
+                'Error: xyz file specified in input cannot be found'
+            )
+        dependencies['xyz'] = xyz_file
 
-    # Check memory doesnt exceed per-core limit
-    if n_mb > max_mem / n_cores:
+        if not skip_xyz:
+            try:
+                xyzp.check_xyz(
+                    xyz_file.absolute(),
+                    allow_indices=False
+                )
+            except xyzp.XYZError as e:
+                raise ValueError(
+                    f'{e}\n Use -sx to skip this check at your peril'
+                )
 
-        string = 'Warning! Specified per core memory of'
-        string += f' {n_mb:d} MB in {input_file} exceeds'
-        string += ' node limit of {:.2f} MB'.format(max_mem / n_cores)
+    # Check if MORead and/or MOInp are present
+    try:
+        moread = oe.MOReadExtractor.extract(input_file)
+    except oe.DataNotFoundError:
+        moread = []
+    try:
+        moinp = oe.MOInpExtractor.extract(input_file)
+    except oe.DataNotFoundError:
+        moinp = []
 
-        ut.cprint(string, 'black_yellowbg')
+    # Error if only one word present or if more than one of each word
+    if len(moinp) ^ len(moread):
+        raise ValueError('Error: Missing one of MOInp or MORead')
+    if len(moinp) + len(moread) > 2:
+        raise ValueError('Error: Multiple MORead and/or MOInp detected')
+
+    if len(moinp):
+        # Error if input orbitals have same stem as input file
+        moinp = pathlib.Path(moinp[0])
+        if moinp.stem == input_file.stem:
+            raise ValueError(
+                'Error: Stem of orbital and input files cannot match'
+            )
+
+        # Error if cannot find orbital file
+        if not moinp.exists():
+            raise FileNotFoundError(
+                f'Error: Cannot find orbital file - {moinp}'
+            )
+
+        dependencies['gbw'] = moinp
+
+    # Check if Hessname is present
+    try:
+        hess = oe.HessNameInputExtractor.extract(input_file)
+    except oe.DataNotFoundError:
+        hess = []
+
+    if len(hess):
+        hess = pathlib.Path(hess[0])
+        if hess.stem == input_file.stem:
+            raise ValueError(
+                'Error: Stem of hessian and input files cannot match'
+            )
+
+        # Error if cannot find orbital file
+        if not hess.exists():
+            raise FileNotFoundError(
+                f'Error: Cannot find Hessian file - {hess}'
+            )
+
+        dependencies['hess'] = hess
 
     return dependencies
-
-
-def locate_dependencies(files: dict[str, str],
-                        input_file: str) -> dict[str, str]:
-    '''
-    Locates each dependency in either input directory or results directory
-
-    Parameters
-    ----------
-    files: dict[str, str]
-        Keys are filetype [xyz, gbw] \n
-        Values are name file (no path information)
-    input_file: str
-        Full path of input file
-
-    Returns
-    -------
-    dict[str, str]
-        Absolute path of each file, keys are same as `files`.
-    '''
-
-    results_name = ut.gen_results_name(input_file)
-    in_path = os.path.split(input_file)[0]
-
-    dependency_paths = {}
-
-    for file_type, file_name in files.items():
-
-        # Potential path of current file if in input directory
-        curr = os.path.join(in_path, file_name)
-        # Potential path of current file if in results directory
-        res = os.path.join(in_path, results_name, file_name)
-
-        # gbw check both currdir/results_name and then currdir
-        if file_type == 'gbw':
-            if os.path.exists(res):
-                dependency_paths[file_type] = os.path.abspath(res)
-            elif os.path.exists(curr):
-                dependency_paths[file_type] = os.path.abspath(curr)
-            else:
-                ut.red_exit(
-                    f'{file_type} file specified in {input_file} cannot be found' # noqa
-                )
-        else:
-            if os.path.exists(curr):
-                dependency_paths[file_type] = os.path.abspath(curr)
-            else:
-                ut.red_exit(
-                    f'{file_type} file specified in {input_file} cannot be found' # noqa
-                )
-
-    return dependency_paths
-
-
-def add_core_to_input(input_file: str, n_cores: int) -> None:
-    '''
-    Adds number of cores (NPROCS) definition to specified input file
-
-    Parameters
-    ----------
-    input_file : str
-        Name of orca input file
-    n_cores : int
-        Number of cores to specify
-
-    Returns
-    -------
-    None
-    '''
-
-    found = False
-
-    new_file = f'{input_file}_tmp'
-
-    with open(input_file, 'r') as fold:
-        with open(new_file, 'w') as fnew:
-
-            # Find line if already exists
-            for oline in fold:
-                # Number of cores
-                _oline = oline.lower().lstrip().rstrip()
-                _oline = re.sub(r'\s+', ' ', _oline)
-                _oline = _oline.replace('% ', '%')
-                if '%pal nprocs' in _oline:
-                    fnew.write(f'\n%PAL NPROCS {n_cores:d} END')
-                    found = True
-                else:
-                    fnew.write('{}'.format(oline))
-
-            # Add if missing
-            if not found:
-                fnew.write(f'\n%PAL NPROCS {n_cores:d} END')
-
-    subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
-
-    return
-
-
-def add_mem_to_input(input_file: str, mem: float) -> None:
-    '''
-    Adds memory (maxcore) definition to specified input file
-
-    Parameters
-    ----------
-    input_file : str
-        Name of orca input file
-    mem : int
-        Amount of memory to specify in MB
-
-    Returns
-    -------
-    None
-    '''
-
-    found = False
-
-    new_file = f'{input_file}_tmp'
-
-    with open(input_file, 'r') as fold:
-        with open(new_file, 'w') as fnew:
-
-            # Find line if already exists
-            for oline in fold:
-                # Number of cores
-                _oline = oline.lower().lstrip().rstrip()
-                _oline = re.sub(r'\s+', ' ', _oline)
-                _oline = _oline.replace('% ', '%')
-                if '%maxcore' in _oline:
-                    fnew.write(f'\n%maxcore {mem:f}')
-                    found = True
-                else:
-                    fnew.write('{}'.format(oline))
-
-            # Add if missing
-            if not found:
-                fnew.write(f'\n%maxcore {mem:.0f}')
-
-    subprocess.call('mv {} {}'.format(new_file, input_file), shell=True)
-
-    return
