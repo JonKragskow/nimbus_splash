@@ -69,7 +69,9 @@ def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
     input_file = pathlib.Path(input_file)
 
     # Convert dependencies to Path objects
-    dependencies = [pathlib.Path(dep) for dep in dependencies]
+    dependencies: list[pathlib.Path] = [
+        pathlib.Path(dep) for dep in dependencies
+    ]
 
     # Name of job
     if job_name is None:
@@ -127,10 +129,10 @@ def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
         j.write('# Copy files to localscratch\n')
         j.write('rsync -aP ')
 
-        j.write(f'{input_file}')
+        j.write(f'{input_file.absolute()}')
 
         for dep in dependencies:
-            j.write(f' {dep}')
+            j.write(f' {dep.absolute()}')
 
         j.write(' $localscratch\n')
         j.write('cd $localscratch\n\n')
