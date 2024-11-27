@@ -92,7 +92,7 @@ your input file. Note that ``ORCA`` will not allow your specified file to have t
 For the benzene example in the previous section, a correct input file would be
 
 .. code-block::
-   :caption: ``benzene.inp`` with specified orbital file
+   :caption: ``benzene.inp`` with input orbitals specified
 
     !BP86 def2-svp OPT FREQ MORead
     %moinp "new_orbs.gbw"
@@ -146,21 +146,20 @@ Several versions of ORCA are available on `Nimbus` - use ``module check <INSTANC
 
 .. note::
 
-    You might get an error about ``termcolor`` when using ```module check``. If you do, run ``pip install termcolor`` and then try again!
+    You might get an error about ``termcolor`` when using ``module check``. If you do, run ``pip install termcolor`` and then try again!
 
 
 By default, ``splash`` will use the most recent version of ORCA (``6.0.1``), but a different version can be selected with
-the ``-orca_version <VALUE>`` optional argument.
+the ``--orca_version <VALUE>`` optional argument.
 
 Alternatively, to select a new default ORCA version and avoid having to enter this optional argument constantly,
 add the following to your ``~/.bash_rc`` file, where ``<module_name>`` is one of those printed by ``module avail`` ::
 
     export SPLASH_ORCA_MODULE=<module_name>
 
-.. note::
+.. warning::
 
-    Beware: For reasons beyond the developer of this package's comprehension, the support for different ORCA versions across
-    the different `Nimbus` instances is uneven and unclear.
+    Beware: Not all `Nimbus` instances have access to the same ``ORCA`` versions.
 
 More
 ^^^^
