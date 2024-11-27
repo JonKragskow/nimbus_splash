@@ -9,6 +9,7 @@ Home
    Bugs <bugs>
    FAQ <faq>
    File Formats <file_formats>
+   Repository <https://github.com/JonKragskow/nimbus_splash>
    :maxdepth: 3
    :caption: Contents:
    :hidden:
