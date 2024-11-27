@@ -178,3 +178,11 @@ To recieve emails on your job status, add the following environment variable in 
 
     export SPLASH_EMAIL=<email_here>
 
+Updating
+--------
+
+To update ``nimbus_splash`` run the following command
+
+.. code-block::
+
+    pip install --upgrade nimbus_splash
