@@ -9,7 +9,7 @@ Submitting a job
 
 Using ``splash``, you can easily submit an ``ORCA`` job to `Nimbus` using only an ``ORCA`` input file and a single terminal command.
 
-To best demonstrate the use of ``splash``, lets look at the example of a geometry optimisation and frequency calculation for a benzene molecule.
+To best demonstrate the use of ``splash``, let's look at the example of a geometry optimisation and frequency calculation for a benzene molecule.
 
 .. code-block::
    :caption: ``benzene.inp``
