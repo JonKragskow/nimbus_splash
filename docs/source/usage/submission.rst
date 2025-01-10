@@ -153,9 +153,9 @@ By default, ``splash`` will use the most recent version of ORCA (``6.0.1``), but
 the ``--orca_version <VALUE>`` optional argument.
 
 Alternatively, to select a new default ORCA version and avoid having to enter this optional argument constantly,
-add the following to your ``~/.bash_rc`` file, where ``<module_name>`` is one of those printed by ``module avail`` ::
+add the following to your ``~/.bash_rc`` file, where ``<version>`` is the version number, e.g.  ``6.0.0`` ::
 
-    export SPLASH_ORCA_MODULE=<module_name>
+    export SPLASH_ORCA_VERSION=<version>
 
 .. warning::
 
