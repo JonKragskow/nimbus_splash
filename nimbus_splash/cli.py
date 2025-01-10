@@ -131,7 +131,7 @@ def read_args(arg_list=None):
     )
 
     default_instance = ut.get_envvar('SPLASH_DEFAULT_INSTANCE')
-    if not len(default_instance):
+    if default_instance not in cfg.ORCA_SUPPORTED_INSTANCES:
         default_instance = 'spot-fsv2-16'
 
     submit.add_argument(
