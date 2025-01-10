@@ -2,6 +2,31 @@
 
 
 
+## v1.8.1 (2025-01-10)
+
+### Ci
+
+* ci: update docs build ([`195a1c9`](https://github.com/JonKragskow/nimbus_splash/commit/195a1c9809617425ceeeeb7e682ae422c64da881))
+
+### Documentation
+
+* docs: fix typo ([`8d7bb34`](https://github.com/JonKragskow/nimbus_splash/commit/8d7bb34f2911b4197f9bf0f75a4677e0fa13c343))
+
+* docs: update docs ([`6b0581d`](https://github.com/JonKragskow/nimbus_splash/commit/6b0581d16286f4b0e4998023dc5d9a222f563500))
+
+* docs: fix typo ([`32bfbb7`](https://github.com/JonKragskow/nimbus_splash/commit/32bfbb7da49e6aae64a252a84e5de4c9d2593865))
+
+* docs: add repo link ([`4e2b2c4`](https://github.com/JonKragskow/nimbus_splash/commit/4e2b2c42af8e4c99c24f81e870c37fde063e32d7))
+
+* docs: add update section to installation ([`c9d72ba`](https://github.com/JonKragskow/nimbus_splash/commit/c9d72ba394ed20ce120c308a92df92cc84bca2d8))
+
+* docs: fix typo ([`2ea6335`](https://github.com/JonKragskow/nimbus_splash/commit/2ea63355897d08dfdd5e566548891531e28ecc2a))
+
+### Performance
+
+* perf: add check for supported default instance ([`acaaa91`](https://github.com/JonKragskow/nimbus_splash/commit/acaaa916ae60c74c253b5fb53908962870021588))
+
+
 ## v1.8.0 (2024-11-26)
 
 ### Build
