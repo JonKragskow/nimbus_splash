@@ -162,7 +162,7 @@ add the following to your ``~/.bash_rc`` file, where ``<version>`` is the versio
     Beware: Not all `Nimbus` instances have access to the same ``ORCA`` versions.
 
 More
-^^^^
+====
 
 Additional command line arguments for ``splash submit`` can be listed by running ::
 
