@@ -38,7 +38,7 @@ setuptools.setup(
     package_dir={'': '.'},
     packages=setuptools.find_packages(),
     python_requires='>=3.10',
-    install_requires=['numpy>=2.1.3', 'xyz_py>=5.13.1', 'orto>=0.10.0'],
+    install_requires=['numpy>=2.1.3', 'xyz_py>=5.13.1', 'orto>=0.10.0', 'termcolor'],
     entry_points={
         'console_scripts': [
             'splash = nimbus_splash.cli:interface',
