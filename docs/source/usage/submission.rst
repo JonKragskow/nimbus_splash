@@ -110,7 +110,7 @@ Selecting a compute instance
 
 Specific `Nimbus` compute instances can be requested using the ``--instance`` option.
 
-The full list of ``ORCA`` compatible instances currently known to splash are ::
+The full list of ``ORCA`` compatible instances currently known to ``splash`` are ::
 
     spot-fsv2-2
     spot-fsv2-4
@@ -149,6 +149,13 @@ Several versions of ORCA are available on `Nimbus` - use ``module check <INSTANC
     You might get an error about ``termcolor`` when using ``module check``. If you do, run ``pip install termcolor`` and then try again!
 
 
+.. warning::
+
+    Beware: Not all `Nimbus` instances have access to the same ``ORCA`` versions.
+
+``splash`` contains its own internal list of ORCA modules which can be printed with the ``splash orca_modules`` command. This list is periodically updated when new 
+versions of ORCA are installed on `Nimbus`, please raise a `GitHub Issue <https://github.com/jonkragskow/nimbus_splash/issues>`_ to have new modules added to ``splash``'s list.
+
 By default, ``splash`` will use the most recent version of ORCA (``6.0.1``), but a different version can be selected with
 the ``--orca_version <VALUE>`` optional argument.
 
@@ -156,10 +163,6 @@ Alternatively, to select a new default ORCA version and avoid having to enter th
 add the following to your ``~/.bash_rc`` file, where ``<version>`` is the version number, e.g.  ``6.0.0`` ::
 
     export SPLASH_ORCA_VERSION=<version>
-
-.. warning::
-
-    Beware: Not all `Nimbus` instances have access to the same ``ORCA`` versions.
 
 More
 ====

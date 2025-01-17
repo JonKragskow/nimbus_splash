@@ -7,6 +7,7 @@ import warnings
 
 from . import utils as ut
 from . import config as cfg
+from .__version__ import __version__
 
 
 def custom_formatwarning(msg, *args, **kwargs):
@@ -15,6 +16,43 @@ def custom_formatwarning(msg, *args, **kwargs):
 
 
 warnings.formatwarning = custom_formatwarning
+
+
+def orca_modules_func(uargs):
+    '''
+    Wrapper for CLI orca_modules call
+
+    Parameters
+    ----------
+    uargs : argparser object
+        User arguments
+
+    Returns
+    -------
+    None
+    '''
+
+    # Print orca versions
+
+    ut.cprint(
+        f'    ORCA MODULES KNOWN TO NIMBUS_SPLASH V{__version__}',
+        'green'
+    )
+
+    for instance, options in cfg.ORCA_MODULES.items():
+        ut.cprint('*************************************************', 'green')
+        ut.cprint(f'{instance}', 'cyan')
+        for version, module in options.items():
+            ut.cprint(f'    {version}: {module}', 'cyan')
+
+    ut.cprint('*************************************************', 'green')
+
+    ut.cprint(
+        'Contact Dr Jon Kragskow to add missing modules to splash',
+        'green'
+    )
+
+    return
 
 
 def submit_func(uargs):
@@ -29,7 +67,6 @@ def submit_func(uargs):
     Returns
     -------
     None
-
     '''
 
     if len(ut.get_envvar('SPLASH_ORCA_MODULE')):
@@ -202,6 +239,12 @@ def read_args(arg_list=None):
             'used automatically'
         )
     )
+
+    versions = subparsers.add_parser(
+        'orca_modules',
+        description='Print orca modules known to splash'
+    )
+    versions.set_defaults(func=orca_modules_func)
 
     # If argument list is none, then call function func
     # which is assigned to help function
