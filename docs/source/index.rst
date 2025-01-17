@@ -3,7 +3,7 @@ Home
 
 .. toctree::
    Installation <installation>
-   Usage <usage/index>
+   Usage <usage>
    Modules <modules/index>
    Contributors <contribs>
    Bugs <bugs>

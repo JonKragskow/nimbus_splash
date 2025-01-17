@@ -1,26 +1,30 @@
 .. _submission:
 
-``submit``
------------
-
-
 Submitting a job
-================
+----------------
 
 Using ``splash``, you can easily submit an ``ORCA`` job to `Nimbus` using only an ``ORCA`` input file and a single terminal command.
 
-To best demonstrate the use of ``splash``, let's look at the example of a geometry optimisation and frequency calculation for a benzene molecule.
+.. code-block:: console
+
+    splash submit <input_file>
+
+Example Submission
+==================
+
+In the following example, we submit a geometry optimisation calculation for a benzene molecule.
+
+First, prepare the input file.
 
 .. code-block::
    :caption: ``benzene.inp``
 
-    !BP86 def2-svp OPT FREQ
+    !BP86 def2-svp OPT
     %PAL NPROCS 16 END
     %maxcore 2000
     *xyzfile 0 1 benzene.xyz
 
-In this example the structure is located in a separate ``.xyz`` file - ``benzene.xyz``, though
-``splash`` does support input file coordinate specification.
+In this example the structure is located in a separate ``.xyz`` file - ``benzene.xyz``.
 
 .. code-block::
    :caption: ``benzene.xyz``
@@ -40,9 +44,12 @@ In this example the structure is located in a separate ``.xyz`` file - ``benzene
     C      1.3899     -0.0572      0.0114
     H      2.4836     -0.1022      0.0205
 
-To submit a job for this calculation, simply run ::
-    
+To submit a job for this calculation, simply run
+
+.. code-block:: console
+
     splash submit benzene.inp
+
 
 You should then see an message informing you that a submission script was created and subsequently submitted.
 
@@ -55,12 +62,12 @@ The job will be given the same name as your input file, and the output file for 
 
 
 When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and ``.xyz`` files.
-This directory will be named ``<jobname>_results`` and will contain all the files ``ORCA`` creates. 
+This directory will be named ``<jobname>_results`` and will contain all of the files that ``ORCA`` has created. 
 
 .. code-block:: console
 
     user@nimbus-1-login-1 ~/benzene $ ls
-    benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz  benzene_results
+    benzene.6718675.e  benzene.6718675.o  ... benzene.xyz  benzene_results
 
 Submitting multiple jobs
 ========================
@@ -76,8 +83,8 @@ You can even use a wildcard to submit jobs without typing each filename out ::
 Note that this will run all jobs in the current directory, and so can produce a large number of files in the same directory.
 
 
-Providing coordinates within the input file
-===========================================
+Coordinates within ``.inp`` files
+=================================
 
 Instead of providing a separate ``.xyz`` file, it is possible to specify coordinates within the ``ORCA`` input file.
 
@@ -139,8 +146,8 @@ add the following to your ``~/.bash_rc`` file, where ``<instance>`` is one of th
 
     export SPLASH_DEFAULT_INSTANCE=<instance>
 
-Selecting a different version of ORCA
-=====================================
+Selecting an ORCA version
+=========================
 
 Several versions of ORCA are available on `Nimbus` - use ``module check <INSTANCE_NAME> ORCA`` to see the ORCA versions available for a given instance.
 
