@@ -10,6 +10,7 @@ Home
    FAQ <faq>
    File Formats <file_formats>
    Repository <https://github.com/JonKragskow/nimbus_splash>
+   Nimbus Course <https://research-software-skills-bath.github.io/intro_nimbus_hpc/00_schedule>
    :maxdepth: 3
    :caption: Contents:
    :hidden:
