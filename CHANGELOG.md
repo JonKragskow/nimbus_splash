@@ -2,6 +2,17 @@
 
 
 
+## v1.8.2 (2025-01-17)
+
+### Documentation
+
+* docs: update anaconda version in installation guide ([`bb640ec`](https://github.com/JonKragskow/nimbus_splash/commit/bb640ec27e182d68e3d1ba6253f12169a2595dbf))
+
+### Fix
+
+* fix: correct bug with memory warning ([`e42bd70`](https://github.com/JonKragskow/nimbus_splash/commit/e42bd70b6e7eb50e7e788ebc21a1f8af68d7fdb8))
+
+
 ## v1.8.1 (2025-01-10)
 
 ### Ci
