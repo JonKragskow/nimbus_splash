@@ -2,6 +2,21 @@
 
 
 
+## v1.9.0 (2025-01-17)
+
+### Build
+
+* build: add termcolor dep ([`4e2f51c`](https://github.com/JonKragskow/nimbus_splash/commit/4e2f51c4a8bbf2618d96d7d3c6cfa85fd771f500))
+
+### Documentation
+
+* docs: add link to bath documentation ([`85d8d46`](https://github.com/JonKragskow/nimbus_splash/commit/85d8d46ae89705088adf700ebe230ce5b413680b))
+
+### Feature
+
+* feat: add orca_modules cli program ([`3e32333`](https://github.com/JonKragskow/nimbus_splash/commit/3e32333a0a42e7aec8243dd93e70b783411ad105))
+
+
 ## v1.8.2 (2025-01-17)
 
 ### Documentation
