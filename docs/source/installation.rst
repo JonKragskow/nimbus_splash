@@ -13,7 +13,7 @@ Depending on your level of python knowledge, follow either the short instruction
 Short Instructions
 ------------------
 
-1. Load Anaconda ``module load Anaconda3/2022.10`` - Optionally add this to your ``~/.bashrc`` file for automatic loading.
+1. Load Anaconda ``module load Anaconda3/2024.02-1`` - Optionally add this to your ``~/.bashrc`` file for automatic loading.
 2. Create a ``conda`` environment or ``pyenv`` - Optionally set this to automatically load every time you log in using ``~/.bashrc``.
 3. Install ``pip`` with ``conda install pip``.
 4. Install ``nimbus_splash`` using ``pip``
@@ -44,7 +44,7 @@ Then go to the bottom of the file using your arrow keys or mouse, and paste in t
 
 .. code-block::
 
-    module load Anaconda3/2022.10
+    module load Anaconda3/2024.02-1
 
 
 Then save and exit nano using ``ctrl+o``, ``enter``, then ``ctrl+x``, and then run the command
