@@ -3,10 +3,18 @@ from . import job
 import subprocess
 import os
 import pathlib
-
+import warnings
 
 from . import utils as ut
 from . import config as cfg
+
+
+def custom_formatwarning(msg, *args, **kwargs):
+    # ignore everything except the message
+    return ut.cstring(str(msg) + '\n', 'black_yellowbg')
+
+
+warnings.formatwarning = custom_formatwarning
 
 
 def submit_func(uargs):
@@ -52,6 +60,7 @@ def submit_func(uargs):
             ut.red_exit('Cannot locate {}'.format(file.name))
 
         # Check contents/format of input file and any file dependencies
+        # with warnings.catch_warnings(record=True) as w:
         try:
             dependencies = job.parse_input_contents(
                 file,
@@ -60,8 +69,9 @@ def submit_func(uargs):
             )
         except (ValueError, FileNotFoundError) as err:
             ut.red_exit(str(err))
-        except Warning as wa:
-            ut.cprint(str(wa), 'black_yellowbg')
+
+            # if w:
+            #     ut.cprint(str(w[0]), 'black_yellowbg')
 
         if uargs.verbose:
             print(dependencies)

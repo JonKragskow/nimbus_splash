@@ -1,6 +1,7 @@
 import pathlib
 from orto import extractor as oe
 import xyz_py as xyzp
+import warnings
 
 from . import utils as ut
 from . import config as cfg
@@ -239,8 +240,6 @@ def parse_input_contents(input_file: str | pathlib.Path,
         If errors encountered in input file format or xyz file format
     FileNotFound
         If xyz, gbw, or hessian file cannot be found
-    Warning
-        If specified per-core memory exceeds instance limit
     '''
 
     # Convert to Path object
@@ -272,7 +271,7 @@ def parse_input_contents(input_file: str | pathlib.Path,
         string = 'Warning: Specified amount of memory'
         string += f' {maxcore:d} * {n_procs:d} in {input_file} exceeds '
         string += f'instance limit of {cfg.INSTANCE_TOTAL_MEM[instance_name]:d} MB' # noqa
-        raise Warning(string)
+        warnings.warn(string)
 
     # Get xyz file name and check it exists and is formatted correctly
     try:

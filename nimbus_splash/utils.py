@@ -8,9 +8,9 @@ def red_exit(string):
     return
 
 
-def cprint(string: str, color: str):
+def cstring(string: str, color: str) -> str:
     '''
-    Prints colorised output to screen
+    Returns colorised string
 
     Parameters
     ----------
@@ -51,7 +51,28 @@ def cprint(string: str, color: str):
     # Remove left and right newlines, will add in again later
     _string = string.rstrip('\n').lstrip('\n')
 
-    print('{}{}{}{}{}'.format(l_nl, ccodes[color], _string, end, r_nl))
+    _string = '{}{}{}{}{}'.format(l_nl, ccodes[color], _string, end, r_nl)
+
+    return _string
+
+
+def cprint(string: str, color: str):
+    '''
+    Prints colorised output to screen
+
+    Parameters
+    ----------
+    string: str
+        String to print
+    color: str {red, green, yellow, blue, magenta, cyan, white}
+        String name of color
+
+    Returns
+    -------
+    None
+    '''
+
+    print(cstring(string, color))
 
     return
 
