@@ -95,6 +95,13 @@ def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
         j.write(f'#SBATCH --output={job_name}.%j.o\n')
         j.write(f'#SBATCH --error={job_name}.%j.e\n')
 
+        # Stop slurm from killing the job if the node fails
+        # and stop slurm from resubmitting the job if the node fails
+        # n.b. this also prevents a requeue in the case of a higher priority
+        # job pushing this one off of the node - swings and roundabouts!
+        j.write('#SBATCH --no-kill\n')
+        j.write('#SBATCH --no-requeue\n')
+
         if len(email):
             j.write(f'#SBATCH --mail-user={email}\n')
             j.write('#SBATCH --mail-type=ALL\n')
@@ -269,7 +276,7 @@ def parse_input_contents(input_file: str | pathlib.Path,
     # Check against selected instance
     if maxcore * n_procs > cfg.INSTANCE_TOTAL_MEM[instance_name]:
         string = 'Warning: Specified amount of memory'
-        string += f' {maxcore:d} * {n_procs:d} in {input_file} exceeds '
+        string += f' {maxcore:d} * {n_procs:d} = {n_procs*n_procs:d} in {input_file} exceeds ' # noqa
         string += f'instance limit of {cfg.INSTANCE_TOTAL_MEM[instance_name]:d} MB' # noqa
         warnings.warn(string)
 
