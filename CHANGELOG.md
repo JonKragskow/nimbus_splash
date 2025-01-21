@@ -2,6 +2,19 @@
 
 
 
+## v1.10.0 (2025-01-21)
+
+### Documentation
+
+* docs: fix link ([`7af8f45`](https://github.com/JonKragskow/nimbus_splash/commit/7af8f457c154bf4512b2f2d57cf3fe5887a8239d))
+
+* docs: streamline docs ([`9435a46`](https://github.com/JonKragskow/nimbus_splash/commit/9435a4665162b0dc02058975f94b113b062e32d0))
+
+### Feature
+
+* feat: add no-kill and no-requeue slurm commands to slm file ([`f37b880`](https://github.com/JonKragskow/nimbus_splash/commit/f37b8800d278d087eb950cf5e34006a1188140fe))
+
+
 ## v1.9.0 (2025-01-17)
 
 ### Build
