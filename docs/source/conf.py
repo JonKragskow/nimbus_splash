@@ -18,7 +18,9 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'nimbus_splash'
+version = '1.10.0'
+
+project = f'nimbus_splash v{version}'
 copyright = '{:d}'.format(datetime.date.today().year)
 
 html_logo = 'splash.png'

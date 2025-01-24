@@ -55,6 +55,6 @@ upload_to_vcs_release = true
 version_variables = [
     'setup.py:__version__',
     'nimbus_splash/__version__.py:__version__',
-    'docs/source/conf.py:release'
+    'docs/source/conf.py:version'
 ]
 
