@@ -180,7 +180,7 @@ To recieve emails on your job status, add the following environment variable in 
 
 .. note::
     This service sends several emails per job, so it's worth adding a Rule in Outlook to redirect
-    these to a folder. This will keep your inbox clean, but will also stop these messages
+    nimbus emails to a folder. This will both keep your inbox clean, and will also stop these messages
     from generating notifications.
 
 Updating
