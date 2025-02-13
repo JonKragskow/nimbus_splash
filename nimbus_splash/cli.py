@@ -10,6 +10,15 @@ from . import config as cfg
 from .__version__ import __version__
 
 
+DEFAULT_ORCA_VERSION = ut.get_envvar('SPLASH_ORCA_VERSION')
+if not len(DEFAULT_ORCA_VERSION):
+    DEFAULT_ORCA_VERSION = '6.0.1'
+
+DEFAULT_INSTANCE = ut.get_envvar('SPLASH_DEFAULT_INSTANCE')
+if DEFAULT_INSTANCE not in cfg.ORCA_SUPPORTED_INSTANCES:
+    DEFAULT_INSTANCE = 'spot-fsv2-16'
+
+
 def custom_formatwarning(msg, *args, **kwargs):
     # ignore everything except the message
     return ut.cstring(str(msg) + '\n', 'black_yellowbg')
@@ -45,10 +54,27 @@ def orca_modules_func(uargs):
         for version, module in options.items():
             ut.cprint(f'    {version}: {module}', 'cyan')
 
-    ut.cprint('*************************************************', 'green')
+    ut.cprint('*************************************************\n', 'green')
 
     ut.cprint(
-        'Contact Dr Jon Kragskow to add missing modules to splash',
+        'By default, splash will use ',
+        'green',
+        end=''
+    )
+    ut.cprint(f'{DEFAULT_ORCA_VERSION}', 'cyan')
+
+    ut.cprint(
+        'Change this with',
+        'green'
+    )
+    ut.cprint('splash submit input_file.inp -o VERSION_NUMBER', 'cyan')
+
+    ut.cprint(
+        '\nContact Research Computing to add missing modules to nimbus',
+        'green'
+    )
+    ut.cprint(
+        'Then Dr Jon Kragskow to add missing modules to splash',
         'green'
     )
 
@@ -177,16 +203,12 @@ def read_args(arg_list=None):
         help='Orca input file name(s)'
     )
 
-    default_instance = ut.get_envvar('SPLASH_DEFAULT_INSTANCE')
-    if default_instance not in cfg.ORCA_SUPPORTED_INSTANCES:
-        default_instance = 'spot-fsv2-16'
-
     submit.add_argument(
         '-i',
         '--instance',
-        default=default_instance,
+        default=DEFAULT_INSTANCE,
         type=str,
-        help=f'Instance to run on, default is {default_instance}'
+        help=f'Instance to run on, default is {DEFAULT_INSTANCE}'
     )
 
     submit.add_argument(
@@ -197,16 +219,12 @@ def read_args(arg_list=None):
         help='Time for job, formatted as HH:MM:SS, default 24:00:00'
     )
 
-    default_version = ut.get_envvar('SPLASH_ORCA_VERSION')
-    if not len(default_version):
-        default_version = '6.0.1'
-
     submit.add_argument(
         '-o',
         '--orca_version',
         type=str,
-        default=default_version,
-        help='Version of orca to use e.g. 6.0.1'
+        default=DEFAULT_ORCA_VERSION,
+        help=f'Version of orca to use e.g. {DEFAULT_ORCA_VERSION}'
     )
 
     submit.add_argument(

@@ -56,7 +56,7 @@ def cstring(string: str, color: str) -> str:
     return _string
 
 
-def cprint(string: str, color: str):
+def cprint(string: str, color: str, **kwargs):
     '''
     Prints colorised output to screen
 
@@ -72,7 +72,7 @@ def cprint(string: str, color: str):
     None
     '''
 
-    print(cstring(string, color))
+    print(cstring(string, color), **kwargs)
 
     return
 
