@@ -2,6 +2,17 @@
 
 
 
+## v1.10.2 (2025-02-13)
+
+### Documentation
+
+* docs: add demo image ([`56bbbaa`](https://github.com/JonKragskow/nimbus_splash/commit/56bbbaa7f82ed721419ce6e72b41929479035820))
+
+### Fix
+
+* fix: change name to remove space ([`cf1c5a2`](https://github.com/JonKragskow/nimbus_splash/commit/cf1c5a2961585446121156e281a7b4171a9bbaf7))
+
+
 ## v1.10.1 (2025-02-13)
 
 ### Documentation
