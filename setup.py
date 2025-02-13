@@ -15,7 +15,7 @@ Please see the `nimbus_splash` documentation for more details.
 __version__ = '1.10.1'
 
 setuptools.setup(
-    name='Nimbus Splash',
+    name='nimbus_splash',
     version=__version__,
     author='Jon Kragskow',
     author_email='jgck20@bath.ac.uk',
