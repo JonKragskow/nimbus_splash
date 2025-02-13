@@ -2,6 +2,27 @@
 
 
 
+## v1.10.1 (2025-02-13)
+
+### Documentation
+
+* docs: fix grammar ([`df01369`](https://github.com/JonKragskow/nimbus_splash/commit/df01369a106468b7f8a84b4de21b5a9ef328e57e))
+
+* docs: add version number to docs bar ([`a508214`](https://github.com/JonKragskow/nimbus_splash/commit/a5082146a3cfe7fe5f71ddd76d7d968234416660))
+
+* docs: add email note ([`94546a9`](https://github.com/JonKragskow/nimbus_splash/commit/94546a9696bfe5b1a2f51fdd704dc18052fd0d48))
+
+### Fix
+
+* fix: add current version print to orca_modules ([`7dc2a95`](https://github.com/JonKragskow/nimbus_splash/commit/7dc2a95b92144c39c2e4e49d2c936604c4ec5f35))
+
+### Unknown
+
+* remove dropbox file ([`d59bf57`](https://github.com/JonKragskow/nimbus_splash/commit/d59bf5713f79a11fe759d6f44d4164c0c3cbea82))
+
+* Add diagram ([`de92967`](https://github.com/JonKragskow/nimbus_splash/commit/de92967d60f6c4f614815a2a12446de6b736ae8c))
+
+
 ## v1.10.0 (2025-01-21)
 
 ### Documentation
