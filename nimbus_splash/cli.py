@@ -99,15 +99,22 @@ def submit_func(uargs):
         ut.red_exit(
             (
                 'SPLASH_ORCA_MODULE environment variableis deprecated\n'
-                'Please ee nimbus_splash documentation\n'
+                'Please see nimbus_splash documentation\n'
                 'And set SPLASH_ORCA_VERSION instead'
             )
         )
 
+    # Check instance is supported
     if uargs.instance in cfg.ORCA_SUPPORTED_INSTANCES:
         instance = uargs.instance
     else:
         ut.red_exit('Error: instance {uargs.instance} unsupported')
+
+    # Check ORCA version exists on specified instance
+    if uargs.orca_version not in cfg.ORCA_MODULES[uargs.instance.split('-')[1]]: # noqa
+        ut.red_exit(
+            f'ORCA version {uargs.orca_version} not available on instance {uargs.instance}' # noqa
+        )
 
     # Read email environment variable
     try:

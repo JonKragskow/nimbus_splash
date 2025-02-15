@@ -16,6 +16,7 @@ ORCA_MODULES: dict[str, dict[str, str]] = {
     },
     'hbv2': {
         '5.0.1': 'ORCA/5.0.1-gompi-2021a',
+        '6.0.1': 'ORCA/6.0.1-gompi-2023a'
     }
 }
 
