@@ -2,6 +2,13 @@
 
 
 
+## v1.11.0 (2025-02-15)
+
+### Feature
+
+* feat: add new ORCA module to hbv2 list ([`878d447`](https://github.com/JonKragskow/nimbus_splash/commit/878d4470866a3e43972c3d7eb45e0d3e1bfd9ddc))
+
+
 ## v1.10.2 (2025-02-13)
 
 ### Documentation
