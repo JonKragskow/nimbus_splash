@@ -2,6 +2,17 @@
 
 
 
+## v1.12.0 (2025-02-16)
+
+### Documentation
+
+* docs: add hbv3 ([`ff427b9`](https://github.com/JonKragskow/nimbus_splash/commit/ff427b93087a2b665d9158ed82e73c353976b65a))
+
+### Feature
+
+* feat: add hbv3 to supported instances and orca modules list ([`b1b2b5b`](https://github.com/JonKragskow/nimbus_splash/commit/b1b2b5b3e4ef14be95af480ae64bfc5ba7c5f1b7))
+
+
 ## v1.11.0 (2025-02-15)
 
 ### Feature
