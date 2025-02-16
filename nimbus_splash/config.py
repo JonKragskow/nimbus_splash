@@ -17,6 +17,9 @@ ORCA_MODULES: dict[str, dict[str, str]] = {
     'hbv2': {
         '5.0.1': 'ORCA/5.0.1-gompi-2021a',
         '6.0.1': 'ORCA/6.0.1-gompi-2023a'
+    },
+    'hbv3': {
+        '6.0.1': 'ORCA/6.0.1-gompi-2023a'
     }
 }
 
@@ -34,7 +37,7 @@ ORCA_SUPPORTED_INSTANCES: list[str] = [
     'paygo-fsv2-32',
     # 'paygo-hb-60',
     'paygo-hbv2-120',
-    # 'paygo-hbv3-120',
+    'paygo-hbv3-120',
     'paygo-hc-44',
     # 'paygo-ncv3-12',
     # 'paygo-ncv3-24',
@@ -43,7 +46,7 @@ ORCA_SUPPORTED_INSTANCES: list[str] = [
     # 'paygo-ndv2-40',
     # 'spot-hb-60',
     'spot-hbv2-120',
-    # 'spot-hbv3-120',
+    'spot-hbv3-120',
     'spot-hc-44',
     # 'spot-ncv3-12',
     # 'spot-ncv3-24',
