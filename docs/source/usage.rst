@@ -126,13 +126,14 @@ The full list of ``ORCA`` compatible instances currently known to ``splash`` are
     spot-fsv2-32
     spot-hc-44
     spot-hbv2-120
+    spot-hbv3-120
     paygo-fsv2-2
     paygo-fsv2-4
     paygo-fsv2-8
     paygo-fsv2-16
     paygo-fsv2-32
     paygo-hc-44
-    paygo-hbv2-120
+    paygo-hbv3-120
 
 
 .. note::
