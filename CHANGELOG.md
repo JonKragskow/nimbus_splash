@@ -2,6 +2,13 @@
 
 
 
+## v1.12.1 (2025-02-17)
+
+### Performance
+
+* perf: remove unused cli arg ([`2e8bd4e`](https://github.com/JonKragskow/nimbus_splash/commit/2e8bd4efea1aff5a581b2d974fd5bd2b70618cbf))
+
+
 ## v1.12.0 (2025-02-16)
 
 ### Documentation
