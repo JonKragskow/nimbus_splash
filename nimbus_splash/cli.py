@@ -255,16 +255,6 @@ def read_args(arg_list=None):
         help='If specified, debug information is printed to screen'
     )
 
-    submit.add_argument(
-        '-ng',
-        '--no_guess',
-        action='store_true',
-        help=(
-            'If specified, gbw files found in results directory will not be'
-            'used automatically'
-        )
-    )
-
     versions = subparsers.add_parser(
         'orca_modules',
         description='Print orca modules known to splash'
