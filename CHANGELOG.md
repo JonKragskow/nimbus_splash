@@ -2,6 +2,13 @@
 
 
 
+## v1.12.2 (2025-02-18)
+
+### Fix
+
+* fix: add missing f to fstring ([`fce9e9d`](https://github.com/JonKragskow/nimbus_splash/commit/fce9e9d0301cf5ed45fd8faff28e03ffe78d3e1f))
+
+
 ## v1.12.1 (2025-02-17)
 
 ### Performance
