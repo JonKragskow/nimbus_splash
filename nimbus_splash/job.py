@@ -111,6 +111,8 @@ def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
         j.write('# Job time\n')
         j.write(f'#SBATCH --time={time}\n\n')
 
+        j.write('# This job script was written by nimbus_splash')
+
         j.write('# name and path of the input/output files and locations\n')
         j.write(f'input={input_file}\n')
         j.write(f'output={job_name}.out\n')
@@ -156,9 +158,6 @@ def write_file(input_file: str | pathlib.Path, instance_name: str, time: str,
         j.write('# Load orca\n')
         j.write('module purge\n')
         j.write(f'module load {orca_module}\n\n')
-
-        j.write('# UCX transport protocols for MPI\n')
-        j.write('export UCX_TLS=self,tcp,sm\n\n')
 
         j.write('# If timeout, evicted, cancelled, then manually end orca\n')
 
@@ -276,7 +275,7 @@ def parse_input_contents(input_file: str | pathlib.Path,
     # Check against selected instance
     if maxcore * n_procs > cfg.INSTANCE_TOTAL_MEM[instance_name]:
         string = 'Warning: Specified amount of memory'
-        string += f' {maxcore:d} * {n_procs:d} = {n_procs*n_procs:d} in {input_file} exceeds ' # noqa
+        string += f' {maxcore:d} * {n_procs:d} = {n_procs*maxcore:d} in {input_file} exceeds ' # noqa
         string += f'instance limit of {cfg.INSTANCE_TOTAL_MEM[instance_name]:d} MB' # noqa
         warnings.warn(string)
 
