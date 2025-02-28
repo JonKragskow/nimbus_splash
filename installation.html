@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; nimbus_splash v1.12.2  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+    <link rel="shortcut icon" href="_static/splash.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Submitting a job" href="usage.html" />
+    <link rel="prev" title="Home" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            nimbus_splash v1.12.2
+              <img src="_static/splash.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#short-instructions">Short Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#long-instructions">Long Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enabling-anaconda">Enabling Anaconda</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-conda-environment">Creating a conda environment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-nimbus-splash">Installing <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-your-research-allocation-id">Setting your Research Allocation ID</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-setting-your-notification-email">Optional: Setting your notification email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating">Updating</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribs.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats.html">File Formats</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JonKragskow/nimbus_splash">Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://research-software-skills-bath.github.io/intro_nimbus_hpc/00_schedule">Nimbus Course</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nimbus_splash v1.12.2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> package and its command line interface are designed to be installed on Bath’s <cite>Nimbus</cite> HPC system.</p>
+<p>Unfortunately, the copy of <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">3.8</span></code> that comes as default on <cite>Nimbus</cite> is too old for <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code>, so instead
+it’s better to use a newer version of <code class="docutils literal notranslate"><span class="pre">python</span></code> in an Anaconda <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment.</p>
+<p>Depending on your level of python knowledge, follow either the short instructions or the long instructions.</p>
+<section id="short-instructions">
+<h2>Short Instructions<a class="headerlink" href="#short-instructions" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Load Anaconda <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">Anaconda3/2024.02-1</span></code> - Optionally add this to your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file for automatic loading.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment or <code class="docutils literal notranslate"><span class="pre">pyenv</span></code> - Optionally set this to automatically load every time you log in using <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>.</p></li>
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">pip</span></code> with <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pip</span></code>.</p></li>
+<li><p>Install <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> using <code class="docutils literal notranslate"><span class="pre">pip</span></code></p></li>
+<li><p>Check your installation was sucessful with <code class="docutils literal notranslate"><span class="pre">splash</span> <span class="pre">-h</span></code>. You should see a help screen.</p></li>
+<li><p>Set the <code class="docutils literal notranslate"><span class="pre">SPLASH_RAID</span></code> environment variable to your Research Allocation ID in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> - <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">SPLASH_RAID=&lt;RA_ID_HERE&gt;</span></code></p></li>
+<li><p>Optional: Set the <code class="docutils literal notranslate"><span class="pre">SPLASH_EMAIL</span></code> environment variable to your email address to get job updates <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> - <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">SPLASH_EMAIL=&lt;Email_Here&gt;</span></code></p></li>
+</ol>
+</section>
+<section id="long-instructions">
+<h2>Long Instructions<a class="headerlink" href="#long-instructions" title="Link to this heading"></a></h2>
+<p>To install <code class="docutils literal notranslate"><span class="pre">splash</span></code>, you will need to create a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment. This contains a sandboxed installation of <code class="docutils literal notranslate"><span class="pre">python</span></code>
+that is separate from the system version, so if anything bad happens you can just delete the environment
+and start again without affecting anything. You will then install <code class="docutils literal notranslate"><span class="pre">splash</span></code> in this environment.</p>
+<section id="enabling-anaconda">
+<h3>Enabling Anaconda<a class="headerlink" href="#enabling-anaconda" title="Link to this heading"></a></h3>
+<p>First, log into <cite>Nimbus</cite>, and add the Anaconda <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span></code> command to <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> by doing the following.</p>
+<p>Open your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file in <code class="docutils literal notranslate"><span class="pre">nano</span></code> using the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nano</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>Then go to the bottom of the file using your arrow keys or mouse, and paste in the following lines</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">module</span> <span class="n">load</span> <span class="n">Anaconda3</span><span class="o">/</span><span class="mf">2024.02</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Then save and exit nano using <code class="docutils literal notranslate"><span class="pre">ctrl+o</span></code>, <code class="docutils literal notranslate"><span class="pre">enter</span></code>, then <code class="docutils literal notranslate"><span class="pre">ctrl+x</span></code>, and then run the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>to reload your <code class="docutils literal notranslate"><span class="pre">bashrc</span></code> file.</p>
+</section>
+<section id="creating-a-conda-environment">
+<h3>Creating a conda environment<a class="headerlink" href="#creating-a-conda-environment" title="Link to this heading"></a></h3>
+<p>Now create a <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment called <code class="docutils literal notranslate"><span class="pre">nimbus_base</span></code>, this is a sandboxed copy of <code class="docutils literal notranslate"><span class="pre">python</span></code> that you can use as a default and are free to mess around with in the knowledge that it can just be deleted if something breaks!</p>
+<p>Run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">nimbus_base</span>
+</pre></div>
+</div>
+<p>answering <code class="docutils literal notranslate"><span class="pre">Y</span></code> to any questions.</p>
+<p>You’ll probably get a message about initialising your shell for conda, so run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">init</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>This adds some configuration information to your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code>, to make sure it works properly, exit your ssh window (close the connection), and then reconnect to <code class="docutils literal notranslate"><span class="pre">Nimbus</span></code>.</p>
+<p>Upon reconnection, you should see the word <code class="docutils literal notranslate"><span class="pre">(base)</span></code> at the start of your terminal prompt. This is the <code class="docutils literal notranslate"><span class="pre">base</span></code> <code class="docutils literal notranslate"><span class="pre">conda</span></code> environment which you don’t want to use.
+To stop this <code class="docutils literal notranslate"><span class="pre">base</span></code> environment loading every time you open a shell, run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="nb">set</span> <span class="n">auto_activate_base</span> <span class="n">false</span>
+</pre></div>
+</div>
+<p>and then deactivate this environment using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">deactivate</span>
+</pre></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">(base)</span></code> should be gone.</p>
+<p>To instead start your new <code class="docutils literal notranslate"><span class="pre">nimbus_base</span></code> environment every time you connect, open <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> with
+<code class="docutils literal notranslate"><span class="pre">nano</span></code>, and add the following to the bottom of the file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">nimbus_base</span>
+</pre></div>
+</div>
+<p>then save and exit nano using <code class="docutils literal notranslate"><span class="pre">ctrl+o</span></code>, <code class="docutils literal notranslate"><span class="pre">enter</span></code>, then <code class="docutils literal notranslate"><span class="pre">ctrl+x</span></code>, and then run the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>in your terminal.</p>
+<p>If everything is working correctly, <code class="docutils literal notranslate"><span class="pre">(nimbus_base)</span></code> will appear at the start of your prompt.</p>
+<p>You now have a(n) (updatable) conda environment to use!</p>
+<p>Now, to set up this environment and install <code class="docutils literal notranslate"><span class="pre">python</span></code>, run the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pip</span>
+</pre></div>
+</div>
+<p>answering <code class="docutils literal notranslate"><span class="pre">Y</span></code> to any questions.</p>
+</section>
+<section id="installing-nimbus-splash">
+<h3>Installing <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code><a class="headerlink" href="#installing-nimbus-splash" title="Link to this heading"></a></h3>
+<p>Install <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nimbus_splash</span>
+</pre></div>
+</div>
+<p>Now, set your Research Allocation ID using the instructions below.</p>
+</section>
+</section>
+<section id="setting-your-research-allocation-id">
+<span id="raid"></span><h2>Setting your Research Allocation ID<a class="headerlink" href="#setting-your-research-allocation-id" title="Link to this heading"></a></h2>
+<p>To select your Research Allocation ID, add the following environment variable in your <cite>Nimbus</cite>
+<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file and replace <code class="docutils literal notranslate"><span class="pre">&lt;name_here&gt;</span></code> with your Research Allocation ID.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SPLASH_RAID</span><span class="o">=&lt;</span><span class="n">name_here</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>save and exit, and then run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="o">~/.</span><span class="n">bashrc</span>
+</pre></div>
+</div>
+<p>If you don’t do this, <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> will tell you to!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to switch over to using a different Research Allocation ID, you’ll need to update
+this line in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> and run <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bashrc</span></code>. Alternatively, you can temporarily change the value
+for the current session by running <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">SPLASH_RAID=&lt;name_here&gt;</span></code> in your terminal.</p>
+</div>
+<p>You’re now ready to use <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> - head to <a class="reference internal" href="usage.html#submission"><span class="std std-ref">Usage</span></a> to get started.</p>
+</section>
+<section id="optional-setting-your-notification-email">
+<span id="email"></span><h2>Optional: Setting your notification email<a class="headerlink" href="#optional-setting-your-notification-email" title="Link to this heading"></a></h2>
+<p>To recieve emails on your job status, add the following environment variable in your <cite>Nimbus</cite>
+<code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file and replace <code class="docutils literal notranslate"><span class="pre">&lt;email_here&gt;</span></code> with your email address.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SPLASH_EMAIL</span><span class="o">=&lt;</span><span class="n">email_here</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This service sends several emails per job, so it’s worth adding a Rule in Outlook to redirect
+nimbus emails to a folder. This will both keep your inbox clean, and will also stop these messages
+from generating notifications.</p>
+</div>
+</section>
+<section id="updating">
+<h2>Updating<a class="headerlink" href="#updating" title="Link to this heading"></a></h2>
+<p>To update <code class="docutils literal notranslate"><span class="pre">nimbus_splash</span></code> run the following command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">nimbus_splash</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Home" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Submitting a job" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

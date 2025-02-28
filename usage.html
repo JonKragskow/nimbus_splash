@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submitting a job &mdash; nimbus_splash v1.12.2  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+    <link rel="shortcut icon" href="_static/splash.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules/index.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            nimbus_splash v1.12.2
+              <img src="_static/splash.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Submission</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-submission">Example Submission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submitting-multiple-jobs">Submitting multiple jobs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coordinates-within-inp-files">Coordinates within <code class="docutils literal notranslate"><span class="pre">.inp</span></code> files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#providing-input-orbitals">Providing input orbitals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-a-compute-instance">Selecting a compute instance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-an-orca-version">Selecting an ORCA version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more">More</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribs.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">Bugs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_formats.html">File Formats</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JonKragskow/nimbus_splash">Repository</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://research-software-skills-bath.github.io/intro_nimbus_hpc/00_schedule">Nimbus Course</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nimbus_splash v1.12.2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Submitting a job</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="submitting-a-job">
+<span id="submission"></span><h1>Submitting a job<a class="headerlink" href="#submitting-a-job" title="Link to this heading"></a></h1>
+<p>Using <code class="docutils literal notranslate"><span class="pre">splash</span></code>, you can easily submit an <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> job to <cite>Nimbus</cite> using only an <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> input file and a single terminal command.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">splash submit &lt;input_file&gt;</span>
+</pre></div>
+</div>
+<section id="example-submission">
+<h2>Example Submission<a class="headerlink" href="#example-submission" title="Link to this heading"></a></h2>
+<p>In the following example, we submit a geometry optimisation calculation for a benzene molecule.</p>
+<p>First, prepare the input file.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">benzene.inp</span></code></span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> !BP86 def2-svp OPT
+ %PAL NPROCS 16 END
+ %maxcore 2000
+ *xyzfile 0 1 benzene.xyz
+</pre></div>
+</div>
+</div>
+<p>In this example the structure is located in a separate <code class="docutils literal notranslate"><span class="pre">.xyz</span></code> file - <code class="docutils literal notranslate"><span class="pre">benzene.xyz</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">benzene.xyz</span></code></span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="mi">12</span>
+ <span class="n">Benzene</span>
+ <span class="n">H</span>      <span class="mf">1.2194</span>     <span class="o">-</span><span class="mf">0.1652</span>      <span class="mf">2.1600</span>
+ <span class="n">C</span>      <span class="mf">0.6825</span>     <span class="o">-</span><span class="mf">0.0924</span>      <span class="mf">1.2087</span>
+ <span class="n">C</span>     <span class="o">-</span><span class="mf">0.7075</span>     <span class="o">-</span><span class="mf">0.0352</span>      <span class="mf">1.1973</span>
+ <span class="n">H</span>     <span class="o">-</span><span class="mf">1.2644</span>     <span class="o">-</span><span class="mf">0.0630</span>      <span class="mf">2.1393</span>
+ <span class="n">C</span>     <span class="o">-</span><span class="mf">1.3898</span>      <span class="mf">0.0572</span>     <span class="o">-</span><span class="mf">0.0114</span>
+ <span class="n">H</span>     <span class="o">-</span><span class="mf">2.4836</span>      <span class="mf">0.1021</span>     <span class="o">-</span><span class="mf">0.0204</span>
+ <span class="n">C</span>     <span class="o">-</span><span class="mf">0.6824</span>      <span class="mf">0.0925</span>     <span class="o">-</span><span class="mf">1.2088</span>
+ <span class="n">H</span>     <span class="o">-</span><span class="mf">1.2194</span>      <span class="mf">0.1652</span>     <span class="o">-</span><span class="mf">2.1599</span>
+ <span class="n">C</span>      <span class="mf">0.7075</span>      <span class="mf">0.0352</span>     <span class="o">-</span><span class="mf">1.1973</span>
+ <span class="n">H</span>      <span class="mf">1.2641</span>      <span class="mf">0.0628</span>     <span class="o">-</span><span class="mf">2.1395</span>
+ <span class="n">C</span>      <span class="mf">1.3899</span>     <span class="o">-</span><span class="mf">0.0572</span>      <span class="mf">0.0114</span>
+ <span class="n">H</span>      <span class="mf">2.4836</span>     <span class="o">-</span><span class="mf">0.1022</span>      <span class="mf">0.0205</span>
+</pre></div>
+</div>
+</div>
+<p>To submit a job for this calculation, simply run</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">splash submit benzene.inp</span>
+</pre></div>
+</div>
+<p>You should then see an message informing you that a submission script was created and subsequently submitted.</p>
+<p>The job will be given the same name as your input file, and the output file for this calculation should appear in the current directory when the job starts running - for example</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">user@nimbus-1-login-1 ~/benzene $ </span>ls
+<span class="go">benzene.6718675.e  benzene.6718675.o  benzene.inp  benzene.out  benzene.slm  benzene.xyz</span>
+</pre></div>
+</div>
+<p>When the calculation has finished, been evicted, timed-out, or otherwise halted, you should see a new directory in the same location as your input and <code class="docutils literal notranslate"><span class="pre">.xyz</span></code> files.
+This directory will be named <code class="docutils literal notranslate"><span class="pre">&lt;jobname&gt;_results</span></code> and will contain all of the files that <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> has created.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">user@nimbus-1-login-1 ~/benzene $ </span>ls
+<span class="go">benzene.6718675.e  benzene.6718675.o  ... benzene.xyz  benzene_results</span>
+</pre></div>
+</div>
+</section>
+<section id="submitting-multiple-jobs">
+<h2>Submitting multiple jobs<a class="headerlink" href="#submitting-multiple-jobs" title="Link to this heading"></a></h2>
+<p>You can submit more than one calculation at once by providing more than one input file to <code class="docutils literal notranslate"><span class="pre">splash</span></code>. For example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">splash</span> <span class="n">submit</span> <span class="n">input_1</span><span class="o">.</span><span class="n">inp</span> <span class="n">input_2</span><span class="o">.</span><span class="n">inp</span>
+</pre></div>
+</div>
+<p>You can even use a wildcard to submit jobs without typing each filename out</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">splash</span> <span class="n">submit</span> <span class="n">input_</span><span class="o">*.</span><span class="n">inp</span>
+</pre></div>
+</div>
+<p>Note that this will run all jobs in the current directory, and so can produce a large number of files in the same directory.</p>
+</section>
+<section id="coordinates-within-inp-files">
+<h2>Coordinates within <code class="docutils literal notranslate"><span class="pre">.inp</span></code> files<a class="headerlink" href="#coordinates-within-inp-files" title="Link to this heading"></a></h2>
+<p>Instead of providing a separate <code class="docutils literal notranslate"><span class="pre">.xyz</span></code> file, it is possible to specify coordinates within the <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> input file.</p>
+<p>This feature is supported by <code class="docutils literal notranslate"><span class="pre">splash</span></code> and requires no additional effort on the part of the user.</p>
+</section>
+<section id="providing-input-orbitals">
+<h2>Providing input orbitals<a class="headerlink" href="#providing-input-orbitals" title="Link to this heading"></a></h2>
+<p>To provide <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> with a set of orbitals, make sure you have both the <code class="docutils literal notranslate"><span class="pre">MORead</span></code> keyword and the <code class="docutils literal notranslate"><span class="pre">%moinp</span> <span class="pre">&quot;&lt;gbw_filename&gt;&quot;</span></code> line in
+your input file. Note that <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> will not allow your specified file to have the same name-stem as the input file.</p>
+<p>For the benzene example in the previous section, a correct input file would be</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">benzene.inp</span></code> with input orbitals specified</span><a class="headerlink" href="#id3" title="Link to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> !BP86 def2-svp OPT FREQ MORead
+ %moinp &quot;new_orbs.gbw&quot;
+ %PAL NPROCS 16 END
+ %maxcore 2000
+ *xyzfile 0 1 benzene.xyz
+</pre></div>
+</div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">&lt;gbw_filename&gt;</span></code> must be in the same directory as the input file, and cannot contain any path information.</p>
+</section>
+<section id="selecting-a-compute-instance">
+<span id="instances"></span><h2>Selecting a compute instance<a class="headerlink" href="#selecting-a-compute-instance" title="Link to this heading"></a></h2>
+<p>Specific <cite>Nimbus</cite> compute instances can be requested using the <code class="docutils literal notranslate"><span class="pre">--instance</span></code> option.</p>
+<p>The full list of <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> compatible instances currently known to <code class="docutils literal notranslate"><span class="pre">splash</span></code> are</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spot</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">2</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">4</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">8</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">16</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">32</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">hc</span><span class="o">-</span><span class="mi">44</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">hbv2</span><span class="o">-</span><span class="mi">120</span>
+<span class="n">spot</span><span class="o">-</span><span class="n">hbv3</span><span class="o">-</span><span class="mi">120</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">2</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">4</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">8</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">16</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">fsv2</span><span class="o">-</span><span class="mi">32</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">hc</span><span class="o">-</span><span class="mi">44</span>
+<span class="n">paygo</span><span class="o">-</span><span class="n">hbv3</span><span class="o">-</span><span class="mi">120</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can only use instances to which you have been granted access.
+This is usually indicated by a <code class="docutils literal notranslate"><span class="pre">QOS</span></code> error at submission time. To resolve this, modify your access
+on the <a class="reference external" href="https://rcam.bath.ac.uk/">RCAM</a> portal.</p>
+</div>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">splash</span></code> submits to <code class="docutils literal notranslate"><span class="pre">spot-fsv2-16</span></code> which has 16 cores and 2GB RAM per core, to change this default for your account
+add the following to your <code class="docutils literal notranslate"><span class="pre">~/.bash_rc</span></code> file, where <code class="docutils literal notranslate"><span class="pre">&lt;instance&gt;</span></code> is one of those given above</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SPLASH_DEFAULT_INSTANCE</span><span class="o">=&lt;</span><span class="n">instance</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="selecting-an-orca-version">
+<h2>Selecting an ORCA version<a class="headerlink" href="#selecting-an-orca-version" title="Link to this heading"></a></h2>
+<p>Several versions of ORCA are available on <cite>Nimbus</cite> - use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">check</span> <span class="pre">&lt;INSTANCE_NAME&gt;</span> <span class="pre">ORCA</span></code> to see the ORCA versions available for a given instance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You might get an error about <code class="docutils literal notranslate"><span class="pre">termcolor</span></code> when using <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">check</span></code>. If you do, run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">termcolor</span></code> and then try again!</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Beware: Not all <cite>Nimbus</cite> instances have access to the same <code class="docutils literal notranslate"><span class="pre">ORCA</span></code> versions.</p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">splash</span></code> contains its own internal list of ORCA modules which can be printed with the <code class="docutils literal notranslate"><span class="pre">splash</span> <span class="pre">orca_modules</span></code> command. This list is periodically updated when new
+versions of ORCA are installed on <cite>Nimbus</cite>, please raise a <a class="reference external" href="https://github.com/jonkragskow/nimbus_splash/issues">GitHub Issue</a> to have new modules added to <code class="docutils literal notranslate"><span class="pre">splash</span></code>’s list.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">splash</span></code> will use the most recent version of ORCA (<code class="docutils literal notranslate"><span class="pre">6.0.1</span></code>), but a different version can be selected with
+the <code class="docutils literal notranslate"><span class="pre">--orca_version</span> <span class="pre">&lt;VALUE&gt;</span></code> optional argument.</p>
+<p>Alternatively, to select a new default ORCA version and avoid having to enter this optional argument constantly,
+add the following to your <code class="docutils literal notranslate"><span class="pre">~/.bash_rc</span></code> file, where <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> is the version number, e.g.  <code class="docutils literal notranslate"><span class="pre">6.0.0</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SPLASH_ORCA_VERSION</span><span class="o">=&lt;</span><span class="n">version</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="more">
+<h2>More<a class="headerlink" href="#more" title="Link to this heading"></a></h2>
+<p>Additional command line arguments for <code class="docutils literal notranslate"><span class="pre">splash</span> <span class="pre">submit</span></code> can be listed by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">splash</span> <span class="n">submit</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules/index.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
