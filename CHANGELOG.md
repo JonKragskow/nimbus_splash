@@ -2,6 +2,13 @@
 
 
 
+## v1.12.3 (2025-02-28)
+
+### Fix
+
+* fix: remove redundant UCX config, fix incorrect error message ([`51f2613`](https://github.com/JonKragskow/nimbus_splash/commit/51f26138ed9905d6a037d6bb99903c988c29b69c))
+
+
 ## v1.12.2 (2025-02-18)
 
 ### Fix
